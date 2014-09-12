@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6697E09719A4A22F0081F165 /* CoreLocation.framework */; };
 		669F6BAD199D1D1100B88AAE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669F6BAC199D1D1100B88AAE /* Foundation.framework */; };
 		669F6BAF199D1D1100B88AAE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669F6BAE199D1D1100B88AAE /* CoreGraphics.framework */; };
 		669F6BB1199D1D1100B88AAE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669F6BB0199D1D1100B88AAE /* UIKit.framework */; };
@@ -21,6 +22,8 @@
 		669F6BCE199D1D1100B88AAE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669F6BB0199D1D1100B88AAE /* UIKit.framework */; };
 		669F6BD6199D1D1100B88AAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 669F6BD4199D1D1100B88AAE /* InfoPlist.strings */; };
 		669F6BD8199D1D1100B88AAE /* IQLocationManagerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F6BD7199D1D1100B88AAE /* IQLocationManagerDemoTests.m */; };
+		669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F6BE2199D1E6700B88AAE /* IQLocationManager.m */; };
+		66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66AB9C8C19B4825F002826AD /* IQLocationManager.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		66506C6E19B2A8DD00B9E702 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		6697E09719A4A22F0081F165 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		669F6BA9199D1D1100B88AAE /* IQLocationManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IQLocationManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		669F6BAC199D1D1100B88AAE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		669F6BAE199D1D1100B88AAE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -53,6 +58,9 @@
 		669F6BD3199D1D1100B88AAE /* IQLocationManagerDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IQLocationManagerDemoTests-Info.plist"; sourceTree = "<group>"; };
 		669F6BD5199D1D1100B88AAE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		669F6BD7199D1D1100B88AAE /* IQLocationManagerDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IQLocationManagerDemoTests.m; sourceTree = "<group>"; };
+		669F6BE1199D1E6700B88AAE /* IQLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationManager.h; path = ../IQLocationManager/IQLocationManager.h; sourceTree = "<group>"; };
+		669F6BE2199D1E6700B88AAE /* IQLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQLocationManager.m; path = ../IQLocationManager/IQLocationManager.m; sourceTree = "<group>"; };
+		66AB9C8C19B4825F002826AD /* IQLocationManager.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = IQLocationManager.strings; path = ../IQLocationManager/IQLocationManager.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */,
 				669F6BAF199D1D1100B88AAE /* CoreGraphics.framework in Frameworks */,
 				669F6BB1199D1D1100B88AAE /* UIKit.framework in Frameworks */,
 				669F6BAD199D1D1100B88AAE /* Foundation.framework in Frameworks */,
@@ -82,6 +91,8 @@
 		669F6BA0199D1D1100B88AAE = {
 			isa = PBXGroup;
 			children = (
+				66506C6E19B2A8DD00B9E702 /* README.md */,
+				669F6BE4199D1E7100B88AAE /* IQLocationManager */,
 				669F6BB2199D1D1100B88AAE /* IQLocationManagerDemo */,
 				669F6BD1199D1D1100B88AAE /* IQLocationManagerDemoTests */,
 				669F6BAB199D1D1100B88AAE /* Frameworks */,
@@ -101,6 +112,7 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6697E09719A4A22F0081F165 /* CoreLocation.framework */,
 				669F6BAC199D1D1100B88AAE /* Foundation.framework */,
 				669F6BAE199D1D1100B88AAE /* CoreGraphics.framework */,
 				669F6BB0199D1D1100B88AAE /* UIKit.framework */,
@@ -150,6 +162,16 @@
 				669F6BD4199D1D1100B88AAE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		669F6BE4199D1E7100B88AAE /* IQLocationManager */ = {
+			isa = PBXGroup;
+			children = (
+				669F6BE1199D1E6700B88AAE /* IQLocationManager.h */,
+				669F6BE2199D1E6700B88AAE /* IQLocationManager.m */,
+				66AB9C8C19B4825F002826AD /* IQLocationManager.strings */,
+			);
+			name = IQLocationManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +254,7 @@
 				669F6BC5199D1D1100B88AAE /* Images.xcassets in Resources */,
 				669F6BB7199D1D1100B88AAE /* InfoPlist.strings in Resources */,
 				669F6BC0199D1D1100B88AAE /* Main.storyboard in Resources */,
+				66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,6 +273,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				669F6BB9199D1D1100B88AAE /* main.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
@@ -318,7 +342,6 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -356,7 +379,6 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -377,10 +399,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nacho Sanchez (WBXRJQ9DKF)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "8a5ebbc0-734c-4a13-9c3b-291cf9fa2fe1";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -457,6 +481,7 @@
 				669F6BDD199D1D1100B88AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		669F6BDE199D1D1100B88AAE /* Build configuration list for PBXNativeTarget "IQLocationManagerDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +490,7 @@
 				669F6BE0199D1D1100B88AAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

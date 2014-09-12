@@ -1,0 +1,9 @@
+/* 
+  IQLocationManager.strings
+  IQLocationManagerDemo
+
+  Created by Nacho Sánchez on 01/09/14.
+  Copyright (c) 2014 InQBarna. All rights reserved.
+*/
+
+"location_request_alert_title" = "__write here the title for the alert__";

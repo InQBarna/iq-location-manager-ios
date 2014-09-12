@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IQViewController : UIViewController
+@interface IQViewController : UIViewController <UITableViewDataSource>
 
 @end
