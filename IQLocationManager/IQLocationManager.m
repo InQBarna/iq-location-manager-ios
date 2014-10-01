@@ -41,6 +41,8 @@ static IQLocationManager *_iqLocationManager;
 
 - (id)init {
     
+     NSAssert([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationUsageDescription"] != nil, @"To use location services in iOS < 8+, your Info.plist must provide a value for NSLocationUsageDescription.");
+    
     self = [super init];
     
     if (self) {
@@ -84,8 +86,6 @@ static IQLocationManager *_iqLocationManager;
         _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
         return;
     }
-    
-    self.bestEffortAtLocation = nil;
     
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = [self checkAccuracy:desiredAccuracy];
