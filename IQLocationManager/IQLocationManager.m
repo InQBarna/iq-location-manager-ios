@@ -8,13 +8,10 @@
 
 #import "IQLocationManager.h"
 
-#define kIQLocationMeasurementAgeDefault        5.0
-#define kIQLocationMeasurementTimeoutDefault    5.0
-
 @interface IQLocationManager() <UIAlertViewDelegate>
 
 @property (nonatomic, strong) CLLocationManager     *locationManager;
-@property (nonatomic, copy) void (^progressBlock)(CLLocation *location);
+@property (nonatomic, copy) void (^progressBlock)(CLLocation *location, IQLocationResult result);
 @property (nonatomic, copy) void (^completionBlock)(CLLocation *location, IQLocationResult result);
 @property (nonatomic, assign) NSTimeInterval        maximumMeasurementAge;
 @property (nonatomic, assign) NSTimeInterval        maximumTimeout;
@@ -79,20 +76,28 @@ static IQLocationManager *_iqLocationManager;
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
                      softAccessRequest:(BOOL)softAccessRequest
-                              progress:(void (^)(CLLocation *))progress
-                            completion:(void(^)(CLLocation *location, IQLocationResult result))completion
+                              progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
+                            completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion
 {
-    if (_isGettingLocation) {
-        _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
-        return;
-    }
-    
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = [self checkAccuracy:desiredAccuracy];
     
     self.maximumTimeout = maxTimeout;
     self.completionBlock = completion;
     self.progressBlock = progress;
+    
+    if (_bestEffortAtLocation) {
+        if (_bestEffortAtLocation.timestamp.timeIntervalSinceReferenceDate > ([NSDate timeIntervalSinceReferenceDate] - self.maximumMeasurementAge) ) {
+            [self saveLocationToDefaults:_bestEffortAtLocation];
+            [self stopUpdatingLocationWithResult:kIQLocationResultFound];
+            return;
+        }
+    }
+    
+    if (_isGettingLocation) {
+        _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
+        return;
+    }
     
     if ( ![CLLocationManager locationServicesEnabled] ) {
         _completionBlock(nil,kIQLocationResultNotEnabled);
@@ -154,6 +159,28 @@ static IQLocationManager *_iqLocationManager;
                        }];
 }
 
+- (IQLocationResult)getLocationStatus
+{
+    if (!CLLocationManager.locationServicesEnabled) {
+        return kIQLocationResultNotEnabled;
+    } else {
+        CLAuthorizationStatus const status = CLLocationManager.authorizationStatus;
+        
+        if (status == kCLAuthorizationStatusNotDetermined) {
+            return kIQLocationResultNotDetermined;
+        } else {
+            if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+                return kIQLocationResultSystemDenied;
+            }else if (status == kCLAuthorizationStatusAuthorized) {
+                return kIQlocationResultAuthorized;
+            } else if (self.getSoftDeniedFromDefaults){
+                return kIQLocationResultSoftDenied;
+            }
+        }
+    }
+    return kIQLocationResultNotDetermined;
+}
+
 #pragma mark Private location calls
 
 - (void)stopUpdatingLocationWithTimeout {
@@ -191,23 +218,43 @@ static IQLocationManager *_iqLocationManager;
 }
 
 - (void)saveLocationToDefaults:(CLLocation*)location {
-    NSNumber *lat = [NSNumber numberWithDouble:location.coordinate.latitude];
-    NSNumber *lon = [NSNumber numberWithDouble:location.coordinate.longitude];
-    NSDictionary *userLocation = @{@"lat":lat,@"long":lon};
+//    NSNumber *lat = [NSNumber numberWithDouble:location.coordinate.latitude];
+//    NSNumber *lon = [NSNumber numberWithDouble:location.coordinate.longitude];
+//    NSDictionary *userLocation = @{@"lat":lat,@"long":lon};
     
-    [[NSUserDefaults standardUserDefaults] setObject:userLocation forKey:kIQLocationLastKnownLocation];
+    NSData *locationAsData = [NSKeyedArchiver archivedDataWithRootObject:location];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:locationAsData forKey:kIQLocationLastKnownLocation];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (CLLocation*)getLastKnownLocationFromDefaults {
-    NSDictionary *userLoc = [[NSUserDefaults standardUserDefaults] objectForKey:kIQLocationLastKnownLocation];
+//    NSDictionary *userLoc = [[NSUserDefaults standardUserDefaults] objectForKey:kIQLocationLastKnownLocation];
+//    if (!userLoc) {
+//        return nil;
+//    }
+//    NSNumber *lat = [userLoc objectForKey:@"lat"];
+//    NSNumber *lon = [userLoc objectForKey:@"long"];
+    NSData *userLoc = [[NSUserDefaults standardUserDefaults] objectForKey:kIQLocationLastKnownLocation];
     if (!userLoc) {
         return nil;
     }
-    NSNumber *lat = [userLoc objectForKey:@"lat"];
-    NSNumber *lon = [userLoc objectForKey:@"long"];
-    
-    return [[CLLocation alloc]initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+
+    return [NSKeyedUnarchiver unarchiveObjectWithData:userLoc];
+//    return [[CLLocation alloc]initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
+}
+
+- (BOOL)getSoftDeniedFromDefaults
+{
+    BOOL softDenied = [NSUserDefaults.standardUserDefaults boolForKey:kIQLocationSoftDenied];
+    return softDenied;
+}
+
+- (BOOL)setSoftDenied:(BOOL)softDenied
+{
+    NSUserDefaults *const standardUserDefaults = NSUserDefaults.standardUserDefaults;
+    [NSUserDefaults.standardUserDefaults setBool:softDenied forKey:kIQLocationSoftDenied];
+    return [standardUserDefaults synchronize];
 }
 
 #pragma mark CLLocationManagerDelegate calls
@@ -217,13 +264,18 @@ static IQLocationManager *_iqLocationManager;
     CLLocation *newLocation;
     newLocation = [locations lastObject];
     
+    // test that the horizontal accuracy does not indicate an invalid measurement
+    if (newLocation.horizontalAccuracy < 0) {
+        return;
+    }
+    
     // store all of the measurements, just so we can see what kind of data we might receive
 #ifdef DEBUG
     [_locationMeasurements addObject:newLocation];
 #endif
 
     if (_progressBlock) {
-        _progressBlock(newLocation);
+        _progressBlock(newLocation, kIQLocationResultIntermediateFound);
     }
     
     // test the age of the location measurement to determine if the measurement is cached
@@ -233,13 +285,10 @@ static IQLocationManager *_iqLocationManager;
         return;
     }
     
-    // test that the horizontal accuracy does not indicate an invalid measurement
-    if (newLocation.horizontalAccuracy < 0) {
-        return;
-    }
-    
     // test the measurement to see if it is more accurate than the previous measurement
-    if (_bestEffortAtLocation == nil || _bestEffortAtLocation.horizontalAccuracy > newLocation.horizontalAccuracy) {
+    if (_bestEffortAtLocation == nil ||
+        _bestEffortAtLocation.timestamp.timeIntervalSinceReferenceDate <= ([NSDate timeIntervalSinceReferenceDate] - self.maximumMeasurementAge) ||
+                                                                          _bestEffortAtLocation.horizontalAccuracy > newLocation.horizontalAccuracy) {
         
         // store the location as the "best effort"
         self.bestEffortAtLocation = newLocation;
@@ -289,6 +338,9 @@ static IQLocationManager *_iqLocationManager;
         [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                    withObject: nil
                    afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
+        if (_progressBlock) {
+            _progressBlock(nil, kIQlocationResultAuthorized);
+        }
     }
 #endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
 }
@@ -298,6 +350,7 @@ static IQLocationManager *_iqLocationManager;
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ( buttonIndex == [alertView cancelButtonIndex] ) {
         [self stopUpdatingLocationWithResult:kIQLocationResultSoftDenied];
+        [self setSoftDenied:YES];
     } else {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
         if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {

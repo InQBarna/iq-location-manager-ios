@@ -10,12 +10,18 @@
 #import <CoreLocation/CoreLocation.h>
 
 #define kIQLocationLastKnownLocation @"kIQLocationLastKnownLocation"
+#define kIQLocationSoftDenied @"kIQLocationSoftDenied"
+
+#define kIQLocationMeasurementAgeDefault        300.0
+#define kIQLocationMeasurementTimeoutDefault    5.0
 
 typedef NS_ENUM(NSInteger, IQLocationResult) {
     kIQLocationResultNotEnabled,
-    kIQLocationResultError,
+    kIQLocationResultNotDetermined,
     kIQLocationResultSoftDenied,
     kIQLocationResultSystemDenied,
+    kIQlocationResultAuthorized,
+    kIQLocationResultError,
     kIQLocationResultNoResult,
     kIQLocationResultTimeout,
     kIQLocationResultIntermediateFound,
@@ -35,11 +41,13 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
                      softAccessRequest:(BOOL)softAccessRequest
-                              progress:(void(^)(CLLocation *location))progress
-                            completion:(void(^)(CLLocation *location, IQLocationResult result))completion;
-
+                              progress:(void(^)(CLLocation *locationOrNil, IQLocationResult result))progress
+                            completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion;
 - (void)getAddressFromLocation:(CLLocation*)location
                 withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion;
+- (IQLocationResult)getLocationStatus;
+- (BOOL)getSoftDeniedFromDefaults;
+- (BOOL)setSoftDenied:(BOOL)softDenied;
 
 @end
 
