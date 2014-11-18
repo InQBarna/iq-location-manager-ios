@@ -167,11 +167,15 @@ static IQLocationManager *_iqLocationManager;
         CLAuthorizationStatus const status = CLLocationManager.authorizationStatus;
         
         if (status == kCLAuthorizationStatusNotDetermined) {
-            return kIQLocationResultNotDetermined;
+            if (self.getSoftDeniedFromDefaults){
+                return kIQLocationResultSoftDenied;
+            } else {
+                return kIQLocationResultNotDetermined;
+            }
         } else {
             if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
                 return kIQLocationResultSystemDenied;
-            }else if (status == kCLAuthorizationStatusAuthorized) {
+            } else if (status == kCLAuthorizationStatusAuthorized) {
                 return kIQlocationResultAuthorized;
             } else if (self.getSoftDeniedFromDefaults){
                 return kIQLocationResultSoftDenied;
