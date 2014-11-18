@@ -108,11 +108,20 @@ static IQLocationManager *_iqLocationManager;
         if ( status ==  kCLAuthorizationStatusNotDetermined ) {
             if (softAccessRequest) {
                 
-                [[[UIAlertView alloc] initWithTitle: NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil)
-                                            message: NSLocalizedStringFromTable(@"NSLocationUsageDescription", @"InfoPlist", nil)
+                NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
+                NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
+                NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
+                NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
+                
+                [[[UIAlertView alloc] initWithTitle: ([localizedTitle isEqualToString:@"location_request_alert_title"] ?
+                  NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil) : localizedTitle)
+                                            message: ([localizedTitle isEqualToString:@"location_request_alert_description"] ?
+                                                      NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil) : localizedDescription)
                                            delegate: self
-                                  cancelButtonTitle: NSLocalizedString(@"Cancel",nil)
-                                  otherButtonTitles: NSLocalizedString(@"Accept",nil) , nil] show];
+                                  cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
+                                                      [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
+                                  otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
+                                                      [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
                 
                 return;
             } else {
@@ -180,6 +189,14 @@ static IQLocationManager *_iqLocationManager;
             } else if (self.getSoftDeniedFromDefaults){
                 return kIQLocationResultSoftDenied;
             }
+            
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
+                if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+                    return kIQlocationResultAuthorized;
+                }
+            }
+#endif
         }
     }
     return kIQLocationResultNotDetermined;
@@ -222,9 +239,6 @@ static IQLocationManager *_iqLocationManager;
 }
 
 - (void)saveLocationToDefaults:(CLLocation*)location {
-//    NSNumber *lat = [NSNumber numberWithDouble:location.coordinate.latitude];
-//    NSNumber *lon = [NSNumber numberWithDouble:location.coordinate.longitude];
-//    NSDictionary *userLocation = @{@"lat":lat,@"long":lon};
     
     NSData *locationAsData = [NSKeyedArchiver archivedDataWithRootObject:location];
     
@@ -233,19 +247,13 @@ static IQLocationManager *_iqLocationManager;
 }
 
 - (CLLocation*)getLastKnownLocationFromDefaults {
-//    NSDictionary *userLoc = [[NSUserDefaults standardUserDefaults] objectForKey:kIQLocationLastKnownLocation];
-//    if (!userLoc) {
-//        return nil;
-//    }
-//    NSNumber *lat = [userLoc objectForKey:@"lat"];
-//    NSNumber *lon = [userLoc objectForKey:@"long"];
+
     NSData *userLoc = [[NSUserDefaults standardUserDefaults] objectForKey:kIQLocationLastKnownLocation];
     if (!userLoc) {
         return nil;
     }
 
     return [NSKeyedUnarchiver unarchiveObjectWithData:userLoc];
-//    return [[CLLocation alloc]initWithLatitude:lat.doubleValue longitude:lon.doubleValue];
 }
 
 - (BOOL)getSoftDeniedFromDefaults

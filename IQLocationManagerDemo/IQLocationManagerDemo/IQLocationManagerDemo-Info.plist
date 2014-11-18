@@ -38,5 +38,9 @@
 	</array>
 	<key>NSLocationUsageDescription</key>
 	<string>__write here why you want to access user location__</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>__write here why you want to always access user location__</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>__write here why you want to access user location when in use__</string>
 </dict>
 </plist>

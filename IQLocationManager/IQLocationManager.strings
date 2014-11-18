@@ -6,4 +6,5 @@
   Copyright (c) 2014 InQBarna. All rights reserved.
 */
 
-"location_request_alert_title" = "__write here the title for the alert__";
+"location_request_alert_title" = "Location Request";
+"location_request_alert_description" = "This apps needs to use your location in order to offer you a better service";
