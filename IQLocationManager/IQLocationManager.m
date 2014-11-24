@@ -128,7 +128,7 @@ static IQLocationManager *_iqLocationManager;
     
     [_locationManager startUpdatingLocation];
     
-    if ( [CLLocationManager authorizationStatus] ==  kCLAuthorizationStatusAuthorized ) {
+    if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
         self.isGettingLocation = YES;
         [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                    withObject: nil
