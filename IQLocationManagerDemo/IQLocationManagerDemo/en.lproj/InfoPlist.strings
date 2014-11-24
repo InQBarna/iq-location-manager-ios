@@ -1,3 +1,5 @@
 /* Localized versions of Info.plist keys */
 
 "NSLocationUsageDescription" = "__write here why you want to access user location__";
+"NSLocationAlwaysUsageDescription" = "__write here why you want to always access user location__";
+"NSLocationWhenInUseUsageDescription" = "__write here why you want to access user location when in use__";
