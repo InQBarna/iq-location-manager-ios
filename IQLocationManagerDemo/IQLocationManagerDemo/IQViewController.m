@@ -28,13 +28,13 @@
     [[IQLocationManager sharedManager] getCurrentLocationWithAccuracy: kCLLocationAccuracyHundredMeters
                                                        maximumTimeout: 15.0
                                                     softAccessRequest: YES
-                                                             progress: ^(CLLocation *location) {
+                                                             progress: ^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                  [self.tableView reloadData];
-                                                             } completion:^(CLLocation *location, IQLocationResult result) {
+                                                             } completion:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                  if ( result == kIQLocationResultFound ) {
                                                                      [self.tableView reloadData];
                                                                      
-                                                                     [[IQLocationManager sharedManager]getAddressFromLocation:location
+                                                                     [[IQLocationManager sharedManager]getAddressFromLocation:locationOrNil
                                                                                                                withCompletion:^(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error) {
                                                                                                                    if (!error) {
                                                                                                                        self.address = [NSString stringWithFormat:@"%@, %@",address,locality];
