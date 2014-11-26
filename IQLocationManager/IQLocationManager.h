@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 @property (nonatomic, strong) NSMutableArray    *locationMeasurements;
 #endif
 @property (nonatomic, strong) CLLocation        *bestEffortAtLocation;
+@property (nonatomic, assign) BOOL                  isGettingLocation;
 
 + (IQLocationManager *)sharedManager;
 - (void)getCurrentLocationWithCompletion:(void(^)(CLLocation *location, IQLocationResult result))completion;

@@ -15,7 +15,6 @@
 @property (nonatomic, copy) void (^completionBlock)(CLLocation *location, IQLocationResult result);
 @property (nonatomic, assign) NSTimeInterval        maximumMeasurementAge;
 @property (nonatomic, assign) NSTimeInterval        maximumTimeout;
-@property (nonatomic, assign) BOOL                  isGettingLocation;
 
 @end
 
@@ -99,6 +98,8 @@ static IQLocationManager *_iqLocationManager;
         return;
     }
     
+    self.isGettingLocation = YES;
+    
     if ( ![CLLocationManager locationServicesEnabled] ) {
         _completionBlock(nil,kIQLocationResultNotEnabled);
         return;
@@ -143,7 +144,6 @@ static IQLocationManager *_iqLocationManager;
     [_locationManager startUpdatingLocation];
     
     if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
-        self.isGettingLocation = YES;
         [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                    withObject: nil
                    afterDelay: maxTimeout != 0.0 ? maxTimeout : kIQLocationMeasurementTimeoutDefault];
@@ -338,7 +338,6 @@ static IQLocationManager *_iqLocationManager;
         }
     } else {
         if (status == kCLAuthorizationStatusAuthorized) {
-            self.isGettingLocation = YES;
             [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                        withObject: nil
                        afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
@@ -346,7 +345,6 @@ static IQLocationManager *_iqLocationManager;
     }
 #else
     if (status == kCLAuthorizationStatusAuthorized) {
-        self.isGettingLocation = YES;
         [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                    withObject: nil
                    afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
