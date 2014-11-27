@@ -94,51 +94,51 @@ static IQLocationManager *_iqLocationManager;
     }
     
     if (_isGettingLocation) {
-        _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
+        if (_completionBlock) {
+            _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
+        }
+        return;
+    }
+    
+    if ( ![CLLocationManager locationServicesEnabled] ) {
+        [self stopUpdatingLocationWithResult:kIQLocationResultNotEnabled];
         return;
     }
     
     self.isGettingLocation = YES;
     
-    if ( ![CLLocationManager locationServicesEnabled] ) {
-        _completionBlock(nil,kIQLocationResultNotEnabled);
-        return;
-    } else {
-        CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-        
-        if ( status ==  kCLAuthorizationStatusNotDetermined ) {
-            if (softAccessRequest) {
-                
-                NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
-                NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
-                NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
-                NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
-                
-                [[[UIAlertView alloc] initWithTitle: ([localizedTitle isEqualToString:@"location_request_alert_title"] ?
-                  NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil) : localizedTitle)
-                                            message: ([localizedTitle isEqualToString:@"location_request_alert_description"] ?
-                                                      NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil) : localizedDescription)
-                                           delegate: self
-                                  cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
-                                                      [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
-                                  otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
-                                                      [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
-                
-                return;
-            } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
-                if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-                    [self requestSystemPermissionForLocation];
-                    return;
-                }
-#endif
-            }
-        } else if ( status == kCLAuthorizationStatusDenied ) {
-            if (completion) {
-                completion(_bestEffortAtLocation,kIQLocationResultSystemDenied);
-            }
+    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+    
+    if ( status ==  kCLAuthorizationStatusNotDetermined ) {
+        if (softAccessRequest) {
+            
+            NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
+            NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
+            NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
+            NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
+            
+            [[[UIAlertView alloc] initWithTitle: ([localizedTitle isEqualToString:@"location_request_alert_title"] ?
+                                                  NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil) : localizedTitle)
+                                        message: ([localizedTitle isEqualToString:@"location_request_alert_description"] ?
+                                                  NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil) : localizedDescription)
+                                       delegate: self
+                              cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
+                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
+                              otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
+                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
+            
             return;
+        } else {
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
+                [self requestSystemPermissionForLocation];
+                return;
+            }
+#endif
         }
+    } else if ( status == kCLAuthorizationStatusDenied ) {
+        [self stopUpdatingLocationWithResult:kIQLocationResultSystemDenied];
+        return;
     }
     
     [_locationManager startUpdatingLocation];
@@ -335,12 +335,19 @@ static IQLocationManager *_iqLocationManager;
                                softAccessRequest: NO
                                         progress: self.progressBlock
                                       completion: self.completionBlock];
+            if (_progressBlock) {
+                _progressBlock(nil, kIQlocationResultAuthorized);
+            }
+        } else {
+            [self stopUpdatingLocationWithResult:self.getLocationStatus];
         }
     } else {
         if (status == kCLAuthorizationStatusAuthorized) {
             [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                        withObject: nil
                        afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
+        } else {
+            [self stopUpdatingLocationWithResult:self.getLocationStatus];
         }
     }
 #else
@@ -351,6 +358,8 @@ static IQLocationManager *_iqLocationManager;
         if (_progressBlock) {
             _progressBlock(nil, kIQlocationResultAuthorized);
         }
+    } else {
+        [self stopUpdatingLocationWithResult:self.getLocationStatus];
     }
 #endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
 }
