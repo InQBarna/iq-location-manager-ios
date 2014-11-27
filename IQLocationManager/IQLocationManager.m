@@ -105,8 +105,6 @@ static IQLocationManager *_iqLocationManager;
         return;
     }
     
-    self.isGettingLocation = YES;
-    
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     
     if ( status ==  kCLAuthorizationStatusNotDetermined ) {
@@ -144,9 +142,7 @@ static IQLocationManager *_iqLocationManager;
     [_locationManager startUpdatingLocation];
     
     if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
-        [self performSelector: @selector(stopUpdatingLocationWithTimeout)
-                   withObject: nil
-                   afterDelay: maxTimeout != 0.0 ? maxTimeout : kIQLocationMeasurementTimeoutDefault];
+        [self startUpdatingLocation];
     }
 }
 
@@ -222,6 +218,13 @@ static IQLocationManager *_iqLocationManager;
     self.progressBlock = nil;
     self.isGettingLocation = NO;
     
+}
+
+- (void)startUpdatingLocation {
+    self.isGettingLocation = YES;
+    [self performSelector: @selector(stopUpdatingLocationWithTimeout)
+               withObject: nil
+               afterDelay: self.maximumTimeout ?: kIQLocationMeasurementTimeoutDefault];
 }
 
 - (CLLocationAccuracy)checkAccuracy:(CLLocationAccuracy)desiredAccuracy {
@@ -343,18 +346,14 @@ static IQLocationManager *_iqLocationManager;
         }
     } else {
         if (status == kCLAuthorizationStatusAuthorized) {
-            [self performSelector: @selector(stopUpdatingLocationWithTimeout)
-                       withObject: nil
-                       afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
+            [self startUpdatingLocation];
         } else {
             [self stopUpdatingLocationWithResult:self.getLocationStatus];
         }
     }
 #else
     if (status == kCLAuthorizationStatusAuthorized) {
-        [self performSelector: @selector(stopUpdatingLocationWithTimeout)
-                   withObject: nil
-                   afterDelay: self.maximumTimeout != 0.0 ? self.maximumTimeout : kIQLocationMeasurementTimeoutDefault];
+        [self startUpdatingLocation];
         if (_progressBlock) {
             _progressBlock(nil, kIQlocationResultAuthorized);
         }
