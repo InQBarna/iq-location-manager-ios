@@ -98,12 +98,13 @@ static IQLocationManager *_iqLocationManager;
         return;
     }
     
-    self.isGettingLocation = YES;
-    
     if ( ![CLLocationManager locationServicesEnabled] ) {
         _completionBlock(nil,kIQLocationResultNotEnabled);
         return;
-    } else {
+    }
+    
+    self.isGettingLocation = YES;
+    
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
         
         if ( status ==  kCLAuthorizationStatusNotDetermined ) {
@@ -138,7 +139,6 @@ static IQLocationManager *_iqLocationManager;
                 completion(_bestEffortAtLocation,kIQLocationResultSystemDenied);
             }
             return;
-        }
     }
     
     [_locationManager startUpdatingLocation];
