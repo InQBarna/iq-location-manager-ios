@@ -115,10 +115,13 @@ static IQLocationManager *_iqLocationManager;
             NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
             NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
             
+            NSString *defaultLocalizedDescription = NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil);
+            
             [[[UIAlertView alloc] initWithTitle: ([localizedTitle isEqualToString:@"location_request_alert_title"] ?
                                                   NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil) : localizedTitle)
-                                        message: ([localizedTitle isEqualToString:@"location_request_alert_description"] ?
-                                                  NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil) : localizedDescription)
+                                        message: ([localizedDescription isEqualToString:@"location_request_alert_description"] ?
+                                                  ([defaultLocalizedDescription isEqualToString:@"location_request_alert_description"] ?
+                                                   nil : defaultLocalizedDescription) : localizedDescription)
                                        delegate: self
                               cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
                                                   [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
