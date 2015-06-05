@@ -185,8 +185,6 @@ static IQLocationManager *_iqLocationManager;
                 return kIQLocationResultSystemDenied;
             } else if (status == kCLAuthorizationStatusAuthorized) {
                 return kIQlocationResultAuthorized;
-            } else if (self.getSoftDeniedFromDefaults){
-                return kIQLocationResultSoftDenied;
             }
             
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
@@ -196,6 +194,9 @@ static IQLocationManager *_iqLocationManager;
                 }
             }
 #endif
+            if (self.getSoftDeniedFromDefaults){
+                return kIQLocationResultSoftDenied;
+            }
         }
     }
     return kIQLocationResultNotDetermined;
@@ -373,6 +374,7 @@ static IQLocationManager *_iqLocationManager;
         [self stopUpdatingLocationWithResult:kIQLocationResultSoftDenied];
         [self setSoftDenied:YES];
     } else {
+        [self setSoftDenied:NO];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
         if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
             [self requestSystemPermissionForLocation];
