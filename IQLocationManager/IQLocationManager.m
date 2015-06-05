@@ -51,6 +51,7 @@ static IQLocationManager *_iqLocationManager;
         if (self.bestEffortAtLocation) {
             [_locationMeasurements addObject:self.bestEffortAtLocation];
         }
+        _locationManager.delegate = self;
 #endif
     }
     return self;
