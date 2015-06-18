@@ -34,13 +34,34 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 #ifdef DEBUG
 @property (nonatomic, strong) NSMutableArray    *locationMeasurements;
 #endif
+/** Contains the best location, using the last valid location */
 @property (nonatomic, strong) CLLocation        *bestEffortAtLocation;
 @property (nonatomic, assign) BOOL                  isGettingLocation;
 @property (nonatomic, readonly) BOOL             isGettingPermissions;
 
-
 + (IQLocationManager *)sharedManager;
+
+/**
+ This method will start requesting user's location. It uses default values for accuracy, timeout and softAccess.
+ Accuracy = kCLLocationAccuracyHundredMeters
+ Timeout = kIQLocationMeasurementTimeoutDefault
+ SoftAccess = YES
+ A final location will be returned with the required accuracy.
+
+ @param completion this block will be called with final location
+ */
 - (void)getCurrentLocationWithCompletion:(void(^)(CLLocation *location, IQLocationResult result))completion;
+
+/**
+ This method will start requesting user's location. Will request for system's permissions.
+ A final location will be returned with the required accuracy.
+ 
+ @param desiredAccuracy requires value in CLLocationAccuracy
+ @param maxTimeout after timeout it returns a location that is fresh but does not match the accuracy
+ @param softAccessRequest NO will request system's location permissions. YES will first ask for soft permission with an UIAlertView
+ @param progress this block will be called with partial locations not matching the required accuracy until a final location is received
+ @param completion this block will be called with final location or timeout
+ */
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
                      softAccessRequest:(BOOL)softAccessRequest
@@ -53,4 +74,3 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 - (BOOL)setSoftDenied:(BOOL)softDenied;
 
 @end
-
