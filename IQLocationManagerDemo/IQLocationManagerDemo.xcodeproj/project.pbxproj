@@ -404,7 +404,7 @@
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8a5ebbc0-734c-4a13-9c3b-291cf9fa2fe1";
+				PROVISIONING_PROFILE = "4199d58f-643b-4130-bff4-53fb697d40fa";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;

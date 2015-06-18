@@ -15,6 +15,7 @@
 @property (nonatomic, copy) void (^completionBlock)(CLLocation *location, IQLocationResult result);
 @property (nonatomic, assign) NSTimeInterval        maximumMeasurementAge;
 @property (nonatomic, assign) NSTimeInterval        maximumTimeout;
+@property (nonatomic, assign) BOOL             isGettingPermissions;
 
 @end
 
@@ -42,16 +43,16 @@ static IQLocationManager *_iqLocationManager;
     self = [super init];
     
     if (self) {
+        self.isGettingLocation = NO;
         self.locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
         self.bestEffortAtLocation = [self getLastKnownLocationFromDefaults];
         self.maximumMeasurementAge = kIQLocationMeasurementAgeDefault;
-        self.isGettingLocation = NO;
 #ifdef DEBUG
         self.locationMeasurements = [NSMutableArray new];
         if (self.bestEffortAtLocation) {
             [_locationMeasurements addObject:self.bestEffortAtLocation];
         }
-        _locationManager.delegate = self;
 #endif
     }
     return self;
@@ -79,7 +80,6 @@ static IQLocationManager *_iqLocationManager;
                               progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion
 {
-    _locationManager.delegate = self;
     _locationManager.desiredAccuracy = [self checkAccuracy:desiredAccuracy];
     
     self.maximumTimeout = maxTimeout;
@@ -91,6 +91,8 @@ static IQLocationManager *_iqLocationManager;
             [self saveLocationToDefaults:_bestEffortAtLocation];
             [self stopUpdatingLocationWithResult:kIQLocationResultFound];
             return;
+        } else {
+            _bestEffortAtLocation = nil;
         }
     }
     
@@ -131,12 +133,14 @@ static IQLocationManager *_iqLocationManager;
             
             return;
         } else {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+            _isGettingPermissions = YES;
             if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
                 [self requestSystemPermissionForLocation];
-                return;
+            } else {
+                // for iOS 7, startUpdating forces the request to the user
+                [_locationManager startUpdatingLocation];
             }
-#endif
+            return;
         }
     } else if ( status == kCLAuthorizationStatusDenied ) {
         [self stopUpdatingLocationWithResult:kIQLocationResultSystemDenied];
@@ -188,13 +192,12 @@ static IQLocationManager *_iqLocationManager;
                 return kIQlocationResultAuthorized;
             }
             
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
             if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
                 if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
                     return kIQlocationResultAuthorized;
                 }
             }
-#endif
+            
             if (self.getSoftDeniedFromDefaults){
                 return kIQLocationResultSoftDenied;
             }
@@ -213,7 +216,6 @@ static IQLocationManager *_iqLocationManager;
     
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [_locationManager stopUpdatingLocation];
-    _locationManager.delegate = nil;
     
     if (_completionBlock) {
         _completionBlock(_bestEffortAtLocation,result);
@@ -301,7 +303,7 @@ static IQLocationManager *_iqLocationManager;
     // test the age of the location measurement to determine if the measurement is cached
     // in most cases you will not want to rely on cached measurements
     NSTimeInterval locationAge = -[newLocation.timestamp timeIntervalSinceNow];
-    if (abs(locationAge) > _maximumMeasurementAge) {
+    if (fabs(locationAge) > _maximumMeasurementAge) {
         return;
     }
     
@@ -335,7 +337,10 @@ static IQLocationManager *_iqLocationManager;
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+    if ( !_isGettingPermissions ) {
+        return;
+    }
+    
     if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
         if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
@@ -356,16 +361,8 @@ static IQLocationManager *_iqLocationManager;
             [self stopUpdatingLocationWithResult:self.getLocationStatus];
         }
     }
-#else
-    if (status == kCLAuthorizationStatusAuthorized) {
-        [self startUpdatingLocation];
-        if (_progressBlock) {
-            _progressBlock(nil, kIQlocationResultAuthorized);
-        }
-    } else {
-        [self stopUpdatingLocationWithResult:self.getLocationStatus];
-    }
-#endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
+    
+    _isGettingPermissions = NO;
 }
 
 #pragma mark - UIAlertViewDelegate methods
@@ -376,7 +373,7 @@ static IQLocationManager *_iqLocationManager;
         [self setSoftDenied:YES];
     } else {
         [self setSoftDenied:NO];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+        _isGettingPermissions = YES;
         if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
             [self requestSystemPermissionForLocation];
             return;
@@ -387,18 +384,11 @@ static IQLocationManager *_iqLocationManager;
                                         progress: self.progressBlock
                                       completion: self.completionBlock];
         }
-#else
-        [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
-                              maximumTimeout: self.maximumTimeout
-                           softAccessRequest: NO
-                                    progress: self.progressBlock
-                                  completion: self.completionBlock];
-#endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
+
     }
 }
 
 - (void)requestSystemPermissionForLocation {
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     // As of iOS 8, apps must explicitly request location services permissions. IQLocationManager supports both levels, "Always" and "When In Use".
     // IQLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
     // If you provide values for both description keys, the more permissive "Always" level is requested.
@@ -414,7 +404,6 @@ static IQLocationManager *_iqLocationManager;
             NSAssert(hasAlwaysKey || hasWhenInUseKey, @"To use location services in iOS 8+, your Info.plist must provide a value for either NSLocationWhenInUseUsageDescription or NSLocationAlwaysUsageDescription.");
         }
     }
-#endif /* __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1 */
 }
 
 @end
