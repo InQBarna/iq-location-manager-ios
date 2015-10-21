@@ -219,7 +219,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = IQ;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = InQBarna;
 				TargetAttributes = {
 					669F6BC9199D1D1100B88AAE = {
@@ -343,6 +343,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -403,8 +404,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.iqlocationmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4199d58f-643b-4130-bff4-53fb697d40fa";
+				PROVISIONING_PROFILE = "02f33b13-b9de-4884-b4e6-5fb43e39ee33";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -417,6 +419,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.inqbarna.iqlocationmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -438,6 +441,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "IQLocationManagerDemoTests/IQLocationManagerDemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.inqbarna.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -456,6 +460,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemoTests/IQLocationManagerDemoTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.inqbarna.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
