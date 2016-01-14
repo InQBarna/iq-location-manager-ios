@@ -27,6 +27,7 @@
     // start getting locations, first ask the user
     [[IQLocationManager sharedManager] getCurrentLocationWithAccuracy: kCLLocationAccuracyHundredMeters
                                                        maximumTimeout: 15.0
+                                                maximumMeasurementAge: 60.0
                                                     softAccessRequest: YES
                                                              progress: ^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                  [self.tableView reloadData];

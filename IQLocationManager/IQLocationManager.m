@@ -69,6 +69,7 @@ static IQLocationManager *_iqLocationManager;
     
     [self getCurrentLocationWithAccuracy: kCLLocationAccuracyHundredMeters
                           maximumTimeout: kIQLocationMeasurementTimeoutDefault
+                   maximumMeasurementAge: kIQLocationMeasurementAgeDefault
                        softAccessRequest: YES
                                 progress: nil
                               completion: completion];
@@ -76,6 +77,7 @@ static IQLocationManager *_iqLocationManager;
 
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
+                 maximumMeasurementAge:(NSTimeInterval)maxMeasurementAge
                      softAccessRequest:(BOOL)softAccessRequest
                               progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion
@@ -83,6 +85,7 @@ static IQLocationManager *_iqLocationManager;
     _locationManager.desiredAccuracy = [self checkAccuracy:desiredAccuracy];
     
     self.maximumTimeout = maxTimeout;
+    self.maximumMeasurementAge = maxMeasurementAge;
     self.completionBlock = completion;
     self.progressBlock = progress;
     
@@ -351,6 +354,7 @@ static IQLocationManager *_iqLocationManager;
         if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
             [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
                                   maximumTimeout: self.maximumTimeout
+                           maximumMeasurementAge: self.maximumMeasurementAge
                                softAccessRequest: NO
                                         progress: self.progressBlock
                                       completion: self.completionBlock];
@@ -386,6 +390,7 @@ static IQLocationManager *_iqLocationManager;
         } else {
             [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
                                   maximumTimeout: self.maximumTimeout
+                           maximumMeasurementAge: self.maximumMeasurementAge
                                softAccessRequest: NO
                                         progress: self.progressBlock
                                       completion: self.completionBlock];

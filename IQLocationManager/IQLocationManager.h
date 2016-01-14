@@ -58,12 +58,14 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
  
  @param desiredAccuracy requires value in CLLocationAccuracy
  @param maxTimeout after timeout it returns a location that is fresh but does not match the accuracy
+ @param maxMeasurementAge if the new request is not older that maxMeasurementAge, the last obtained result is returned
  @param softAccessRequest NO will request system's location permissions. YES will first ask for soft permission with an UIAlertView
  @param progress this block will be called with partial locations not matching the required accuracy until a final location is received
  @param completion this block will be called with final location or timeout
  */
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
+                 maximumMeasurementAge:(NSTimeInterval)maxMeasurementAge
                      softAccessRequest:(BOOL)softAccessRequest
                               progress:(void(^)(CLLocation *locationOrNil, IQLocationResult result))progress
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion;
