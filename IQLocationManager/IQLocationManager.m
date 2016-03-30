@@ -77,6 +77,20 @@ static IQLocationManager *_iqLocationManager;
 
 - (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
                         maximumTimeout:(NSTimeInterval)maxTimeout
+                     softAccessRequest:(BOOL)softAccessRequest
+                              progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
+                            completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion
+{
+    [self getCurrentLocationWithAccuracy: desiredAccuracy
+                          maximumTimeout: maxTimeout
+                   maximumMeasurementAge: kIQLocationMeasurementAgeDefault
+                       softAccessRequest: softAccessRequest
+                                progress: progress
+                              completion: completion];
+}
+
+- (void)getCurrentLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
+                        maximumTimeout:(NSTimeInterval)maxTimeout
                  maximumMeasurementAge:(NSTimeInterval)maxMeasurementAge
                      softAccessRequest:(BOOL)softAccessRequest
                               progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
