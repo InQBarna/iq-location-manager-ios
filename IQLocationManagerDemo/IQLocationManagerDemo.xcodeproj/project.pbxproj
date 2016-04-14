@@ -24,6 +24,8 @@
 		669F6BD8199D1D1100B88AAE /* IQLocationManagerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F6BD7199D1D1100B88AAE /* IQLocationManagerDemoTests.m */; };
 		669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 669F6BE2199D1E6700B88AAE /* IQLocationManager.m */; };
 		66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66AB9C8C19B4825F002826AD /* IQLocationManager.strings */; };
+		C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */; };
+		C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41361731CBFF6D500836E58 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,9 @@
 		669F6BE1199D1E6700B88AAE /* IQLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationManager.h; path = ../IQLocationManager/IQLocationManager.h; sourceTree = "<group>"; };
 		669F6BE2199D1E6700B88AAE /* IQLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQLocationManager.m; path = ../IQLocationManager/IQLocationManager.m; sourceTree = "<group>"; };
 		66AB9C8C19B4825F002826AD /* IQLocationManager.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = IQLocationManager.strings; path = ../IQLocationManager/IQLocationManager.strings; sourceTree = "<group>"; };
+		C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQMotionActivityManager.h; path = ../IQLocationManager/IQMotionActivityManager.h; sourceTree = "<group>"; };
+		C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQMotionActivityManager.m; path = ../IQLocationManager/IQMotionActivityManager.m; sourceTree = "<group>"; };
+		C41361731CBFF6D500836E58 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */,
 				6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */,
 				669F6BAF199D1D1100B88AAE /* CoreGraphics.framework in Frameworks */,
 				669F6BB1199D1D1100B88AAE /* UIKit.framework in Frameworks */,
@@ -112,6 +118,7 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C41361731CBFF6D500836E58 /* CoreMotion.framework */,
 				6697E09719A4A22F0081F165 /* CoreLocation.framework */,
 				669F6BAC199D1D1100B88AAE /* Foundation.framework */,
 				669F6BAE199D1D1100B88AAE /* CoreGraphics.framework */,
@@ -170,6 +177,8 @@
 				669F6BE1199D1E6700B88AAE /* IQLocationManager.h */,
 				669F6BE2199D1E6700B88AAE /* IQLocationManager.m */,
 				66AB9C8C19B4825F002826AD /* IQLocationManager.strings */,
+				C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */,
+				C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */,
 			);
 			name = IQLocationManager;
 			sourceTree = "<group>";
@@ -277,6 +286,7 @@
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				669F6BB9199D1D1100B88AAE /* main.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
+				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
