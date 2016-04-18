@@ -26,11 +26,27 @@
                                     <outlet property="delegate" destination="zih-Q9-z5q" id="RAg-pW-fVn"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EdQ-O0-ofo">
+                                <rect key="frame" x="276" y="475" width="44" height="44"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="My3-E3-oeg"/>
+                                    <constraint firstAttribute="height" constant="44" id="p1M-qG-mG6"/>
+                                </constraints>
+                                <state key="normal" title="start">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="triggerButtonPressed:" destination="zih-Q9-z5q" eventType="touchUpInside" id="HG3-HU-sbC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2Wj-Q1-bjZ" firstAttribute="top" secondItem="1L0-JN-qtw" secondAttribute="bottom" id="69W-PC-sZ0"/>
                             <constraint firstAttribute="trailing" secondItem="1L0-JN-qtw" secondAttribute="trailing" id="Gc7-cA-hy6"/>
+                            <constraint firstAttribute="trailing" secondItem="EdQ-O0-ofo" secondAttribute="trailing" id="Iwc-Hg-xKX"/>
+                            <constraint firstItem="2Wj-Q1-bjZ" firstAttribute="top" secondItem="EdQ-O0-ofo" secondAttribute="bottom" id="O5k-bk-SZb"/>
                             <constraint firstItem="1L0-JN-qtw" firstAttribute="top" secondItem="qqg-hI-nCJ" secondAttribute="top" constant="20" id="uPH-94-HqV"/>
                             <constraint firstItem="1L0-JN-qtw" firstAttribute="leading" secondItem="qqg-hI-nCJ" secondAttribute="leading" id="zN2-WA-A8l"/>
                         </constraints>
