@@ -26,6 +26,7 @@
 		66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66AB9C8C19B4825F002826AD /* IQLocationManager.strings */; };
 		C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */; };
 		C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41361731CBFF6D500836E58 /* CoreMotion.framework */; };
+		C497A5501CC505CC00CB08B9 /* IQMotionActivityVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A54F1CC505CC00CB08B9 /* IQMotionActivityVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,6 +67,8 @@
 		C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQMotionActivityManager.h; path = ../IQLocationManager/IQMotionActivityManager.h; sourceTree = "<group>"; };
 		C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQMotionActivityManager.m; path = ../IQLocationManager/IQMotionActivityManager.m; sourceTree = "<group>"; };
 		C41361731CBFF6D500836E58 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C497A54E1CC505CC00CB08B9 /* IQMotionActivityVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMotionActivityVC.h; sourceTree = "<group>"; };
+		C497A54F1CC505CC00CB08B9 /* IQMotionActivityVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMotionActivityVC.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,8 @@
 				669F6BBE199D1D1100B88AAE /* Main.storyboard */,
 				669F6BC1199D1D1100B88AAE /* IQViewController.h */,
 				669F6BC2199D1D1100B88AAE /* IQViewController.m */,
+				C497A54E1CC505CC00CB08B9 /* IQMotionActivityVC.h */,
+				C497A54F1CC505CC00CB08B9 /* IQMotionActivityVC.m */,
 				669F6BC4199D1D1100B88AAE /* Images.xcassets */,
 				669F6BB3199D1D1100B88AAE /* Supporting Files */,
 			);
@@ -283,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
+				C497A5501CC505CC00CB08B9 /* IQMotionActivityVC.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				669F6BB9199D1D1100B88AAE /* main.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,

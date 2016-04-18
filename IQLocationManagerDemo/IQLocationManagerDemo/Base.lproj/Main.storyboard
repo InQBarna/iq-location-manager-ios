@@ -1,13 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="n8S-b8-nM8">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--IQMotionActivityVC-->
+        <scene sceneID="UYL-UG-a3E">
+            <objects>
+                <viewController title="IQMotionActivityVC" id="zih-Q9-z5q" customClass="IQMotionActivityVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bWb-ae-aQp"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Wj-Q1-bjZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qqg-hI-nCJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="1L0-JN-qtw">
+                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="zih-Q9-z5q" id="2A2-KV-gUG"/>
+                                    <outlet property="delegate" destination="zih-Q9-z5q" id="RAg-pW-fVn"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2Wj-Q1-bjZ" firstAttribute="top" secondItem="1L0-JN-qtw" secondAttribute="bottom" id="69W-PC-sZ0"/>
+                            <constraint firstAttribute="trailing" secondItem="1L0-JN-qtw" secondAttribute="trailing" id="Gc7-cA-hy6"/>
+                            <constraint firstItem="1L0-JN-qtw" firstAttribute="top" secondItem="qqg-hI-nCJ" secondAttribute="top" constant="20" id="uPH-94-HqV"/>
+                            <constraint firstItem="1L0-JN-qtw" firstAttribute="leading" secondItem="qqg-hI-nCJ" secondAttribute="leading" id="zN2-WA-A8l"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="IQMotionActivity" id="v7n-HZ-wGe" userLabel="IQMotionActivity"/>
+                    <connections>
+                        <outlet property="tableView" destination="1L0-JN-qtw" id="4is-jB-YQZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="htj-eb-exj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="499" y="585"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="gPO-Lk-j4P">
+            <objects>
+                <tabBarController id="n8S-b8-nM8" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="zcc-mQ-f6K">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.62745098040000002" green="0.59215686270000001" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="kY0-gr-sK3"/>
+                        <segue destination="zih-Q9-z5q" kind="relationship" relationship="viewControllers" id="8Up-Md-T2Z"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JPj-kh-xVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-41" y="271"/>
+        </scene>
+        <!--IQLocationManagerVC-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController id="vXZ-lx-hvc" customClass="IQViewController" sceneMemberID="viewController">
+                <viewController title="IQLocationManagerVC" id="vXZ-lx-hvc" customClass="IQViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -16,9 +74,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mIT-Q8-N66">
-                                <rect key="frame" x="0.0" y="25" width="320" height="543"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="mIT-Q8-N66">
+                                <rect key="frame" x="0.0" y="20" width="320" height="499"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="vXZ-lx-hvc" id="d5G-du-g5Y"/>
@@ -27,18 +84,21 @@
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="mIT-Q8-N66" secondAttribute="bottom" id="GES-AE-uwt"/>
+                            <constraint firstItem="mIT-Q8-N66" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="topMargin" constant="20" id="VmX-1m-DQ2"/>
+                            <constraint firstAttribute="trailing" secondItem="mIT-Q8-N66" secondAttribute="trailing" id="auX-nb-0XL"/>
+                            <constraint firstItem="mIT-Q8-N66" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="jPQ-uC-dRz"/>
+                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="IQLocationManager" id="Yhh-74-icd" userLabel="IQLocationManager"/>
                     <connections>
                         <outlet property="tableView" destination="mIT-Q8-N66" id="qrg-G1-ADr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="499" y="-55"/>
         </scene>
     </scenes>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>
