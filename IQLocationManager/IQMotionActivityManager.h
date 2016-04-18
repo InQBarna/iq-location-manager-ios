@@ -12,16 +12,9 @@
 
 typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
     kIQMotionActivityResultNotAvailable,
-//    kIQLocationResultNotDetermined,
-//    kIQLocationResultSoftDenied,
-//    kIQLocationResultSystemDenied,
-//    kIQlocationResultAuthorized,
     kIQMotionActivityResultError,
     kIQMotionActivityResultNoResult,
-//    kIQLocationResultTimeout,
-//    kIQLocationResultIntermediateFound,
     kIQMotionActivityResultFound,
-//    kIQLocationResultAlreadyGettingLocation
 };
 
 extern const struct IQMotionActivityTypes {
@@ -37,6 +30,10 @@ extern const struct IQMotionActivityTypes {
 
 + (IQMotionActivityManager *)sharedManager;
 
+- (void)startActivityMonitoringWithUpdateBlock:(void(^)(CMMotionActivity *activity, IQMotionActivityResult result))updateBlock;
+
+- (void)stopActivityMonitoring;
+
 - (void)getMotionActivityFromDate:(NSDate *)start_date
                            toDate:(NSDate *)end_date
                        completion:(void(^)(NSArray *activities, IQMotionActivityResult result))completion;
@@ -46,6 +43,5 @@ extern const struct IQMotionActivityTypes {
                                  toDate:(NSDate *)end_date
                        forActivityTypes:(NSArray *)activityTypes
                              completion:(void(^)(NSArray *activities, IQMotionActivityResult result))completion;
-
 
 @end
