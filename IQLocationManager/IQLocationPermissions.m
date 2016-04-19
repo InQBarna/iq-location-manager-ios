@@ -19,6 +19,32 @@
 
 @implementation IQLocationPermissions
 
+static IQLocationPermissions *_iqLocationPermissions;
+
+#pragma mark Initialization and destroy calls
+
++ (IQLocationPermissions *)sharedManager
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _iqLocationPermissions = [[self alloc] init];
+    });
+    return _iqLocationPermissions;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    self.locationManager = nil;
+}
+
 - (void)requestLocationPermissionsForManager:(CLLocationManager *)locationManager
                        withSoftAccessRequest:(BOOL)softAccessRequest
                                andCompletion:(void(^)(IQLocationResult result))completion
@@ -156,7 +182,7 @@
             if (_completionBlock) {
                 _completionBlock(kIQlocationResultAuthorized);
             }
-        } else {
+        } else if (status == kCLAuthorizationStatusDenied) {
             if (_completionBlock) {
                 _completionBlock(kIQLocationResultSystemDenied);
             }
@@ -166,7 +192,7 @@
             if (_completionBlock) {
                 _completionBlock(kIQlocationResultAuthorized);
             }
-        } else {
+        } else if (status == kCLAuthorizationStatusDenied) {
             if (_completionBlock) {
                 _completionBlock(kIQLocationResultSystemDenied);
             }

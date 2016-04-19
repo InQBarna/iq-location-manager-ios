@@ -49,7 +49,7 @@ static IQMotionActivityManager *_iqMotionActivityManager;
 
 - (void)dealloc
 {
-    
+    self.motionActivityManager = nil;
 }
 
 - (void)startActivityMonitoringWithUpdateBlock:(void(^)(CMMotionActivity *activity, IQMotionActivityResult result))updateBlock

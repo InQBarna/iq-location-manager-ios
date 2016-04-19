@@ -1,13 +1,13 @@
 //
-//  IQMotionActivityVC.h
+//  IQPermanentLocationVC.h
 //  IQLocationManagerDemo
 //
-//  Created by Raul Peña on 18/04/16.
+//  Created by Raul Peña on 19/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface IQMotionActivityVC : UIViewController
+@interface IQPermanentLocationVC : UIViewController
 
 @end

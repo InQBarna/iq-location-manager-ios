@@ -25,35 +25,35 @@
     self.address = @"No location";
     
     // start getting locations, first ask the user
-    [[IQLocationManager sharedManager] getCurrentLocationWithAccuracy: kCLLocationAccuracyHundredMeters
-                                                       maximumTimeout: 15.0
-                                                maximumMeasurementAge: 60.0
-                                                    softAccessRequest: YES
-                                                             progress: ^(CLLocation *locationOrNil, IQLocationResult result) {
-                                                                 [self.tableView reloadData];
-                                                             } completion:^(CLLocation *locationOrNil, IQLocationResult result) {
-                                                                 if ( result == kIQLocationResultFound ) {
-                                                                     [self.tableView reloadData];
-                                                                     
-                                                                     [[IQLocationManager sharedManager]getAddressFromLocation:locationOrNil
-                                                                                                               withCompletion:^(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error) {
-                                                                                                                   if (!error) {
-                                                                                                                       self.address = [NSString stringWithFormat:@"%@, %@",address,locality];
-                                                                                                                   } else {
-                                                                                                                       self.address = @"Geocoding error";
-                                                                                                                   }
-                                                                                                                   
-                                                                                                                   [self.tableView reloadData];
-                                                                                                               }];
-                                                                 } else if( result == kIQLocationResultTimeout) {
-                                                                     self.address = @"Timeout";
-                                                                     [self.tableView reloadData];
-                                                                 }
-                                                             }];
+//    [[IQLocationManager sharedManager] getCurrentLocationWithAccuracy: kCLLocationAccuracyHundredMeters
+//                                                       maximumTimeout: 15.0
+//                                                maximumMeasurementAge: 60.0
+//                                                    softAccessRequest: YES
+//                                                             progress: ^(CLLocation *locationOrNil, IQLocationResult result) {
+//                                                                 [self.tableView reloadData];
+//                                                             } completion:^(CLLocation *locationOrNil, IQLocationResult result) {
+//                                                                 if ( result == kIQLocationResultFound ) {
+//                                                                     [self.tableView reloadData];
+//                                                                     
+//                                                                     [[IQLocationManager sharedManager]getAddressFromLocation:locationOrNil
+//                                                                                                               withCompletion:^(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error) {
+//                                                                                                                   if (!error) {
+//                                                                                                                       self.address = [NSString stringWithFormat:@"%@, %@",address,locality];
+//                                                                                                                   } else {
+//                                                                                                                       self.address = @"Geocoding error";
+//                                                                                                                   }
+//                                                                                                                   
+//                                                                                                                   [self.tableView reloadData];
+//                                                                                                               }];
+//                                                                 } else if( result == kIQLocationResultTimeout) {
+//                                                                     self.address = @"Timeout";
+//                                                                     [self.tableView reloadData];
+//                                                                 }
+//                                                             }];
+//    
+//    // this loads the last known location from disk
+//    [self.tableView reloadData];
     
-    // this loads the last known location from disk
-    [self.tableView reloadData];
-     
 }
 
 - (void)didReceiveMemoryWarning

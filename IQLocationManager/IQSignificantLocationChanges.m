@@ -8,8 +8,6 @@
 
 #import "IQSignificantLocationChanges.h"
 
-#import "IQLocationPermissions.h"
-
 @interface IQSignificantLocationChanges() <CLLocationManagerDelegate>
 
 @property (nonatomic, strong) CLLocationManager     *locationManager;
@@ -19,20 +17,18 @@
 
 @implementation IQSignificantLocationChanges
 
-//// Delegate method from the CLLocationManagerDelegate protocol.
-//- (void)locationManager:(CLLocationManager *)manager
-//     didUpdateLocations:(NSArray *)locations {
-//    // If it's a relatively recent event, turn off updates to save power.
-//    CLLocation* location = [locations lastObject];
-//    NSDate* eventDate = location.timestamp;
-//    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-//    if (abs(howRecent) < 15.0) {
-//        // If the event is recent, do something with it.
-//        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-//              location.coordinate.latitude,
-//              location.coordinate.longitude);
-//    }
-//}
+static IQSignificantLocationChanges *_iqSignificantLocationChanges;
+
+#pragma mark Initialization and destroy calls
+
++ (IQSignificantLocationChanges *)sharedManager
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _iqSignificantLocationChanges = [[self alloc] init];
+    });
+    return _iqSignificantLocationChanges;
+}
 
 - (id)init {
     self = [super init];
@@ -40,6 +36,12 @@
         self.locationManager = [[CLLocationManager alloc] init];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    self.locationManager = nil;
+    self.updateBlock = nil;
 }
 
 - (void)startMonitoringLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
@@ -52,9 +54,8 @@
     self.updateBlock = updateBlock;
     
     __weak __typeof(self) welf = self;
-    IQLocationPermissions *permissions = [[IQLocationPermissions alloc] init];
-    if ([permissions getLocationStatus] == kIQLocationResultNotDetermined) {
-        [permissions requestLocationPermissionsForManager:self.locationManager
+    if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined) {
+        [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
                                     withSoftAccessRequest:softAccessRequest
                                             andCompletion:^(IQLocationResult result) {
                                                 if (result == kIQlocationResultAuthorized) {
@@ -64,11 +65,11 @@
                                                 }
                                             }];
         
-    } else if ([permissions getLocationStatus] == kIQlocationResultAuthorized) {
+    } else if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized) {
         [welf startSignificantChangeUpdates];
         
     } else {
-        updateBlock(nil, [permissions getLocationStatus]);
+        updateBlock(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);
     }
 }
 
@@ -78,23 +79,36 @@
     // already have one.
     if (nil == _locationManager) {
         _locationManager = [[CLLocationManager alloc] init];
-    }
-    
+    }    
     self.locationManager.delegate = self;
     [self.locationManager startMonitoringSignificantLocationChanges];
 }
 
+- (void)stopMonitoringLocation
+{
+    [self.locationManager stopMonitoringSignificantLocationChanges];
+}
 
 #pragma mark CLLocationManagerDelegate calls
 
+// Delegate method from the CLLocationManagerDelegate protocol.
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    
+    // If it's a relatively recent event, turn off updates to save power.
+    CLLocation* location = [locations lastObject];
+//    NSDate* eventDate = location.timestamp;
+//    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+//    if (fabs(howRecent) < 15.0) {
+//        // If the event is recent, do something with it.
+//        
+//        self.updateBlock(location, kIQLocationResultFound);
+//    }
+    self.updateBlock(location, kIQLocationResultFound);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    
+    NSLog(@"IQSignificantLocationChanges :: didFailWithError :: %@", error);
 }
 
 @end
