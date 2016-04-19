@@ -74,23 +74,20 @@
         }
     }];
     
-    [[IQSignificantLocationChanges sharedManager] startMonitoringLocationWithAccuracy:kCLLocationAccuracyBest
-                                                                       maximumTimeout:0
-                                                                maximumMeasurementAge:0
-                                                                    softAccessRequest:YES
-                                                                               update:^(CLLocation *locationOrNil, IQLocationResult result) {
-                                                                                   if (result == kIQLocationResultFound) {
-                                                                                       NSMutableArray *temp = welf.locations.mutableCopy;
-                                                                                       if (!temp) {
-                                                                                           temp = [NSMutableArray array];
-                                                                                       }
-                                                                                       [temp addObject:locationOrNil];
-                                                                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                           welf.locations = temp.copy;
-                                                                                           [self.tableView reloadData];
-                                                                                       });
-                                                                                   }
-                                                                               }];
+    [[IQSignificantLocationChanges sharedManager] startMonitoringLocationWithSoftAccessRequest:YES
+                                                                                        update:^(CLLocation *locationOrNil, IQLocationResult result) {
+                                                                                            if (result == kIQLocationResultFound) {
+                                                                                               NSMutableArray *temp = welf.locations.mutableCopy;
+                                                                                               if (!temp) {
+                                                                                                   temp = [NSMutableArray array];
+                                                                                               }
+                                                                                               [temp addObject:locationOrNil];
+                                                                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                                                                   welf.locations = temp.copy;
+                                                                                                   [self.tableView reloadData];
+                                                                                               });
+                                                                                           }
+                                                                                        }];
 }
 
 #pragma mark UITableView DataSource Methods

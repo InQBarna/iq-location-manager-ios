@@ -44,11 +44,8 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
     self.updateBlock = nil;
 }
 
-- (void)startMonitoringLocationWithAccuracy:(CLLocationAccuracy)desiredAccuracy
-                             maximumTimeout:(NSTimeInterval)maxTimeout
-                      maximumMeasurementAge:(NSTimeInterval)maxMeasurementAge
-                          softAccessRequest:(BOOL)softAccessRequest
-                                     update:(void (^)(CLLocation *locationOrNil, IQLocationResult result))updateBlock
+- (void)startMonitoringLocationWithSoftAccessRequest:(BOOL)softAccessRequest
+                                              update:(void (^)(CLLocation *locationOrNil, IQLocationResult result))updateBlock
 {
     self.updateBlock = updateBlock;
     
