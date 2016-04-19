@@ -11,7 +11,6 @@
 #import "IQMotionActivityManager.h"
 #import "CMMotionActivity+IQ.h"
 #import "IQSignificantLocationChanges.h"
-#import "IQPermanentLocation.h"
 
 @interface IQSignificantLocationVC ()
 
@@ -50,8 +49,7 @@
         [self startMonitoring];
     } else if ([sender.titleLabel.text isEqualToString:@"stop"]) {
         [sender setTitle:@"start" forState:UIControlStateNormal];
-        [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
-        [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
+        [self stopMonitoring];
     }
 }
 
@@ -88,6 +86,12 @@
                                                                                                });
                                                                                            }
                                                                                         }];
+}
+
+- (void)stopMonitoring
+{
+    [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+    [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
 }
 
 #pragma mark UITableView DataSource Methods
@@ -134,9 +138,6 @@
                                                                     timeStyle:NSDateFormatterShortStyle],
                                      [activity confidenceString]];
     }
-    
-    
-    
     return cell;
 }
 
