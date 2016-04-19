@@ -50,7 +50,6 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
                           softAccessRequest:(BOOL)softAccessRequest
                                      update:(void (^)(CLLocation *locationOrNil, IQLocationResult result))updateBlock
 {
-    self.locationManager.desiredAccuracy = desiredAccuracy;
     self.updateBlock = updateBlock;
     
     __weak __typeof(self) welf = self;
