@@ -12,5 +12,6 @@
 
 - (NSString *)motionTypeStrings;
 - (NSString *)confidenceString;
+- (BOOL)containsActivityType:(NSString *)activityType;
 
 @end

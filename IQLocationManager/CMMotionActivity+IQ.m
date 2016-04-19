@@ -50,4 +50,28 @@
     return string;
 }
 
+- (BOOL)containsActivityType:(NSString *)activityType
+{
+    BOOL result = NO;
+    if (self.stationary && [activityType isEqualToString:@"stationary"]) {
+        result = YES;
+    }
+    if (self.walking && [activityType isEqualToString:@"walking"]) {
+        result = YES;
+    }
+    if (self.running && [activityType isEqualToString:@"running"]) {
+        result = YES;
+    }
+    if (self.automotive && [activityType isEqualToString:@"automotive"]) {
+        result = YES;
+    }
+    if (self.cycling && [activityType isEqualToString:@"cycling"]) {
+        result = YES;
+    }
+    if (self.unknown && [activityType isEqualToString:@"unknown"]) {
+        result = YES;
+    }
+    return result;
+}
+
 @end
