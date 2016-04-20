@@ -25,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -47,10 +49,42 @@
     if ([sender.titleLabel.text isEqualToString:@"start"]) {
         [sender setTitle:@"stop" forState:UIControlStateNormal];
         [self startMonitoring];
+        [self getBatteryLevelInitial:YES];
     } else if ([sender.titleLabel.text isEqualToString:@"stop"]) {
         [sender setTitle:@"start" forState:UIControlStateNormal];
         [self stopMonitoring];
+        [self getBatteryLevelInitial:NO];
     }
+}
+
+
+- (void)getBatteryLevelInitial:(BOOL)initial
+{
+    [UIDevice currentDevice].batteryMonitoringEnabled = YES;
+    NSString *value;
+    float batteryLevel = [UIDevice currentDevice].batteryLevel;
+    if (batteryLevel < 0.0) {
+        // -1.0 means battery state is UIDeviceBatteryStateUnknown
+        value = NSLocalizedString(@"Unknown", @"");
+    }
+    else {
+        static NSNumberFormatter *numberFormatter = nil;
+        if (numberFormatter == nil) {
+            numberFormatter = [[NSNumberFormatter alloc] init];
+            [numberFormatter setNumberStyle:NSNumberFormatterPercentStyle];
+            [numberFormatter setMaximumFractionDigits:1];
+        }
+        
+        NSNumber *levelObj = [NSNumber numberWithFloat:batteryLevel];
+        value = [numberFormatter stringFromNumber:levelObj];
+    }
+    if (initial) {
+        self.navigationController.navigationBar.topItem.title = [NSString stringWithFormat:@"bat: %@", value];
+        
+    } else {
+        self.navigationController.navigationBar.topItem.title = [self.navigationController.navigationBar.topItem.title stringByAppendingString:[NSString stringWithFormat:@" / %@", value]];
+    }
+    [UIDevice currentDevice].batteryMonitoringEnabled = NO;
 }
 
 - (void)startMonitoring
