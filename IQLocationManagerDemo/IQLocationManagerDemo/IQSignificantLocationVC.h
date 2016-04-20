@@ -10,4 +10,6 @@
 
 @interface IQSignificantLocationVC : UIViewController
 
+@property (strong, nonatomic) NSArray               *locations;
+
 @end

@@ -26,6 +26,9 @@
 		66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66AB9C8C19B4825F002826AD /* IQLocationManager.strings */; };
 		C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */; };
 		C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41361731CBFF6D500836E58 /* CoreMotion.framework */; };
+		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
+		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
+		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
 		C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */; };
 		C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
 		C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
@@ -33,6 +36,9 @@
 		C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */; };
 		C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */; };
 		C497A55C1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */; };
+		C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D791CC787A6002174AD /* IQMapVC.m */; };
+		C4FB0D7D1CC788E7002174AD /* IQPermanentContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D7C1CC788E7002174AD /* IQPermanentContainerVC.m */; };
+		C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D7F1CC788FD002174AD /* IQSignificantContainerVC.m */; };
 		C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FFF0C61CC6370C004E2A8A /* IQPermanentLocation.m */; };
 		C4FFF0C81CC63714004E2A8A /* IQPermanentLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FFF0C61CC6370C004E2A8A /* IQPermanentLocation.m */; };
 		C4FFF0CE1CC6410C004E2A8A /* IQPermanentLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FFF0CD1CC6410C004E2A8A /* IQPermanentLocationVC.m */; };
@@ -78,6 +84,11 @@
 		C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQMotionActivityManager.h; path = ../IQLocationManager/IQMotionActivityManager.h; sourceTree = "<group>"; };
 		C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQMotionActivityManager.m; path = ../IQLocationManager/IQMotionActivityManager.m; sourceTree = "<group>"; };
 		C41361731CBFF6D500836E58 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C42C00EC1CC7927D003A162B /* IQPermanentMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentMapVC.h; sourceTree = "<group>"; };
+		C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPermanentMapVC.m; sourceTree = "<group>"; };
+		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
+		C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantMapVC.m; sourceTree = "<group>"; };
+		C42C00F21CC796DC003A162B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantLocationVC.h; sourceTree = "<group>"; };
 		C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantLocationVC.m; sourceTree = "<group>"; };
 		C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+IQ.h"; path = "../IQLocationManager/CMMotionActivity+IQ.h"; sourceTree = "<group>"; };
@@ -86,6 +97,12 @@
 		C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQSignificantLocationChanges.m; path = ../IQLocationManager/IQSignificantLocationChanges.m; sourceTree = "<group>"; };
 		C497A5591CC52D6E00CB08B9 /* IQLocationPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationPermissions.h; path = ../IQLocationManager/IQLocationPermissions.h; sourceTree = "<group>"; };
 		C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQLocationPermissions.m; path = ../IQLocationManager/IQLocationPermissions.m; sourceTree = "<group>"; };
+		C4FB0D781CC787A6002174AD /* IQMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMapVC.h; sourceTree = "<group>"; };
+		C4FB0D791CC787A6002174AD /* IQMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMapVC.m; sourceTree = "<group>"; };
+		C4FB0D7B1CC788E7002174AD /* IQPermanentContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentContainerVC.h; sourceTree = "<group>"; };
+		C4FB0D7C1CC788E7002174AD /* IQPermanentContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPermanentContainerVC.m; sourceTree = "<group>"; };
+		C4FB0D7E1CC788FD002174AD /* IQSignificantContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantContainerVC.h; sourceTree = "<group>"; };
+		C4FB0D7F1CC788FD002174AD /* IQSignificantContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantContainerVC.m; sourceTree = "<group>"; };
 		C4FFF0C51CC6370C004E2A8A /* IQPermanentLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQPermanentLocation.h; path = ../IQLocationManager/IQPermanentLocation.h; sourceTree = "<group>"; };
 		C4FFF0C61CC6370C004E2A8A /* IQPermanentLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQPermanentLocation.m; path = ../IQLocationManager/IQPermanentLocation.m; sourceTree = "<group>"; };
 		C4FFF0CC1CC6410C004E2A8A /* IQPermanentLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentLocationVC.h; sourceTree = "<group>"; };
@@ -99,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */,
 				C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */,
 				6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */,
 				669F6BAF199D1D1100B88AAE /* CoreGraphics.framework in Frameworks */,
@@ -144,6 +162,7 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C42C00F21CC796DC003A162B /* MapKit.framework */,
 				C41361731CBFF6D500836E58 /* CoreMotion.framework */,
 				6697E09719A4A22F0081F165 /* CoreLocation.framework */,
 				669F6BAC199D1D1100B88AAE /* Foundation.framework */,
@@ -162,10 +181,10 @@
 				669F6BBE199D1D1100B88AAE /* Main.storyboard */,
 				669F6BC1199D1D1100B88AAE /* IQViewController.h */,
 				669F6BC2199D1D1100B88AAE /* IQViewController.m */,
-				C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */,
-				C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */,
-				C4FFF0CC1CC6410C004E2A8A /* IQPermanentLocationVC.h */,
-				C4FFF0CD1CC6410C004E2A8A /* IQPermanentLocationVC.m */,
+				C4FB0D781CC787A6002174AD /* IQMapVC.h */,
+				C4FB0D791CC787A6002174AD /* IQMapVC.m */,
+				C4FB0D811CC78901002174AD /* SignificantVCs */,
+				C4FB0D821CC78911002174AD /* PermanentVCs */,
 				669F6BC4199D1D1100B88AAE /* Images.xcassets */,
 				669F6BB3199D1D1100B88AAE /* Supporting Files */,
 			);
@@ -221,6 +240,32 @@
 				C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */,
 			);
 			name = IQLocationManager;
+			sourceTree = "<group>";
+		};
+		C4FB0D811CC78901002174AD /* SignificantVCs */ = {
+			isa = PBXGroup;
+			children = (
+				C4FB0D7E1CC788FD002174AD /* IQSignificantContainerVC.h */,
+				C4FB0D7F1CC788FD002174AD /* IQSignificantContainerVC.m */,
+				C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */,
+				C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */,
+				C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */,
+				C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */,
+			);
+			name = SignificantVCs;
+			sourceTree = "<group>";
+		};
+		C4FB0D821CC78911002174AD /* PermanentVCs */ = {
+			isa = PBXGroup;
+			children = (
+				C4FB0D7B1CC788E7002174AD /* IQPermanentContainerVC.h */,
+				C4FB0D7C1CC788E7002174AD /* IQPermanentContainerVC.m */,
+				C4FFF0CC1CC6410C004E2A8A /* IQPermanentLocationVC.h */,
+				C4FFF0CD1CC6410C004E2A8A /* IQPermanentLocationVC.m */,
+				C42C00EC1CC7927D003A162B /* IQPermanentMapVC.h */,
+				C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */,
+			);
+			name = PermanentVCs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -325,15 +370,20 @@
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */,
 				C4FFF0CE1CC6410C004E2A8A /* IQPermanentLocationVC.m in Sources */,
+				C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */,
 				C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
+				C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */,
 				C497A5571CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
+				C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */,
 				669F6BB9199D1D1100B88AAE /* main.m in Sources */,
+				C4FB0D7D1CC788E7002174AD /* IQPermanentContainerVC.m in Sources */,
 				C4FFF0D11CC66C6F004E2A8A /* IQTracker.m in Sources */,
 				C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
 				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,
+				C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

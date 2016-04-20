@@ -79,17 +79,16 @@ static IQTracker *_iqTracker;
                 
             } else {
                 NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                if (seconds > 180) { // 3 minuts since last correct activity -> stop
+                if (seconds > 120) { // 2 minuts since last correct activity -> close current track
                     [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
                     [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
                     [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
                     NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrack);
                     // TODO: save to model                    
-                    // TODO: start new tracking
+                    // TODO: start new track
                     
                 }
             }
-            
         } else {
             // check errors
         }
