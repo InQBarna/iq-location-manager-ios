@@ -63,7 +63,7 @@
 //    }];
     
     [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
-                                                                                      accuracy:kCLLocationAccuracyBest
+                                                                                      accuracy:kCLLocationAccuracyBestForNavigation
                                                                                 distanceFilter:100.0
                                                                                   activityType:CLActivityTypeAutomotiveNavigation
                                                                allowsBackgroundLocationUpdates:YES
@@ -125,6 +125,9 @@
     if (indexPath.section == 0) {
         CLLocation *location = self.locations[indexPath.row];
         cell.textLabel.text = [NSString stringWithFormat:@"%ld. lat: %f - lon: %f", (long)indexPath.row, location.coordinate.latitude, location.coordinate.longitude];
+        cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                                                   dateStyle:NSDateFormatterShortStyle
+                                                                   timeStyle:NSDateFormatterShortStyle];
         
     } else {
         CMMotionActivity *activity = self.activities[indexPath.row];
