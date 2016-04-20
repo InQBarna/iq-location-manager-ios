@@ -76,21 +76,21 @@
 - (void)startMonitoring
 {
     __weak __typeof(self) welf = self;
-//    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-//        if (result != kIQMotionActivityResultNotAvailable && result != kIQMotionActivityResultNoResult) {
-//            NSMutableArray *temp = welf.activities.mutableCopy;
-//            if (!temp) {
-//                temp = [NSMutableArray array];
-//            }
-//            [temp addObject:activity];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                welf.activities = temp.copy;
-//                [self.tableView reloadData];
-//            });
-//        } else {
-//            NSLog(@"startActivityMonitoringWithUpdateBlock :: %li", (long)result);
-//        }
-//    }];
+    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
+        if (result != kIQMotionActivityResultNotAvailable && result != kIQMotionActivityResultNoResult) {
+            NSMutableArray *temp = welf.activities.mutableCopy;
+            if (!temp) {
+                temp = [NSMutableArray array];
+            }
+            [temp addObject:activity];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                welf.activities = temp.copy;
+                [self.tableView reloadData];
+            });
+        } else {
+            NSLog(@"startActivityMonitoringWithUpdateBlock :: %li", (long)result);
+        }
+    }];
     
     [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                       accuracy:kCLLocationAccuracyBestForNavigation
@@ -122,7 +122,7 @@
 
 - (void)stopMonitoring
 {
-//    [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+    [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
     [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
 }
 

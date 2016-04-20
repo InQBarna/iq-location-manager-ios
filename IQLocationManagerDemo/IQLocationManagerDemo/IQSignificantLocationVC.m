@@ -89,50 +89,50 @@
 
 - (void)startMonitoring
 {
-    __weak __typeof(self) welf = self;
-    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-        if (result != kIQMotionActivityResultNotAvailable && result != kIQMotionActivityResultNoResult) {
-            NSMutableArray *temp = welf.activities.mutableCopy;
-            if (!temp) {
-                temp = [NSMutableArray array];
-            }
-            [temp addObject:activity];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                welf.activities = temp.copy;
-                [self.tableView reloadData];
-            });
-        } else {
-            NSLog(@"startActivityMonitoringWithUpdateBlock :: %li", (long)result);
-        }
-    }];
+//    __weak __typeof(self) welf = self;
+//    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
+//        if (result != kIQMotionActivityResultNotAvailable && result != kIQMotionActivityResultNoResult) {
+//            NSMutableArray *temp = welf.activities.mutableCopy;
+//            if (!temp) {
+//                temp = [NSMutableArray array];
+//            }
+//            [temp addObject:activity];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                welf.activities = temp.copy;
+//                [self.tableView reloadData];
+//            });
+//        } else {
+//            NSLog(@"startActivityMonitoringWithUpdateBlock :: %li", (long)result);
+//        }
+//    }];
     
-    [[IQSignificantLocationChanges sharedManager] startMonitoringLocationWithSoftAccessRequest:YES
-                                                                                        update:^(CLLocation *locationOrNil, IQLocationResult result) {
-                                                                                            if (result == kIQLocationResultFound && locationOrNil) {
-                                                                                                NSMutableArray *temp1 = welf.locations.mutableCopy;
-                                                                                                NSMutableArray *temp2 = welf.locationDates.mutableCopy;
-                                                                                                if (!temp1) {
-                                                                                                    temp1 = [NSMutableArray array];
-                                                                                                }
-                                                                                                if (!temp2) {
-                                                                                                    temp2 = [NSMutableArray array];
-                                                                                                }
-                                                                                                
-                                                                                                [temp1 addObject:locationOrNil];
-                                                                                                [temp2 addObject:[NSDate date]];
-                                                                                                dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                                    welf.locations = temp1.copy;
-                                                                                                    welf.locationDates = temp2.copy;
-                                                                                                    [self.tableView reloadData];
-                                                                                                });
-                                                                                            }
-                                                                                        }];
+//    [[IQSignificantLocationChanges sharedManager] startMonitoringLocationWithSoftAccessRequest:YES
+//                                                                                        update:^(CLLocation *locationOrNil, IQLocationResult result) {
+//                                                                                            if (result == kIQLocationResultFound && locationOrNil) {
+//                                                                                                NSMutableArray *temp1 = welf.locations.mutableCopy;
+//                                                                                                NSMutableArray *temp2 = welf.locationDates.mutableCopy;
+//                                                                                                if (!temp1) {
+//                                                                                                    temp1 = [NSMutableArray array];
+//                                                                                                }
+//                                                                                                if (!temp2) {
+//                                                                                                    temp2 = [NSMutableArray array];
+//                                                                                                }
+//                                                                                                
+//                                                                                                [temp1 addObject:locationOrNil];
+//                                                                                                [temp2 addObject:[NSDate date]];
+//                                                                                                dispatch_async(dispatch_get_main_queue(), ^{
+//                                                                                                    welf.locations = temp1.copy;
+//                                                                                                    welf.locationDates = temp2.copy;
+//                                                                                                    [self.tableView reloadData];
+//                                                                                                });
+//                                                                                            }
+//                                                                                        }];
 }
 
 - (void)stopMonitoring
 {
-    [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
-    [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
+//    [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+//    [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
 }
 
 #pragma mark UITableView DataSource Methods
