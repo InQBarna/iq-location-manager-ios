@@ -36,6 +36,9 @@
 {
     if ([sender.titleLabel.text isEqualToString:@"start"]) {
         [sender setTitle:@"stop" forState:UIControlStateNormal];
+        self.locationDates = [NSArray array];
+        self.locations = [NSArray array];
+        self.activities = [NSArray array];
         [self startMonitoring];
         [self getBatteryLevelInitial:YES];
     } else if ([sender.titleLabel.text isEqualToString:@"stop"]) {
