@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView    *tableView;
 @property (strong, nonatomic) NSArray               *activities;
+@property (strong, nonatomic) NSArray               *locationDates;
 
 @end
 
@@ -68,14 +69,21 @@
                                                                allowsBackgroundLocationUpdates:YES
                                                             pausesLocationUpdatesAutomatically:YES
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
-                                                                                            if (result == kIQLocationResultFound) {
-                                                                                                NSMutableArray *temp = welf.locations.mutableCopy;
-                                                                                                if (!temp) {
-                                                                                                    temp = [NSMutableArray array];
+                                                                                            if (result == kIQLocationResultFound && locationOrNil) {
+                                                                                                NSMutableArray *temp1 = welf.locations.mutableCopy;
+                                                                                                NSMutableArray *temp2 = welf.locationDates.mutableCopy;
+                                                                                                if (!temp1) {
+                                                                                                    temp1 = [NSMutableArray array];
                                                                                                 }
-                                                                                                [temp addObject:locationOrNil];
+                                                                                                if (!temp2) {
+                                                                                                    temp2 = [NSMutableArray array];
+                                                                                                }
+                                                                                                
+                                                                                                [temp1 addObject:locationOrNil];
+                                                                                                [temp2 addObject:[NSDate date]];
                                                                                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                                                                                    welf.locations = temp.copy;
+                                                                                                    welf.locations = temp1.copy;
+                                                                                                    welf.locationDates = temp2.copy;
                                                                                                     [self.tableView reloadData];
                                                                                                 });
                                                                                             }
@@ -124,7 +132,8 @@
     if (indexPath.section == 0) {
         CLLocation *location = self.locations[indexPath.row];
         cell.textLabel.text = [NSString stringWithFormat:@"%ld. lat: %f - lon: %f", (long)indexPath.row, location.coordinate.latitude, location.coordinate.longitude];
-        cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:[NSDate date]
+        NSDate *date = self.locationDates[indexPath.row];
+        cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:date
                                                                    dateStyle:NSDateFormatterShortStyle
                                                                    timeStyle:NSDateFormatterShortStyle];
         
