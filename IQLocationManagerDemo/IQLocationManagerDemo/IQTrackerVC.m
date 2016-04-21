@@ -117,7 +117,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"Tracks";
+    return @"TrackPoints";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -136,11 +136,11 @@
     
     IQTrackPoint *t = self.tracks[indexPath.row];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [t.activity motionTypeStrings], [NSDateFormatter localizedStringFromDate:t.date
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld. %@ %@", (long)indexPath.row, [t.activity motionTypeStrings], [NSDateFormatter localizedStringFromDate:t.date
                                                                                                                                 dateStyle:NSDateFormatterShortStyle
                                                                                                                                 timeStyle:NSDateFormatterShortStyle]];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld. lat: %.4f - lon: %.4f", (long)indexPath.row, t.location.coordinate.latitude, t.location.coordinate.longitude];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, lat: %f - lon: %f", [t.activity confidenceString], t.location.coordinate.latitude, t.location.coordinate.longitude];
     
     return cell;
 }

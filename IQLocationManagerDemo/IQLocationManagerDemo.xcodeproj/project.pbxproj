@@ -198,7 +198,7 @@
 				C4FB0D791CC787A6002174AD /* IQMapVC.m */,
 				C4FB0D811CC78901002174AD /* SignificantVCs */,
 				C4FB0D821CC78911002174AD /* PermanentVCs */,
-				C46B87BC1CC8D1D000D43262 /* Tracker */,
+				C46B87BC1CC8D1D000D43262 /* TrackerVCs */,
 				669F6BC4199D1D1100B88AAE /* Images.xcassets */,
 				669F6BB3199D1D1100B88AAE /* Supporting Files */,
 			);
@@ -257,7 +257,7 @@
 			name = IQLocationManager;
 			sourceTree = "<group>";
 		};
-		C46B87BC1CC8D1D000D43262 /* Tracker */ = {
+		C46B87BC1CC8D1D000D43262 /* TrackerVCs */ = {
 			isa = PBXGroup;
 			children = (
 				C46B87BD1CC8D1FE00D43262 /* IQTrackerContainerVC.h */,
@@ -267,7 +267,7 @@
 				C46B87C31CC8D23500D43262 /* IQTrackerMapVC.h */,
 				C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */,
 			);
-			name = Tracker;
+			name = TrackerVCs;
 			sourceTree = "<group>";
 		};
 		C46B87C61CC8E0CC00D43262 /* Model */ = {

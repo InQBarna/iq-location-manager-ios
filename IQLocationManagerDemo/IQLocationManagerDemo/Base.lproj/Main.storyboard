@@ -291,7 +291,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dli-G9-HtR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="726" y="1528"/>
+            <point key="canvasLocation" x="937" y="1528"/>
         </scene>
         <!--Tracker-->
         <scene sceneID="4Cd-di-BcV">
@@ -318,7 +318,6 @@
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fG2-YX-C9E" firstAttribute="top" secondItem="KEb-2n-Qe6" secondAttribute="bottom" id="0jx-yv-mUM"/>
                             <constraint firstAttribute="trailing" secondItem="d2R-Tq-gb2" secondAttribute="trailing" id="1o4-rl-wWh"/>
@@ -344,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qrl-21-QQL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1166" y="1528"/>
+            <point key="canvasLocation" x="1377" y="1528"/>
         </scene>
         <!--Permanent-->
         <scene sceneID="bcb-5n-lB8">
@@ -372,13 +371,12 @@
                     <tabBar key="tabBar" contentMode="scaleToFill" id="zcc-mQ-f6K">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="fQl-gy-Lmz" kind="relationship" relationship="viewControllers" id="5Ak-19-jTF"/>
-                        <segue destination="nvN-We-3pd" kind="relationship" relationship="viewControllers" id="e2M-hQ-ivJ"/>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="kY0-gr-sK3"/>
                         <segue destination="oaw-4F-S0K" kind="relationship" relationship="viewControllers" id="pmZ-WI-FwZ"/>
+                        <segue destination="nvN-We-3pd" kind="relationship" relationship="viewControllers" id="e2M-hQ-ivJ"/>
+                        <segue destination="fQl-gy-Lmz" kind="relationship" relationship="viewControllers" id="5Ak-19-jTF"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="viewControllers" id="kY0-gr-sK3"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JPj-kh-xVa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -489,7 +487,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pnn-GN-ugG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1602" y="1215.5"/>
+            <point key="canvasLocation" x="1813" y="1215.5"/>
         </scene>
         <!--TrackerVC-->
         <scene sceneID="G51-sX-lBG">
@@ -539,7 +537,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Unk-fi-AjU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1602" y="1853.5"/>
+            <point key="canvasLocation" x="1813" y="1853.5"/>
         </scene>
     </scenes>
 </document>
