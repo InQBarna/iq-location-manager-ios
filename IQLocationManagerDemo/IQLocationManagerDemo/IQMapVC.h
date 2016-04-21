@@ -11,5 +11,6 @@
 @interface IQMapVC : UIViewController
 
 - (void)addLocations:(NSArray *)locations;
+- (void)addTracks:(NSArray *)tracks;
 
 @end

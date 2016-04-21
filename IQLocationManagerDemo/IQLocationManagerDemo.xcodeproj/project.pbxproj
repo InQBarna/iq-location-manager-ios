@@ -29,6 +29,11 @@
 		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
 		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
 		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
+		C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */; };
+		C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */; };
+		C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */; };
+		C46B87C91CC8E0E300D43262 /* IQTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C81CC8E0E300D43262 /* IQTrack.m */; };
+		C46B87CA1CC8E0EA00D43262 /* IQTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C81CC8E0E300D43262 /* IQTrack.m */; };
 		C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */; };
 		C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
 		C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
@@ -89,6 +94,14 @@
 		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
 		C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantMapVC.m; sourceTree = "<group>"; };
 		C42C00F21CC796DC003A162B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C46B87BD1CC8D1FE00D43262 /* IQTrackerContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerContainerVC.h; sourceTree = "<group>"; };
+		C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerContainerVC.m; sourceTree = "<group>"; };
+		C46B87C01CC8D21B00D43262 /* IQTrackerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerVC.h; sourceTree = "<group>"; };
+		C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerVC.m; sourceTree = "<group>"; };
+		C46B87C31CC8D23500D43262 /* IQTrackerMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerMapVC.h; sourceTree = "<group>"; };
+		C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerMapVC.m; sourceTree = "<group>"; };
+		C46B87C71CC8E0E300D43262 /* IQTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQTrack.h; path = ../IQLocationManager/IQTrack.h; sourceTree = "<group>"; };
+		C46B87C81CC8E0E300D43262 /* IQTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQTrack.m; path = ../IQLocationManager/IQTrack.m; sourceTree = "<group>"; };
 		C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantLocationVC.h; sourceTree = "<group>"; };
 		C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantLocationVC.m; sourceTree = "<group>"; };
 		C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+IQ.h"; path = "../IQLocationManager/CMMotionActivity+IQ.h"; sourceTree = "<group>"; };
@@ -185,6 +198,7 @@
 				C4FB0D791CC787A6002174AD /* IQMapVC.m */,
 				C4FB0D811CC78901002174AD /* SignificantVCs */,
 				C4FB0D821CC78911002174AD /* PermanentVCs */,
+				C46B87BC1CC8D1D000D43262 /* Tracker */,
 				669F6BC4199D1D1100B88AAE /* Images.xcassets */,
 				669F6BB3199D1D1100B88AAE /* Supporting Files */,
 			);
@@ -238,8 +252,31 @@
 				C4FFF0D01CC66C6F004E2A8A /* IQTracker.m */,
 				C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */,
 				C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */,
+				C46B87C61CC8E0CC00D43262 /* Model */,
 			);
 			name = IQLocationManager;
+			sourceTree = "<group>";
+		};
+		C46B87BC1CC8D1D000D43262 /* Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				C46B87BD1CC8D1FE00D43262 /* IQTrackerContainerVC.h */,
+				C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */,
+				C46B87C01CC8D21B00D43262 /* IQTrackerVC.h */,
+				C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */,
+				C46B87C31CC8D23500D43262 /* IQTrackerMapVC.h */,
+				C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */,
+			);
+			name = Tracker;
+			sourceTree = "<group>";
+		};
+		C46B87C61CC8E0CC00D43262 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C46B87C71CC8E0E300D43262 /* IQTrack.h */,
+				C46B87C81CC8E0E300D43262 /* IQTrack.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C4FB0D811CC78901002174AD /* SignificantVCs */ = {
@@ -367,12 +404,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */,
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */,
 				C4FFF0CE1CC6410C004E2A8A /* IQPermanentLocationVC.m in Sources */,
 				C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */,
 				C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
+				C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */,
 				C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
+				C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */,
 				C497A5571CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
@@ -383,6 +423,7 @@
 				C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
 				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,
+				C46B87C91CC8E0E300D43262 /* IQTrack.m in Sources */,
 				C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -396,6 +437,7 @@
 				C4FFF0D21CC66C6F004E2A8A /* IQTracker.m in Sources */,
 				C4FFF0C81CC63714004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BD8199D1D1100B88AAE /* IQLocationManagerDemoTests.m in Sources */,
+				C46B87CA1CC8E0EA00D43262 /* IQTrack.m in Sources */,
 				C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,6 +8,10 @@
 
 #import "IQMapVC.h"
 
+#import "IQTrack.h"
+#import "CMMotionActivity+IQ.h"
+
+#import <CoreMotion/CoreMotion.h>
 #import <MapKit/MapKit.h>
 
 @interface IQMapVC () <MKMapViewDelegate>
@@ -37,6 +41,25 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)addTracks:(NSArray *)tracks
+{
+    [self.mapView removeOverlays:self.mapView.overlays];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    IQTrack *current;
+    CLLocationCoordinate2D coordinates[tracks.count];
+    for (int i = 0; i < tracks.count; i++) {
+        current = tracks[i];
+        coordinates[i] = current.location.coordinate;
+    }
+    
+    MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:tracks.count];
+    [self.mapView setVisibleMapRect:route.boundingMapRect animated:NO];
+    [self.mapView addOverlay:route];
+    
+    [self.mapView addAnnotations:tracks];
+}
 
 - (void)addLocations:(NSArray *)locations
 {
@@ -89,6 +112,26 @@
     MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:locations.count];
     [self.mapView setVisibleMapRect:route.boundingMapRect animated:NO];
     [self.mapView addOverlay:route];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    MKAnnotationView *annotationView;
+    if ([annotation isKindOfClass:[IQTrack class]]) {        
+        MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
+        if ([(IQTrack *)annotation activity].running || [(IQTrack *)annotation activity].walking) {
+            annView.pinColor = MKPinAnnotationColorRed;
+        } else if ([(IQTrack *)annotation activity].automotive) {
+            annView.pinColor = MKPinAnnotationColorPurple;
+        } else if ([(IQTrack *)annotation activity].cycling) {
+            annView.pinColor = MKPinAnnotationColorGreen;
+        }
+        return annView;
+        
+    } else {
+        annotationView = nil;
+    }
+    return annotationView;
 }
 
 - (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay
