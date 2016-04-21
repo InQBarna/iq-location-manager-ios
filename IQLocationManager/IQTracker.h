@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class IQTrack;
+@class IQTrackPoint;
 
 typedef NS_ENUM(NSInteger, IQTrackerResult) {
     kIQTrackerResultError,
@@ -18,6 +18,15 @@ typedef NS_ENUM(NSInteger, IQTrackerResult) {
     kIQTrackerResultFound,
 };
 
+extern const struct IQMotionActivityTypes {
+    __unsafe_unretained NSString * stationary;
+    __unsafe_unretained NSString * walking;
+    __unsafe_unretained NSString * running;
+    __unsafe_unretained NSString * automotive;
+    __unsafe_unretained NSString * cycling;
+    __unsafe_unretained NSString * unknown;
+} IQMotionActivityType;
+
 @interface IQTracker : NSObject
 
 + (IQTracker *)sharedManager;
@@ -25,7 +34,7 @@ typedef NS_ENUM(NSInteger, IQTrackerResult) {
                      completion:(void (^)(NSDictionary *track, IQTrackerResult result))completion;
 
 - (void)startLIVETrackerForActivity:(NSString *)activityString
-                             update:(void (^)(IQTrack *t, IQTrackerResult result))updateBlock;
+                             update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock;
 
 - (void)stopTracker;
 

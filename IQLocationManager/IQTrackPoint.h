@@ -1,5 +1,5 @@
 //
-//  IQTrack.h
+//  IQTrackPoint.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 21/04/16.
@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface IQTrack : NSObject <MKAnnotation>
+@interface IQTrackPoint : NSObject <MKAnnotation>
 
 @property (nonatomic, strong) CMMotionActivity      *activity;
 @property (nonatomic, strong) CLLocation            *location;

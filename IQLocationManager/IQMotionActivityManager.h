@@ -17,15 +17,6 @@ typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
     kIQMotionActivityResultFound,
 };
 
-extern const struct IQMotionActivityTypes {
-    __unsafe_unretained NSString * stationary;
-    __unsafe_unretained NSString * walking;
-    __unsafe_unretained NSString * running;
-    __unsafe_unretained NSString * automotive;
-    __unsafe_unretained NSString * cycling;
-    __unsafe_unretained NSString * unknown;
-} IQMotionActivityType;
-
 @interface IQMotionActivityManager : NSObject
 
 + (IQMotionActivityManager *)sharedManager;

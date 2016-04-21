@@ -1,16 +1,16 @@
 //
-//  IQTrack.m
+//  IQTrackPoint.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 21/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "IQTrack.h"
+#import "IQTrackPoint.h"
 
 #import "CMMotionActivity+IQ.h"
 
-@implementation IQTrack
+@implementation IQTrackPoint
 
 - (instancetype)initWithActivity:(CMMotionActivity *)activity location:(CLLocation *)location
 {

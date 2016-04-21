@@ -8,7 +8,7 @@
 
 #import "IQMapVC.h"
 
-#import "IQTrack.h"
+#import "IQTrackPoint.h"
 #import "CMMotionActivity+IQ.h"
 
 #import <CoreMotion/CoreMotion.h>
@@ -47,7 +47,7 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    IQTrack *current;
+    IQTrackPoint *current;
     CLLocationCoordinate2D coordinates[tracks.count];
     for (int i = 0; i < tracks.count; i++) {
         current = tracks[i];
@@ -117,13 +117,13 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView *annotationView;
-    if ([annotation isKindOfClass:[IQTrack class]]) {        
+    if ([annotation isKindOfClass:[IQTrackPoint class]]) {        
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-        if ([(IQTrack *)annotation activity].running || [(IQTrack *)annotation activity].walking) {
+        if ([(IQTrackPoint *)annotation activity].running || [(IQTrackPoint *)annotation activity].walking) {
             annView.pinColor = MKPinAnnotationColorRed;
-        } else if ([(IQTrack *)annotation activity].automotive) {
+        } else if ([(IQTrackPoint *)annotation activity].automotive) {
             annView.pinColor = MKPinAnnotationColorPurple;
-        } else if ([(IQTrack *)annotation activity].cycling) {
+        } else if ([(IQTrackPoint *)annotation activity].cycling) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
         return annView;

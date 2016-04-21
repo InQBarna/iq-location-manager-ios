@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "IQTracker.h"
-#import "IQTrack.h"
+#import "IQTrackPoint.h"
 #import "CMMotionActivity+IQ.h"
 
 @interface IQTrackerVC ()
@@ -89,7 +89,7 @@
 {
     __weak __typeof(self) welf = self;
     [[IQTracker sharedManager] startLIVETrackerForActivity:nil
-                                                    update:^(IQTrack *t, IQTrackerResult result) {
+                                                    update:^(IQTrackPoint *t, IQTrackerResult result) {
                                                         if (result == kIQTrackerResultFound && t) {
                                                             NSMutableArray *temp = welf.tracks.mutableCopy;
                                                             if (!temp) {
@@ -134,7 +134,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    IQTrack *t = self.tracks[indexPath.row];
+    IQTrackPoint *t = self.tracks[indexPath.row];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [t.activity motionTypeStrings], [NSDateFormatter localizedStringFromDate:t.date
                                                                                                                                 dateStyle:NSDateFormatterShortStyle

@@ -11,16 +11,24 @@
 #import "IQMotionActivityManager.h"
 #import "IQPermanentLocation.h"
 #import "IQSignificantLocationChanges.h"
-#import "IQTrack.h"
+#import "IQTrackPoint.h"
 
 #import "CMMotionActivity+IQ.h"
 #import <CoreMotion/CoreMotion.h>
 
+const struct IQMotionActivityTypes IQMotionActivityType = {
+    .stationary     = @"stationary",
+    .walking        = @"walking",
+    .running        = @"running",
+    .automotive     = @"automotive",
+    .cycling        = @"cycling",
+    .unknown        = @"unknown",
+};
+
 @interface IQTracker()
 
-@property (nonatomic, strong) NSMutableArray        *currentLocations;
-@property (nonatomic, strong) NSMutableDictionary   *currentTrack;
 @property (nonatomic, assign) BOOL                  locationMonitoringStarted;
+@property (nonatomic, strong) NSMutableArray        *currentTrackPoints;
 
 @end
 
@@ -55,30 +63,119 @@ static IQTracker *_iqTracker;
 - (void)startTrackerForActivity:(NSString *)activityString
                      completion:(void (^)(NSDictionary *track, IQTrackerResult result))completion
 {
-    self.currentTrack = [NSMutableDictionary dictionary];
-    self.currentLocations = [NSMutableArray array];
-    __block CMMotionActivity *firstActivity;
-    __block CMMotionActivity *lastActivity;
+//    self.currentTrack = [NSMutableDictionary dictionary];
+//    self.currentLocations = [NSMutableArray array];
+//    __block CMMotionActivity *firstActivity;
+//    __block CMMotionActivity *lastActivity;
+//
+//    __weak __typeof(self) welf = self;
+//    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
+//        
+//        if (activity) {
+//            if (activityString) {
+//                if ([activity containsActivityType:activityString]) {
+//                    lastActivity = activity;
+//                    if (!welf.locationMonitoringStarted) {
+//                        welf.locationMonitoringStarted = YES;
+//                        firstActivity = activity;
+//                        [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
+//                                                                                                          accuracy:kCLLocationAccuracyBestForNavigation
+//                                                                                                    distanceFilter:100.0
+//                                                                                                      activityType:CLActivityTypeAutomotiveNavigation
+//                                                                                   allowsBackgroundLocationUpdates:YES
+//                                                                                pausesLocationUpdatesAutomatically:YES
+//                                                                                                            update:^(CLLocation *locationOrNil, IQLocationResult result) {
+//                                                                                                                if (locationOrNil && result == kIQLocationResultFound) {
+//                                                                                                                    [welf.currentLocations addObject:locationOrNil];
+//                                                                                                                } else {
+//                                                                                                                    // check errors
+//                                                                                                                }
+//                                                                                                            }];
+//                    }
+//                    
+//                } else {
+//                    NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
+//                    if (seconds > 120) { // 2 minuts since last correct activity -> close current track
+//                        [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
+//                        [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
+//                        [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
+//                        NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrack);
+//                        // TODO: save to model
+//                        // TODO: start new track
+//                        
+//                    }
+//                }
+//            } else {
+//                
+//            }
+//        } else {
+//            // check errors
+//        }
+//    }];
+}
 
+- (void)startLIVETrackerForActivity:(NSString *)activityString
+                             update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+{
+    __block CMMotionActivity *currentActivity;
+    __block CMMotionActivity *lastActivity;
+    
+    CLLocationAccuracy desiredAccuracy;
+    CLLocationDistance distanceFilter;
+    CLActivityType activityType;
+    BOOL pausesLocationUpdatesAutomatically;
+    
+    if ([activityString isEqualToString:IQMotionActivityType.automotive]) {
+        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        distanceFilter = 100.f;
+        activityType = CLActivityTypeAutomotiveNavigation;
+        pausesLocationUpdatesAutomatically = YES;
+    
+    } else if ([activityString isEqualToString:IQMotionActivityType.walking] || [activityString isEqualToString:IQMotionActivityType.running]) {
+        desiredAccuracy = kCLLocationAccuracyBest;
+        distanceFilter = 5.f;
+        activityType = CLActivityTypeFitness;
+        pausesLocationUpdatesAutomatically = YES;
+        
+    } else if ([activityString isEqualToString:IQMotionActivityType.cycling]) {
+        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        distanceFilter = 30.f;
+        activityType = CLActivityTypeOtherNavigation;
+        pausesLocationUpdatesAutomatically = YES;
+        
+    } else {
+        // Default == Automotive
+        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        distanceFilter = 100.f;
+        activityType = CLActivityTypeAutomotiveNavigation;
+        pausesLocationUpdatesAutomatically = YES;
+        
+    }
+    
     __weak __typeof(self) welf = self;
     [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-        
         if (activity) {
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
-                    lastActivity = activity;
+                    currentActivity = activity;
                     if (!welf.locationMonitoringStarted) {
                         welf.locationMonitoringStarted = YES;
-                        firstActivity = activity;
                         [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
-                                                                                                          accuracy:kCLLocationAccuracyBestForNavigation
-                                                                                                    distanceFilter:100.0
-                                                                                                      activityType:CLActivityTypeAutomotiveNavigation
+                                                                                                          accuracy:desiredAccuracy
+                                                                                                    distanceFilter:distanceFilter
+                                                                                                      activityType:activityType
                                                                                    allowsBackgroundLocationUpdates:YES
-                                                                                pausesLocationUpdatesAutomatically:YES
+                                                                                pausesLocationUpdatesAutomatically:pausesLocationUpdatesAutomatically
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
-                                                                                                                    [welf.currentLocations addObject:locationOrNil];
+                                                                                                                    
+                                                                                                                    IQTrackPoint *t = [[IQTrackPoint alloc]
+                                                                                                                                       initWithActivity:currentActivity
+                                                                                                                                       location:locationOrNil];
+                                                                                                                    
+                                                                                                                    [welf.currentTrackPoints addObject:t];
+                                                                                                                    updateBlock(t, kIQTrackerResultFound);
+                                                                                                                    
                                                                                                                 } else {
                                                                                                                     // check errors
                                                                                                                 }
@@ -88,33 +185,15 @@ static IQTracker *_iqTracker;
                 } else {
                     NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                     if (seconds > 120) { // 2 minuts since last correct activity -> close current track
-                        [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
-                        [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
-                        [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
-                        NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrack);
+//                        [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
+//                        [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
+//                        [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
+                        NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrackPoints);
                         // TODO: save to model
                         // TODO: start new track
                         
                     }
                 }
-            } else {
-                
-            }
-        } else {
-            // check errors
-        }
-    }];
-}
-
-- (void)startLIVETrackerForActivity:(NSString *)activityString
-                             update:(void (^)(IQTrack *t, IQTrackerResult result))updateBlock
-{
-    __block CMMotionActivity *currentActivity;
-    
-    __weak __typeof(self) welf = self;
-    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-        if (activity) {
-            if (activityString) {
                 
             } else {
                 if (activity.running || activity.walking || activity.automotive || activity.cycling) {
@@ -122,15 +201,18 @@ static IQTracker *_iqTracker;
                     if (!welf.locationMonitoringStarted) {
                         welf.locationMonitoringStarted = YES;
                         [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
-                                                                                                          accuracy:kCLLocationAccuracyBest
-                                                                                                    distanceFilter:5.0
-                                                                                                      activityType:CLActivityTypeOther
+                                                                                                          accuracy:desiredAccuracy
+                                                                                                    distanceFilter:distanceFilter
+                                                                                                      activityType:activityType
                                                                                    allowsBackgroundLocationUpdates:YES
-                                                                                pausesLocationUpdatesAutomatically:YES
+                                                                                pausesLocationUpdatesAutomatically:pausesLocationUpdatesAutomatically
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrack *t = [[IQTrack alloc] initWithActivity:currentActivity location:locationOrNil];                                                                                                                    
+                                                                                                                    IQTrackPoint *t = [[IQTrackPoint alloc]
+                                                                                                                                       initWithActivity:currentActivity
+                                                                                                                                       location:locationOrNil];
+                                                                                                                    
                                                                                                                     updateBlock(t, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
