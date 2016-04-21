@@ -108,14 +108,13 @@ static IQPermanentLocation *_iqPermanentLocation;
 {
     // If it's a relatively recent event, turn off updates to save power.
     CLLocation* location = [locations lastObject];
-    //    NSDate* eventDate = location.timestamp;
-    //    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    //    if (fabs(howRecent) < 15.0) {
-    //        // If the event is recent, do something with it.
-    //
-    //        self.updateBlock(location, kIQLocationResultFound);
-    //    }
-    self.updateBlock(location, kIQLocationResultFound);
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    if (fabs(howRecent) < 60.0) {
+        // If the event is recent, do something with it.
+
+        self.updateBlock(location, kIQLocationResultFound);
+    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
