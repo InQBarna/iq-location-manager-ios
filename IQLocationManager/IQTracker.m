@@ -99,6 +99,7 @@ static IQTracker *_iqTracker;
 {
     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
     [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
+    // TODO: save to model  
 }
 
 @end
