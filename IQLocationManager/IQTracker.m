@@ -188,6 +188,8 @@ static IQTracker *_iqTracker;
                         deflectionCounter++;
                         if (deflectionCounter == 3) {
                             // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
+                            [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
+                            self.locationMonitoringStarted = NO;
                             [welf saveCurrentTrack];
                             
                         }
@@ -195,6 +197,8 @@ static IQTracker *_iqTracker;
                         NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:currentActivity.startDate];
                         if (seconds > 120) {
                             // 2 minuts since last correct activity -> close current track
+                            [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
+                            self.locationMonitoringStarted = NO;
                             [welf saveCurrentTrack];
                             
                         }
