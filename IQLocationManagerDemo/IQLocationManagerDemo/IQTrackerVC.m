@@ -184,11 +184,17 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     
     IQTrackPoint *t = self.tracks[indexPath.row];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld. %@ %@", (long)indexPath.row, [t.activity motionTypeStrings], [NSDateFormatter localizedStringFromDate:t.date
-                                                                                                                                dateStyle:NSDateFormatterShortStyle
-                                                                                                                                timeStyle:NSDateFormatterShortStyle]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld. %@ %@",
+                           (long)indexPath.row,
+                           [t activityTypeString],
+                           [NSDateFormatter localizedStringFromDate:t.date
+                                                          dateStyle:NSDateFormatterShortStyle
+                                                          timeStyle:NSDateFormatterShortStyle]];
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, lat: %f - lon: %f", [t.activity confidenceString], t.location.coordinate.latitude, t.location.coordinate.longitude];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, lat: %f - lon: %f",
+                                 [t confidenceString],
+                                 t.latitude.doubleValue,
+                                 t.longitude.doubleValue];
     
     return cell;
 }

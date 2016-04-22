@@ -1,0 +1,101 @@
+//
+//  IQTrackPoint.m
+//  IQLocationManagerDemo
+//
+//  Created by Raul Peña on 22/04/16.
+//  Copyright © 2016 InQBarna. All rights reserved.
+//
+
+#import "IQTrackPoint.h"
+#import "IQTrack.h"
+
+@implementation IQTrackPoint
+
+// Insert code here to add functionality to your managed object subclass
++ (instancetype)createWithActivity:(CMMotionActivity *)activity
+                          location:(CLLocation *)location
+                        andTrackID:(NSManagedObjectID *)trackID
+                         inContext:(NSManagedObjectContext *)ctxt
+{
+    IQTrackPoint *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+                                                    inManagedObjectContext:ctxt];
+    
+    p.date = [NSDate date];
+    
+    p.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
+    p.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
+    
+    p.unknown = [NSNumber numberWithBool:activity.unknown];
+    p.stationary = [NSNumber numberWithBool:activity.stationary];
+    p.walking = [NSNumber numberWithBool:activity.walking];
+    p.running = [NSNumber numberWithBool:activity.running];
+    p.automotive = [NSNumber numberWithBool:activity.automotive];
+    p.cycling = [NSNumber numberWithBool:activity.cycling];
+    
+    NSError *error;
+    p.track = [ctxt existingObjectWithID:trackID error:&error];
+    [ctxt save:&error];
+    if (error) {
+        return nil;
+    }
+    
+    return p;
+}
+
+- (NSString *)activityTypeString
+{
+    NSString *string = @"";
+    if (self.stationary) {
+        string = [string stringByAppendingString:@"stationary,"];
+    }
+    if (self.walking) {
+        string = [string stringByAppendingString:@"walking,"];
+    }
+    if (self.running) {
+        string = [string stringByAppendingString:@"running,"];
+    }
+    if (self.automotive) {
+        string = [string stringByAppendingString:@"automotive,"];
+    }
+    if (self.cycling) {
+        string = [string stringByAppendingString:@"cycling,"];
+    }
+    if (self.unknown) {
+        string = [string stringByAppendingString:@"unknown"];
+    }
+    if ([string isEqualToString:@""]) {
+        string = @"*not determined*";
+    }
+    return string;
+}
+
+- (NSString *)confidenceString
+{
+    NSString *string = @"";
+    if (self.confidence.integerValue == CMMotionActivityConfidenceLow) {
+        string = @"ConfidenceLow";
+    } else if (self.confidence.integerValue == CMMotionActivityConfidenceMedium) {
+        string = @"ConfidenceMedium";
+    } else if (self.confidence.integerValue == CMMotionActivityConfidenceHigh) {
+        string = @"ConfidenceHigh";
+    }
+    return string;
+}
+
+#pragma mark - MKAnnotation protocol
+- (NSString *)title
+{
+    return nil;
+}
+
+- (NSString *)subtitle
+{
+    return nil;
+}
+
+- (CLLocationCoordinate2D)coordinate
+{
+    return CLLocationCoordinate2DMake(self.latitude.doubleValue, self.longitude.doubleValue);
+}
+
+@end

@@ -51,7 +51,7 @@
     CLLocationCoordinate2D coordinates[tracks.count];
     for (int i = 0; i < tracks.count; i++) {
         current = tracks[i];
-        coordinates[i] = current.location.coordinate;
+        coordinates[i] = CLLocationCoordinate2DMake(current.latitude.doubleValue, current.longitude.doubleValue);
     }
     
     MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:tracks.count];
@@ -119,11 +119,11 @@
     MKAnnotationView *annotationView;
     if ([annotation isKindOfClass:[IQTrackPoint class]]) {        
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-        if ([(IQTrackPoint *)annotation activity].running || [(IQTrackPoint *)annotation activity].walking) {
+        if ([(IQTrackPoint *)annotation running] || [(IQTrackPoint *)annotation walking]) {
             annView.pinColor = MKPinAnnotationColorRed;
-        } else if ([(IQTrackPoint *)annotation activity].automotive) {
+        } else if ([(IQTrackPoint *)annotation automotive]) {
             annView.pinColor = MKPinAnnotationColorPurple;
-        } else if ([(IQTrackPoint *)annotation activity].cycling) {
+        } else if ([(IQTrackPoint *)annotation cycling]) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
         return annView;

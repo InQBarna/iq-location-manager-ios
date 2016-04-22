@@ -11,7 +11,10 @@
 #import "IQMotionActivityManager.h"
 #import "IQPermanentLocation.h"
 #import "IQSignificantLocationChanges.h"
+
+#import "IQTrack.h"
 #import "IQTrackPoint.h"
+#import "IQLocationDataSource.h"
 
 #import "CMMotionActivity+IQ.h"
 #import <CoreMotion/CoreMotion.h>
@@ -28,7 +31,7 @@ const struct IQMotionActivityTypes IQMotionActivityType = {
 @interface IQTracker()
 
 @property (nonatomic, assign) BOOL                  locationMonitoringStarted;
-@property (nonatomic, strong) NSMutableArray        *currentTrackPoints;
+@property (nonatomic, strong) IQTrack               *currentTrack;
 
 @end
 
@@ -157,6 +160,10 @@ static IQTracker *_iqTracker;
         if (result == kIQMotionActivityResultFound && activity) {
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
+                    if (!welf.currentTrack) {
+                        welf.currentTrack = [IQTrack createWithActivity:activity
+                                                              inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                    }
                     deflectionCounter = 0;
                     currentActivity = activity;
                     if (!welf.locationMonitoringStarted) {
@@ -170,11 +177,7 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *t = [[IQTrackPoint alloc]
-                                                                                                                                       initWithActivity:currentActivity
-                                                                                                                                       location:locationOrNil];
-                                                                                                                    
-                                                                                                                    [welf.currentTrackPoints addObject:t];
+                                                                                                                    IQTrackPoint *t = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                                                                                                     updateBlock(t, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
@@ -189,8 +192,8 @@ static IQTracker *_iqTracker;
                         if (deflectionCounter == 3) {
                             // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
                             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-                            self.locationMonitoringStarted = NO;
-                            [welf saveCurrentTrack];
+                            welf.locationMonitoringStarted = NO;
+                            [welf closeCurrentTrack];
                             
                         }
                     } else {
@@ -198,14 +201,18 @@ static IQTracker *_iqTracker;
                         if (seconds > 120) {
                             // 2 minuts since last correct activity -> close current track
                             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-                            self.locationMonitoringStarted = NO;
-                            [welf saveCurrentTrack];
+                            welf.locationMonitoringStarted = NO;
+                            [welf closeCurrentTrack];
                             
                         }
                     }
                 }
                 
             } else {
+                if (!welf.currentTrack) {
+                    welf.currentTrack = [IQTrack createWithActivity:activity
+                                                          inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                }
                 if (activity.running || activity.walking || activity.automotive || activity.cycling) {
                     currentActivity = activity;
                     if (!welf.locationMonitoringStarted) {
@@ -219,10 +226,7 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *t = [[IQTrackPoint alloc]
-                                                                                                                                       initWithActivity:currentActivity
-                                                                                                                                       location:locationOrNil];
-                                                                                                                    
+                                                                                                                    IQTrackPoint *t = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                                                                                                     updateBlock(t, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
@@ -245,12 +249,14 @@ static IQTracker *_iqTracker;
     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
     [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
     self.locationMonitoringStarted = NO;
-    [self saveCurrentTrack];
+    [self closeCurrentTrack];
 }
 
-- (void)saveCurrentTrack
+- (void)closeCurrentTrack
 {
-    // TODO: save
+    BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+    NSAssert(result, @"error closing track");
+    self.currentTrack = nil;
 }
 
 @end

@@ -26,14 +26,25 @@
 		66AB9C8D19B4825F002826AD /* IQLocationManager.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66AB9C8C19B4825F002826AD /* IQLocationManager.strings */; };
 		C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */; };
 		C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41361731CBFF6D500836E58 /* CoreMotion.framework */; };
+		C4260B861CCA609200BE509A /* IQLocationDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B851CCA609200BE509A /* IQLocationDataSource.m */; };
+		C4260B871CCA609200BE509A /* IQLocationDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B851CCA609200BE509A /* IQLocationDataSource.m */; };
+		C4260B8D1CCA618300BE509A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4260B8C1CCA618300BE509A /* CoreData.framework */; };
+		C4260B901CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C4260B8E1CCA625D00BE509A /* IQLocationModel.xcdatamodeld */; };
+		C4260B911CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C4260B8E1CCA625D00BE509A /* IQLocationModel.xcdatamodeld */; };
+		C4260B981CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B931CCA64FE00BE509A /* IQTrack+CoreDataProperties.m */; };
+		C4260B991CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B931CCA64FE00BE509A /* IQTrack+CoreDataProperties.m */; };
+		C4260B9A1CCA64FE00BE509A /* IQTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B951CCA64FE00BE509A /* IQTrack.m */; };
+		C4260B9B1CCA64FE00BE509A /* IQTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260B951CCA64FE00BE509A /* IQTrack.m */; };
+		C4260BAA1CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */; };
+		C4260BAB1CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */; };
+		C4260BAC1CCA655700BE509A /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA91CCA655700BE509A /* IQTrackPoint.m */; };
+		C4260BAD1CCA655700BE509A /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA91CCA655700BE509A /* IQTrackPoint.m */; };
 		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
 		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
 		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
 		C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */; };
 		C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */; };
 		C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */; };
-		C46B87C91CC8E0E300D43262 /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C81CC8E0E300D43262 /* IQTrackPoint.m */; };
-		C46B87CA1CC8E0EA00D43262 /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C81CC8E0E300D43262 /* IQTrackPoint.m */; };
 		C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */; };
 		C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
 		C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
@@ -89,6 +100,18 @@
 		C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQMotionActivityManager.h; path = ../IQLocationManager/IQMotionActivityManager.h; sourceTree = "<group>"; };
 		C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQMotionActivityManager.m; path = ../IQLocationManager/IQMotionActivityManager.m; sourceTree = "<group>"; };
 		C41361731CBFF6D500836E58 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C4260B841CCA609200BE509A /* IQLocationDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationDataSource.h; path = ../IQLocationManager/Model/IQLocationDataSource.h; sourceTree = "<group>"; };
+		C4260B851CCA609200BE509A /* IQLocationDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQLocationDataSource.m; path = ../IQLocationManager/Model/IQLocationDataSource.m; sourceTree = "<group>"; };
+		C4260B8C1CCA618300BE509A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C4260B8F1CCA625D00BE509A /* IQLocationModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = IQLocationModel.xcdatamodel; sourceTree = "<group>"; };
+		C4260B921CCA64FE00BE509A /* IQTrack+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "IQTrack+CoreDataProperties.h"; path = "../IQLocationManager/Model/IQTrack+CoreDataProperties.h"; sourceTree = "<group>"; };
+		C4260B931CCA64FE00BE509A /* IQTrack+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "IQTrack+CoreDataProperties.m"; path = "../IQLocationManager/Model/IQTrack+CoreDataProperties.m"; sourceTree = "<group>"; };
+		C4260B941CCA64FE00BE509A /* IQTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQTrack.h; path = ../IQLocationManager/Model/IQTrack.h; sourceTree = "<group>"; };
+		C4260B951CCA64FE00BE509A /* IQTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQTrack.m; path = ../IQLocationManager/Model/IQTrack.m; sourceTree = "<group>"; };
+		C4260BA61CCA655700BE509A /* IQTrackPoint+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "IQTrackPoint+CoreDataProperties.h"; path = "../IQLocationManager/Model/IQTrackPoint+CoreDataProperties.h"; sourceTree = "<group>"; };
+		C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "IQTrackPoint+CoreDataProperties.m"; path = "../IQLocationManager/Model/IQTrackPoint+CoreDataProperties.m"; sourceTree = "<group>"; };
+		C4260BA81CCA655700BE509A /* IQTrackPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQTrackPoint.h; path = ../IQLocationManager/Model/IQTrackPoint.h; sourceTree = "<group>"; };
+		C4260BA91CCA655700BE509A /* IQTrackPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQTrackPoint.m; path = ../IQLocationManager/Model/IQTrackPoint.m; sourceTree = "<group>"; };
 		C42C00EC1CC7927D003A162B /* IQPermanentMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentMapVC.h; sourceTree = "<group>"; };
 		C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPermanentMapVC.m; sourceTree = "<group>"; };
 		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
@@ -100,8 +123,6 @@
 		C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerVC.m; sourceTree = "<group>"; };
 		C46B87C31CC8D23500D43262 /* IQTrackerMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerMapVC.h; sourceTree = "<group>"; };
 		C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerMapVC.m; sourceTree = "<group>"; };
-		C46B87C71CC8E0E300D43262 /* IQTrackPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQTrackPoint.h; path = ../IQLocationManager/IQTrackPoint.h; sourceTree = "<group>"; };
-		C46B87C81CC8E0E300D43262 /* IQTrackPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQTrackPoint.m; path = ../IQLocationManager/IQTrackPoint.m; sourceTree = "<group>"; };
 		C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantLocationVC.h; sourceTree = "<group>"; };
 		C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantLocationVC.m; sourceTree = "<group>"; };
 		C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+IQ.h"; path = "../IQLocationManager/CMMotionActivity+IQ.h"; sourceTree = "<group>"; };
@@ -129,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4260B8D1CCA618300BE509A /* CoreData.framework in Frameworks */,
 				C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */,
 				C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */,
 				6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */,
@@ -175,6 +197,7 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C4260B8C1CCA618300BE509A /* CoreData.framework */,
 				C42C00F21CC796DC003A162B /* MapKit.framework */,
 				C41361731CBFF6D500836E58 /* CoreMotion.framework */,
 				6697E09719A4A22F0081F165 /* CoreLocation.framework */,
@@ -252,9 +275,25 @@
 				C4FFF0D01CC66C6F004E2A8A /* IQTracker.m */,
 				C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */,
 				C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */,
-				C46B87C61CC8E0CC00D43262 /* Model */,
+				C46B87C61CC8E0CC00D43262 /* DataSource */,
 			);
 			name = IQLocationManager;
+			sourceTree = "<group>";
+		};
+		C4260BAE1CCA697300BE509A /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				C4260BA61CCA655700BE509A /* IQTrackPoint+CoreDataProperties.h */,
+				C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */,
+				C4260BA81CCA655700BE509A /* IQTrackPoint.h */,
+				C4260BA91CCA655700BE509A /* IQTrackPoint.m */,
+				C4260B921CCA64FE00BE509A /* IQTrack+CoreDataProperties.h */,
+				C4260B931CCA64FE00BE509A /* IQTrack+CoreDataProperties.m */,
+				C4260B941CCA64FE00BE509A /* IQTrack.h */,
+				C4260B951CCA64FE00BE509A /* IQTrack.m */,
+				C4260B8E1CCA625D00BE509A /* IQLocationModel.xcdatamodeld */,
+			);
+			name = CoreDataModel;
 			sourceTree = "<group>";
 		};
 		C46B87BC1CC8D1D000D43262 /* TrackerVCs */ = {
@@ -270,13 +309,14 @@
 			name = TrackerVCs;
 			sourceTree = "<group>";
 		};
-		C46B87C61CC8E0CC00D43262 /* Model */ = {
+		C46B87C61CC8E0CC00D43262 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				C46B87C71CC8E0E300D43262 /* IQTrackPoint.h */,
-				C46B87C81CC8E0E300D43262 /* IQTrackPoint.m */,
+				C4260B841CCA609200BE509A /* IQLocationDataSource.h */,
+				C4260B851CCA609200BE509A /* IQLocationDataSource.m */,
+				C4260BAE1CCA697300BE509A /* CoreDataModel */,
 			);
-			name = Model;
+			name = DataSource;
 			sourceTree = "<group>";
 		};
 		C4FB0D811CC78901002174AD /* SignificantVCs */ = {
@@ -405,25 +445,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */,
+				C4260B9A1CCA64FE00BE509A /* IQTrack.m in Sources */,
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */,
 				C4FFF0CE1CC6410C004E2A8A /* IQPermanentLocationVC.m in Sources */,
 				C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */,
 				C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */,
+				C4260BAC1CCA655700BE509A /* IQTrackPoint.m in Sources */,
+				C4260B901CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */,
 				C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
 				C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */,
 				C497A5571CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
 				C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */,
+				C4260BAA1CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m in Sources */,
 				669F6BB9199D1D1100B88AAE /* main.m in Sources */,
 				C4FB0D7D1CC788E7002174AD /* IQPermanentContainerVC.m in Sources */,
+				C4260B981CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */,
+				C4260B861CCA609200BE509A /* IQLocationDataSource.m in Sources */,
 				C4FFF0D11CC66C6F004E2A8A /* IQTracker.m in Sources */,
 				C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
 				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,
-				C46B87C91CC8E0E300D43262 /* IQTrackPoint.m in Sources */,
 				C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -433,12 +478,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
+				C4260B991CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */,
 				C497A55C1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C4FFF0D21CC66C6F004E2A8A /* IQTracker.m in Sources */,
+				C4260BAB1CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m in Sources */,
+				C4260BAD1CCA655700BE509A /* IQTrackPoint.m in Sources */,
+				C4260B9B1CCA64FE00BE509A /* IQTrack.m in Sources */,
 				C4FFF0C81CC63714004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BD8199D1D1100B88AAE /* IQLocationManagerDemoTests.m in Sources */,
-				C46B87CA1CC8E0EA00D43262 /* IQTrackPoint.m in Sources */,
 				C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
+				C4260B911CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */,
+				C4260B871CCA609200BE509A /* IQLocationDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -653,6 +703,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C4260B8E1CCA625D00BE509A /* IQLocationModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C4260B8F1CCA625D00BE509A /* IQLocationModel.xcdatamodel */,
+			);
+			currentVersion = C4260B8F1CCA625D00BE509A /* IQLocationModel.xcdatamodel */;
+			name = IQLocationModel.xcdatamodeld;
+			path = ../IQLocationManager/Model/IQLocationModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 669F6BA1199D1D1100B88AAE /* Project object */;
 }
