@@ -39,6 +39,8 @@
 		C4260BAB1CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */; };
 		C4260BAC1CCA655700BE509A /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA91CCA655700BE509A /* IQTrackPoint.m */; };
 		C4260BAD1CCA655700BE509A /* IQTrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BA91CCA655700BE509A /* IQTrackPoint.m */; };
+		C4260BB61CCA7B6600BE509A /* IQTrackListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BB51CCA7B6600BE509A /* IQTrackListVC.m */; };
+		C4260BB91CCA830400BE509A /* IQTrackMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4260BB81CCA830400BE509A /* IQTrackMapVC.m */; };
 		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
 		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
 		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
@@ -112,6 +114,10 @@
 		C4260BA71CCA655700BE509A /* IQTrackPoint+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "IQTrackPoint+CoreDataProperties.m"; path = "../IQLocationManager/Model/IQTrackPoint+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C4260BA81CCA655700BE509A /* IQTrackPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQTrackPoint.h; path = ../IQLocationManager/Model/IQTrackPoint.h; sourceTree = "<group>"; };
 		C4260BA91CCA655700BE509A /* IQTrackPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQTrackPoint.m; path = ../IQLocationManager/Model/IQTrackPoint.m; sourceTree = "<group>"; };
+		C4260BB41CCA7B6600BE509A /* IQTrackListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackListVC.h; sourceTree = "<group>"; };
+		C4260BB51CCA7B6600BE509A /* IQTrackListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackListVC.m; sourceTree = "<group>"; };
+		C4260BB71CCA830400BE509A /* IQTrackMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackMapVC.h; sourceTree = "<group>"; };
+		C4260BB81CCA830400BE509A /* IQTrackMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackMapVC.m; sourceTree = "<group>"; };
 		C42C00EC1CC7927D003A162B /* IQPermanentMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentMapVC.h; sourceTree = "<group>"; };
 		C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPermanentMapVC.m; sourceTree = "<group>"; };
 		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
@@ -222,6 +228,7 @@
 				C4FB0D811CC78901002174AD /* SignificantVCs */,
 				C4FB0D821CC78911002174AD /* PermanentVCs */,
 				C46B87BC1CC8D1D000D43262 /* TrackerVCs */,
+				C4260BB31CCA7B3000BE509A /* TrackListVCs */,
 				669F6BC4199D1D1100B88AAE /* Images.xcassets */,
 				669F6BB3199D1D1100B88AAE /* Supporting Files */,
 			);
@@ -294,6 +301,17 @@
 				C4260B8E1CCA625D00BE509A /* IQLocationModel.xcdatamodeld */,
 			);
 			name = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		C4260BB31CCA7B3000BE509A /* TrackListVCs */ = {
+			isa = PBXGroup;
+			children = (
+				C4260BB41CCA7B6600BE509A /* IQTrackListVC.h */,
+				C4260BB51CCA7B6600BE509A /* IQTrackListVC.m */,
+				C4260BB71CCA830400BE509A /* IQTrackMapVC.h */,
+				C4260BB81CCA830400BE509A /* IQTrackMapVC.m */,
+			);
+			name = TrackListVCs;
 			sourceTree = "<group>";
 		};
 		C46B87BC1CC8D1D000D43262 /* TrackerVCs */ = {
@@ -449,6 +467,7 @@
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */,
 				C4FFF0CE1CC6410C004E2A8A /* IQPermanentLocationVC.m in Sources */,
+				C4260BB61CCA7B6600BE509A /* IQTrackListVC.m in Sources */,
 				C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */,
 				C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */,
@@ -466,6 +485,7 @@
 				C4260B981CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */,
 				C4260B861CCA609200BE509A /* IQLocationDataSource.m in Sources */,
 				C4FFF0D11CC66C6F004E2A8A /* IQTracker.m in Sources */,
+				C4260BB91CCA830400BE509A /* IQTrackMapVC.m in Sources */,
 				C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
 				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,

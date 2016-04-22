@@ -21,6 +21,7 @@
     IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                inManagedObjectContext:ctxt];
     
+    t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     t.activityType = [activity motionTypeStrings];
     t.start_date = activity.startDate;
     

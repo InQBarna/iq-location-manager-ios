@@ -20,6 +20,7 @@
     IQTrackPoint *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                     inManagedObjectContext:ctxt];
     
+    p.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     p.date = [NSDate date];
     
     p.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
@@ -45,22 +46,22 @@
 - (NSString *)activityTypeString
 {
     NSString *string = @"";
-    if (self.stationary) {
+    if (self.stationary.boolValue) {
         string = [string stringByAppendingString:@"stationary,"];
     }
-    if (self.walking) {
+    if (self.walking.boolValue) {
         string = [string stringByAppendingString:@"walking,"];
     }
-    if (self.running) {
+    if (self.running.boolValue) {
         string = [string stringByAppendingString:@"running,"];
     }
-    if (self.automotive) {
+    if (self.automotive.boolValue) {
         string = [string stringByAppendingString:@"automotive,"];
     }
-    if (self.cycling) {
+    if (self.cycling.boolValue) {
         string = [string stringByAppendingString:@"cycling,"];
     }
-    if (self.unknown) {
+    if (self.unknown.boolValue) {
         string = [string stringByAppendingString:@"unknown"];
     }
     if ([string isEqualToString:@""]) {

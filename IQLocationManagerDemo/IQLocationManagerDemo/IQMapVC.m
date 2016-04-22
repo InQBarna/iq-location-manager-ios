@@ -8,7 +8,9 @@
 
 #import "IQMapVC.h"
 
+#import "IQTrack.h"
 #import "IQTrackPoint.h"
+#import "IQLocationDataSource.h"
 #import "CMMotionActivity+IQ.h"
 
 #import <CoreMotion/CoreMotion.h>
@@ -17,6 +19,7 @@
 @interface IQMapVC () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView  *mapView;
+@property (weak, nonatomic) IQTrack             *currentTrack;
 
 @end
 
@@ -27,9 +30,22 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.currentTrack) {
+        [self addTracks:[self.currentTrack.points allObjects]];
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)dealloc
+{
+    self.currentTrack = nil;
 }
 
 /*
@@ -41,6 +57,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)configureWithTrackID:(NSManagedObjectID *)trackID
+{
+    NSError *error = nil;
+    self.currentTrack = (IQTrack *)[[IQLocationDataSource sharedDataSource].managedObjectContext existingObjectWithID:trackID error:&error];
+}
 
 - (void)addTracks:(NSArray *)tracks
 {
