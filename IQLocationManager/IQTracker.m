@@ -118,7 +118,7 @@ static IQTracker *_iqTracker;
                              update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
 {
     __block CMMotionActivity *currentActivity;
-    __block CMMotionActivity *lastActivity;
+    static int deflectionCounter = 0;
     
     CLLocationAccuracy desiredAccuracy;
     CLLocationDistance distanceFilter;
@@ -157,6 +157,7 @@ static IQTracker *_iqTracker;
         if (activity) {
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
+                    deflectionCounter = 0;
                     currentActivity = activity;
                     if (!welf.locationMonitoringStarted) {
                         welf.locationMonitoringStarted = YES;
@@ -183,15 +184,20 @@ static IQTracker *_iqTracker;
                     }
                     
                 } else {
-                    NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                    if (seconds > 120) { // 2 minuts since last correct activity -> close current track
-//                        [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
-//                        [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
-//                        [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
-                        NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrackPoints);
-                        // TODO: save to model
-                        // TODO: start new track
-                        
+                    if ((activity.running || activity.walking || activity.automotive || activity.cycling) && activity.confidence > CMMotionActivityConfidenceLow) {
+                        deflectionCounter++;
+                        if (deflectionCounter == 3) {
+                            // TODO: save to model
+                            
+                        }
+                    } else {
+                        NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:currentActivity.startDate];
+                        if (seconds > 120) {
+                            // 2 minuts since last correct activity -> close current track
+                            NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrackPoints);
+                            // TODO: save to model
+                            
+                        }
                     }
                 }
                 
@@ -231,7 +237,7 @@ static IQTracker *_iqTracker;
 - (void)stopTracker
 {
     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
-    [[IQSignificantLocationChanges sharedManager] stopMonitoringLocation];
+    [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
     // TODO: save to model  
 }
 
