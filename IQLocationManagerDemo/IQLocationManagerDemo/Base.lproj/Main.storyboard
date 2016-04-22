@@ -330,6 +330,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tracker" id="F5Q-zw-fU6">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="J5w-6h-iOf">
+                            <connections>
+                                <action selector="changeTrackerMode:" destination="1I6-59-xTc" id="Eke-VB-RCe"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="t4d-ra-w9h">
                             <connections>
                                 <action selector="changeView:" destination="1I6-59-xTc" id="qci-NM-w7I"/>
@@ -462,6 +467,10 @@
         <scene sceneID="gqp-F9-pjE">
             <objects>
                 <viewController id="fzU-OO-NWL" customClass="IQTrackerMapVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="uUn-JS-Ell"/>
+                        <viewControllerLayoutGuide type="bottom" id="m7W-YQ-Ju4"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="REp-cT-y0C">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -493,6 +502,10 @@
         <scene sceneID="G51-sX-lBG">
             <objects>
                 <viewController id="LNJ-gZ-ST4" customClass="IQTrackerVC" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SeZ-Xf-Vdv"/>
+                        <viewControllerLayoutGuide type="bottom" id="3fE-Or-DZI"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4iB-ua-7U0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -520,18 +533,27 @@
                                     <action selector="triggerButtonPressed:" destination="zih-Q9-z5q" eventType="touchUpInside" id="X58-U7-r8j"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQ8-D9-vjX">
+                                <rect key="frame" x="270" y="455" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottomMargin" secondItem="bHL-VY-5qh" secondAttribute="bottom" id="47w-ks-OAr"/>
                             <constraint firstItem="0QL-ai-1EM" firstAttribute="top" secondItem="4iB-ua-7U0" secondAttribute="top" id="8Me-8Y-Gn2"/>
                             <constraint firstItem="0QL-ai-1EM" firstAttribute="leading" secondItem="4iB-ua-7U0" secondAttribute="leading" id="CzP-qv-JnM"/>
+                            <constraint firstItem="3fE-Or-DZI" firstAttribute="top" secondItem="LQ8-D9-vjX" secondAttribute="bottom" id="Gl9-t2-2uP"/>
                             <constraint firstAttribute="bottom" secondItem="0QL-ai-1EM" secondAttribute="bottom" id="Nrx-FG-uLJ"/>
                             <constraint firstAttribute="trailing" secondItem="bHL-VY-5qh" secondAttribute="trailing" id="Ovl-Bq-BP6"/>
                             <constraint firstAttribute="trailing" secondItem="0QL-ai-1EM" secondAttribute="trailing" id="Xl2-6a-BSY"/>
+                            <constraint firstAttribute="trailing" secondItem="LQ8-D9-vjX" secondAttribute="trailing" constant="50" id="YXd-FS-CGB"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="modeLabel" destination="LQ8-D9-vjX" id="SQu-26-846"/>
                         <outlet property="tableView" destination="0QL-ai-1EM" id="Pbd-Zx-lQM"/>
                     </connections>
                 </viewController>

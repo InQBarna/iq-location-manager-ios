@@ -54,6 +54,11 @@
     }
 }
 
+- (IBAction)changeTrackerMode:(id)sender
+{
+    [[self tableViewController] showActionSheet];
+}
+
 - (IQTrackerMapVC *)mapViewController {
     IQTrackerMapVC *vc;
     for (IQTrackerMapVC *const candidate in self.childViewControllers) {

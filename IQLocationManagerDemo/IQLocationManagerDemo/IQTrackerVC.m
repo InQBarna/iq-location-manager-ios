@@ -15,9 +15,16 @@
 #import "IQTrackPoint.h"
 #import "CMMotionActivity+IQ.h"
 
-@interface IQTrackerVC ()
+typedef NS_ENUM(NSInteger, IQTrackerMode) {
+    kIQTrackerModeAutomatic,
+    kIQTrackerModeManual,
+};
+
+@interface IQTrackerVC () <UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView    *tableView;
+@property (weak, nonatomic) IBOutlet UILabel        *modeLabel;
+@property (assign, nonatomic) IQTrackerMode         trackerMode;
 
 @end
 
@@ -26,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.trackerMode = kIQTrackerModeManual;
+    self.modeLabel.text = @"mode: manual (all)";
 }
 
 - (void)didReceiveMemoryWarning {
@@ -85,10 +95,48 @@
     [UIDevice currentDevice].batteryMonitoringEnabled = NO;
 }
 
+- (void)showActionSheet
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Tracker mode"
+                                                                             message:@"Select tracker mode"
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *automatic = [UIAlertAction actionWithTitle:@"Automatic"
+                                                        style:UIAlertActionStyleDefault
+                                                      handler:^(UIAlertAction * action) {
+                                                          self.trackerMode = kIQTrackerModeAutomatic;
+                                                          self.modeLabel.text = @"mode: automatic (automotive)";
+                                                          [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                      }];
+    
+    UIAlertAction *manual = [UIAlertAction actionWithTitle:@"Manual"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       self.trackerMode = kIQTrackerModeManual;
+                                                       self.modeLabel.text = @"mode: manual (all)";
+                                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                     style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+    
+    [alertController addAction:automatic];
+    [alertController addAction:manual];
+    [alertController addAction:cancel];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 - (void)startTracker
 {
     __weak __typeof(self) welf = self;
-    [[IQTracker sharedManager] startLIVETrackerForActivity:nil
+    NSString *activity;
+    if (self.trackerMode == kIQTrackerModeAutomatic) {
+        activity = IQMotionActivityType.automotive;
+    }
+    [[IQTracker sharedManager] startLIVETrackerForActivity:activity
                                                     update:^(IQTrackPoint *t, IQTrackerResult result) {
                                                         if (result == kIQTrackerResultFound && t) {
                                                             NSMutableArray *temp = welf.tracks.mutableCopy;
