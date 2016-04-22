@@ -136,20 +136,20 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     if (self.trackerMode == kIQTrackerModeAutomatic) {
         activity = IQMotionActivityType.automotive;
     }
-    [[IQTracker sharedManager] startLIVETrackerForActivity:activity
-                                                    update:^(IQTrackPoint *t, IQTrackerResult result) {
-                                                        if (result == kIQTrackerResultFound && t) {
-                                                            NSMutableArray *temp = welf.tracks.mutableCopy;
-                                                            if (!temp) {
-                                                                temp = [NSMutableArray array];
-                                                            }
-                                                            [temp addObject:t];
-                                                            dispatch_async(dispatch_get_main_queue(), ^{
-                                                                welf.tracks = temp.copy;
-                                                                [self.tableView reloadData];
-                                                            });
+    [[IQTracker sharedManager] startTrackerForActivity:activity
+                                                update:^(IQTrackPoint *t, IQTrackerResult result) {
+                                                    if (result == kIQTrackerResultFound && t) {
+                                                        NSMutableArray *temp = welf.tracks.mutableCopy;
+                                                        if (!temp) {
+                                                            temp = [NSMutableArray array];
                                                         }
-                                                    }];
+                                                        [temp addObject:t];
+                                                        dispatch_async(dispatch_get_main_queue(), ^{
+                                                            welf.tracks = temp.copy;
+                                                            [self.tableView reloadData];
+                                                        });
+                                                    }
+                                                }];
 }
 
 - (void)stopTracker

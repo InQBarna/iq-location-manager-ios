@@ -94,37 +94,7 @@
 
 - (void)drawLineWithLocations:(NSArray *)locations
 {
-    CLLocation *previous;
     CLLocation *current;
-//    for (int i = 0; i < locations.count; i++) {
-//        
-//        current = locations[i];
-//        if (i > 0) {
-//            // previous
-//            MKPlacemark *sourcePlacemark = [[MKPlacemark alloc] initWithCoordinate:previous.coordinate addressDictionary:nil];
-//            MKMapItem *source = [[MKMapItem alloc] initWithPlacemark:sourcePlacemark];
-//            
-//            // current
-//            MKPlacemark *destinationPlacemark = [[MKPlacemark alloc] initWithCoordinate:current.coordinate addressDictionary:nil];
-//            MKMapItem *destination = [[MKMapItem alloc] initWithPlacemark:destinationPlacemark];
-//            
-//            MKDirectionsRequest *directionsRequest = [MKDirectionsRequest new];
-//            [directionsRequest setSource:source];
-//            [directionsRequest setDestination:destination];
-//            
-//            MKDirections *directions = [[MKDirections alloc] initWithRequest:directionsRequest];
-//            [directions calculateDirectionsWithCompletionHandler:^(MKDirectionsResponse *response, NSError *error) {
-//                if (error) {
-//                    return;
-//                }
-//                // So there wasn't an error - let's plot those routes
-//                [self.mapView setVisibleMapRect:[response.routes firstObject].polyline.boundingMapRect animated:NO];
-//                [self.mapView addOverlay:[response.routes firstObject].polyline];
-//            }];
-//        }
-//        previous = current;
-//    }
-
     CLLocationCoordinate2D coordinates[locations.count];
     for (int i = 0; i < locations.count; i++) {
         current = locations[i];

@@ -30,11 +30,9 @@ extern const struct IQMotionActivityTypes {
 @interface IQTracker : NSObject
 
 + (IQTracker *)sharedManager;
-- (void)startTrackerForActivity:(NSString *)activityString
-                     completion:(void (^)(NSDictionary *track, IQTrackerResult result))completion;
 
-- (void)startLIVETrackerForActivity:(NSString *)activityString
-                             update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock;
+- (void)startTrackerForActivity:(NSString *)activityString
+                         update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock;
 
 - (void)stopTracker;
 

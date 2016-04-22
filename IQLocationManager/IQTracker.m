@@ -64,61 +64,7 @@ static IQTracker *_iqTracker;
 }
 
 - (void)startTrackerForActivity:(NSString *)activityString
-                     completion:(void (^)(NSDictionary *track, IQTrackerResult result))completion
-{
-//    self.currentTrack = [NSMutableDictionary dictionary];
-//    self.currentLocations = [NSMutableArray array];
-//    __block CMMotionActivity *firstActivity;
-//    __block CMMotionActivity *lastActivity;
-//
-//    __weak __typeof(self) welf = self;
-//    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-//        
-//        if (activity) {
-//            if (activityString) {
-//                if ([activity containsActivityType:activityString]) {
-//                    lastActivity = activity;
-//                    if (!welf.locationMonitoringStarted) {
-//                        welf.locationMonitoringStarted = YES;
-//                        firstActivity = activity;
-//                        [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
-//                                                                                                          accuracy:kCLLocationAccuracyBestForNavigation
-//                                                                                                    distanceFilter:100.0
-//                                                                                                      activityType:CLActivityTypeAutomotiveNavigation
-//                                                                                   allowsBackgroundLocationUpdates:YES
-//                                                                                pausesLocationUpdatesAutomatically:YES
-//                                                                                                            update:^(CLLocation *locationOrNil, IQLocationResult result) {
-//                                                                                                                if (locationOrNil && result == kIQLocationResultFound) {
-//                                                                                                                    [welf.currentLocations addObject:locationOrNil];
-//                                                                                                                } else {
-//                                                                                                                    // check errors
-//                                                                                                                }
-//                                                                                                            }];
-//                    }
-//                    
-//                } else {
-//                    NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-//                    if (seconds > 120) { // 2 minuts since last correct activity -> close current track
-//                        [welf.currentTrack setObject:firstActivity forKey:@"firstActivity"];
-//                        [welf.currentTrack setObject:lastActivity forKey:@"lastActivity"];
-//                        [welf.currentTrack setObject:welf.currentLocations forKey:@"locations"];
-//                        NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrack);
-//                        // TODO: save to model
-//                        // TODO: start new track
-//                        
-//                    }
-//                }
-//            } else {
-//                
-//            }
-//        } else {
-//            // check errors
-//        }
-//    }];
-}
-
-- (void)startLIVETrackerForActivity:(NSString *)activityString
-                             update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                         update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
 {
     __block CMMotionActivity *currentActivity;
     static int deflectionCounter = 0;
@@ -177,8 +123,8 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *t = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                                                                                                    updateBlock(t, kIQTrackerResultFound);
+                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                                                                                                    updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
                                                                                                                     updateBlock(nil, kIQTrackerResultLocationError);
@@ -226,8 +172,8 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *t = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                                                                                                    updateBlock(t, kIQTrackerResultFound);
+                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                                                                                                    updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
                                                                                                                     updateBlock(nil, kIQTrackerResultLocationError);
