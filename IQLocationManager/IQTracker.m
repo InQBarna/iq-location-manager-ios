@@ -154,7 +154,7 @@ static IQTracker *_iqTracker;
     
     __weak __typeof(self) welf = self;
     [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-        if (activity) {
+        if (result == kIQMotionActivityResultFound && activity) {
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
                     deflectionCounter = 0;
@@ -178,7 +178,7 @@ static IQTracker *_iqTracker;
                                                                                                                     updateBlock(t, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
-                                                                                                                    // check errors
+                                                                                                                    updateBlock(nil, kIQTrackerResultLocationError);
                                                                                                                 }
                                                                                                             }];
                     }
@@ -187,15 +187,15 @@ static IQTracker *_iqTracker;
                     if ((activity.running || activity.walking || activity.automotive || activity.cycling) && activity.confidence > CMMotionActivityConfidenceLow) {
                         deflectionCounter++;
                         if (deflectionCounter == 3) {
-                            // TODO: save to model
+                            // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
+                            [welf saveCurrentTrack];
                             
                         }
                     } else {
                         NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:currentActivity.startDate];
                         if (seconds > 120) {
                             // 2 minuts since last correct activity -> close current track
-                            NSLog(@"startTrackerForActivity :: final object %@", welf.currentTrackPoints);
-                            // TODO: save to model
+                            [welf saveCurrentTrack];
                             
                         }
                     }
@@ -222,14 +222,16 @@ static IQTracker *_iqTracker;
                                                                                                                     updateBlock(t, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
-                                                                                                                    // check errors
+                                                                                                                    updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                    
                                                                                                                 }
                                                                                                             }];
                     }
                 }
             }
         } else {
-            // check errors
+            updateBlock(nil, kIQTrackerResultMotionError);
+            
         }
     }];
 }
@@ -238,7 +240,13 @@ static IQTracker *_iqTracker;
 {
     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
     [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-    // TODO: save to model  
+    self.locationMonitoringStarted = NO;
+    [self saveCurrentTrack];
+}
+
+- (void)saveCurrentTrack
+{
+    // TODO: save
 }
 
 @end
