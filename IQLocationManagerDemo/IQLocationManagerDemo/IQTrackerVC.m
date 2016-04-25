@@ -137,7 +137,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     if (self.trackerMode == kIQTrackerModeAutomatic) {
         activity = IQMotionActivityType.walking;
     }
-    [[IQTracker sharedManager] startTrackerForActivity:activity
+    [[IQTracker sharedManager] reverseStartTrackerForActivity:activity
                                               progress:^(IQTrackPoint *t, IQTrackerResult result) {
                                                     if (result == kIQTrackerResultFound && t) {
                                                         NSMutableArray *temp = welf.tracks.mutableCopy;
