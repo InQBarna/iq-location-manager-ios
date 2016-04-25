@@ -44,6 +44,10 @@
 		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
 		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
 		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
+		C44324521CCE1C13007A454A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324501CCE1C13007A454A /* Fabric.framework */; };
+		C44324531CCE1C13007A454A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324501CCE1C13007A454A /* Fabric.framework */; };
+		C44324541CCE1C13007A454A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324511CCE1C13007A454A /* Crashlytics.framework */; };
+		C44324551CCE1C13007A454A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324511CCE1C13007A454A /* Crashlytics.framework */; };
 		C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */; };
 		C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C11CC8D21B00D43262 /* IQTrackerVC.m */; };
 		C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C46B87C41CC8D23500D43262 /* IQTrackerMapVC.m */; };
@@ -123,6 +127,8 @@
 		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
 		C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantMapVC.m; sourceTree = "<group>"; };
 		C42C00F21CC796DC003A162B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C44324501CCE1C13007A454A /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		C44324511CCE1C13007A454A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		C46B87BD1CC8D1FE00D43262 /* IQTrackerContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerContainerVC.h; sourceTree = "<group>"; };
 		C46B87BE1CC8D1FE00D43262 /* IQTrackerContainerVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTrackerContainerVC.m; sourceTree = "<group>"; };
 		C46B87C01CC8D21B00D43262 /* IQTrackerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerVC.h; sourceTree = "<group>"; };
@@ -157,8 +163,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4260B8D1CCA618300BE509A /* CoreData.framework in Frameworks */,
+				C44324541CCE1C13007A454A /* Crashlytics.framework in Frameworks */,
 				C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */,
 				C41361741CBFF6D500836E58 /* CoreMotion.framework in Frameworks */,
+				C44324521CCE1C13007A454A /* Fabric.framework in Frameworks */,
 				6697E09819A4A22F0081F165 /* CoreLocation.framework in Frameworks */,
 				669F6BAF199D1D1100B88AAE /* CoreGraphics.framework in Frameworks */,
 				669F6BB1199D1D1100B88AAE /* UIKit.framework in Frameworks */,
@@ -171,8 +179,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				669F6BCC199D1D1100B88AAE /* XCTest.framework in Frameworks */,
+				C44324551CCE1C13007A454A /* Crashlytics.framework in Frameworks */,
 				669F6BCE199D1D1100B88AAE /* UIKit.framework in Frameworks */,
 				669F6BCD199D1D1100B88AAE /* Foundation.framework in Frameworks */,
+				C44324531CCE1C13007A454A /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +213,8 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C44324501CCE1C13007A454A /* Fabric.framework */,
+				C44324511CCE1C13007A454A /* Crashlytics.framework */,
 				C4260B8C1CCA618300BE509A /* CoreData.framework */,
 				C42C00F21CC796DC003A162B /* MapKit.framework */,
 				C41361731CBFF6D500836E58 /* CoreMotion.framework */,
@@ -373,6 +385,7 @@
 				669F6BA5199D1D1100B88AAE /* Sources */,
 				669F6BA6199D1D1100B88AAE /* Frameworks */,
 				669F6BA7199D1D1100B88AAE /* Resources */,
+				C443244F1CCE1BCC007A454A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -456,6 +469,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C443244F1CCE1BCC007A454A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run fca6ed985d81d94162ca1ca7d25df9d253d4347f 0099d85aba03e4a2fee7d0c96d696f2f1696f91ab92749e1fb976c8c5e722ebc";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		669F6BA5199D1D1100B88AAE /* Sources */ = {
@@ -625,6 +654,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: ios Developers (6U7699PLQH)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
@@ -640,6 +673,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
 				INFOPLIST_FILE = "IQLocationManagerDemo/IQLocationManagerDemo-Info.plist";
@@ -658,6 +695,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
@@ -681,6 +719,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IQLocationManagerDemo/IQLocationManagerDemo-Prefix.pch";
