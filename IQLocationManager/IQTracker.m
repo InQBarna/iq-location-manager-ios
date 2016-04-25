@@ -132,7 +132,14 @@ static IQTracker *_iqTracker;
                                                                                                                     updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
-                                                                                                                    updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                    if (result == kIQLocationResultSoftDenied || result == kIQLocationResultSystemDenied) {
+                                                                                                                        belf.currentTrack = nil;
+                                                                                                                        [belf stopTracker];
+                                                                                                                        
+                                                                                                                    } else {
+                                                                                                                        updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                        
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }];
                     }
@@ -184,8 +191,14 @@ static IQTracker *_iqTracker;
                                                                                                                     updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
-                                                                                                                    updateBlock(nil, kIQTrackerResultLocationError);
-                                                                                                                    
+                                                                                                                    if (result == kIQLocationResultSoftDenied || result == kIQLocationResultSystemDenied) {
+                                                                                                                        belf.currentTrack = nil;
+                                                                                                                        [belf stopTracker];
+                                                                                                                        
+                                                                                                                    } else {
+                                                                                                                        updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                        
+                                                                                                                    }
                                                                                                                 }
                                                                                                             }];
                     }
