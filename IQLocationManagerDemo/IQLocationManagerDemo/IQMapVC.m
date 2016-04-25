@@ -111,11 +111,11 @@
     MKAnnotationView *annotationView;
     if ([annotation isKindOfClass:[IQTrackPoint class]]) {        
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-        if ([(IQTrackPoint *)annotation running] || [(IQTrackPoint *)annotation walking]) {
+        if ([(IQTrackPoint *)annotation running].boolValue || [(IQTrackPoint *)annotation walking].boolValue) {
             annView.pinColor = MKPinAnnotationColorRed;
-        } else if ([(IQTrackPoint *)annotation automotive]) {
+        } else if ([(IQTrackPoint *)annotation automotive].boolValue) {
             annView.pinColor = MKPinAnnotationColorPurple;
-        } else if ([(IQTrackPoint *)annotation cycling]) {
+        } else if ([(IQTrackPoint *)annotation cycling].boolValue) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
         return annView;

@@ -74,6 +74,7 @@ static IQTracker *_iqTracker;
     CLActivityType activityType;
     BOOL pausesLocationUpdatesAutomatically;
     
+    // configure location settings for activity
     if ([activityString isEqualToString:IQMotionActivityType.automotive]) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 100.f;
@@ -200,9 +201,11 @@ static IQTracker *_iqTracker;
 
 - (void)closeCurrentTrack
 {
-    BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-    NSAssert(result, @"error closing track");
-    self.currentTrack = nil;
+    if (self.currentTrack) {
+        BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+        NSAssert(result, @"error closing track");
+        self.currentTrack = nil;
+    }
 }
 
 @end

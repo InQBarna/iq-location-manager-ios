@@ -45,9 +45,8 @@
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
     if ([segue.identifier isEqualToString:@"showMap"] && [sender isKindOfClass:[NSManagedObjectID class]]) {
         IQTrackMapVC *vc = (IQTrackMapVC *)segue.destinationViewController;
         [vc configureWithTrackID:(NSManagedObjectID *)sender];
