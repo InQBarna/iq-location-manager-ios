@@ -34,7 +34,9 @@
     p.cycling = [NSNumber numberWithBool:activity.cycling];
     
     NSError *error;
-    p.track = [ctxt existingObjectWithID:trackID error:&error];
+    IQTrack *t = [ctxt existingObjectWithID:trackID error:&error];
+    p.order = [NSNumber numberWithInteger:t.points.allObjects.count];
+    p.track = t;
     [ctxt save:&error];
     if (error) {
         return nil;

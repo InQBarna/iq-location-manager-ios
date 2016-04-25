@@ -77,7 +77,7 @@
                                  [NSDateFormatter localizedStringFromDate:t.end_date
                                                                 dateStyle:NSDateFormatterShortStyle
                                                                 timeStyle:NSDateFormatterShortStyle],
-                                 [t.points allObjects].count];
+                                 [t sortedPoints].count];
     return cell;
 }
 

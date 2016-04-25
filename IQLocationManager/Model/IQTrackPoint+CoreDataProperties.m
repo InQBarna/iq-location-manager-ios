@@ -2,7 +2,7 @@
 //  IQTrackPoint+CoreDataProperties.m
 //  IQLocationManagerDemo
 //
-//  Created by Raul Peña on 22/04/16.
+//  Created by Raul Peña on 25/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,17 +13,18 @@
 
 @implementation IQTrackPoint (CoreDataProperties)
 
-@dynamic objectId;
+@dynamic automotive;
+@dynamic confidence;
+@dynamic cycling;
+@dynamic date;
 @dynamic latitude;
 @dynamic longitude;
-@dynamic date;
+@dynamic objectId;
 @dynamic running;
-@dynamic cycling;
-@dynamic automotive;
-@dynamic walking;
-@dynamic unknown;
 @dynamic stationary;
-@dynamic confidence;
+@dynamic unknown;
+@dynamic walking;
+@dynamic order;
 @dynamic track;
 
 @end

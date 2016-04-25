@@ -34,7 +34,7 @@
 {
     [super viewDidAppear:animated];
     if (self.currentTrack) {
-        [self addTracks:[self.currentTrack.points allObjects]];
+        [self addTracks:[self.currentTrack sortedPoints]];
     }
 }
 

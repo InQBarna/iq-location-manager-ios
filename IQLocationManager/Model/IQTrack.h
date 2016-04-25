@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)closeTrackInContext:(NSManagedObjectContext *)ctxt;
 
+- (NSArray *)sortedPoints;
+
 @end
 
 NS_ASSUME_NONNULL_END

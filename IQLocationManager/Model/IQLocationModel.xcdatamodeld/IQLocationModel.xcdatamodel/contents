@@ -16,6 +16,7 @@
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="running" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="stationary" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="unknown" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -24,6 +25,6 @@
     </entity>
     <elements>
         <element name="IQTrack" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="IQTrackPoint" positionX="-54" positionY="-9" width="128" height="225"/>
+        <element name="IQTrackPoint" positionX="-54" positionY="-9" width="128" height="240"/>
     </elements>
 </model>
