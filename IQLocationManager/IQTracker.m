@@ -354,4 +354,22 @@ static IQTracker *_iqTracker;
     self.currentTrack = nil;
 }
 
+#pragma mark - GET IQTracks methods
+- (NSArray *)getCompletedTracks
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
+    request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil"];
+    NSError *error = nil;
+    return [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+}
+
+- (NSArray *)getTracksBetweenDate:(NSDate *)start_date
+                          andDate:(NSDate *)end_date
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
+    request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil AND start_date <= %@ AND end_date >= %@", start_date, end_date];
+    NSError *error = nil;
+    return [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+}
+
 @end

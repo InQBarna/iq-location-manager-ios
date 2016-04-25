@@ -52,4 +52,9 @@ extern const struct IQMotionActivityTypes {
 
 - (void)stopTracker;
 
+- (NSArray *)getCompletedTracks;
+
+- (NSArray *)getTracksBetweenDate:(NSDate *)start_date
+                          andDate:(NSDate *)end_date;
+
 @end
