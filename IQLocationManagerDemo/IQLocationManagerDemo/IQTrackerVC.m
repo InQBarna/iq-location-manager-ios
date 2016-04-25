@@ -223,8 +223,8 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     
     IQTrackPoint *t = self.tracks[indexPath.row];
     
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld. %@ %@",
-                           (long)indexPath.row,
+    cell.textLabel.text = [NSString stringWithFormat:@"%li. %@ %@",
+                           t.order.integerValue,
                            [t activityTypeString],
                            [NSDateFormatter localizedStringFromDate:t.date
                                                           dateStyle:NSDateFormatterShortStyle
