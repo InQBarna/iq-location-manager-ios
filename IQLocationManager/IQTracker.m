@@ -65,7 +65,7 @@ static IQTracker *_iqTracker;
 }
 
 - (void)startTrackerForActivity:(NSString *)activityString
-                         update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                       progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
                      completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock
 {
     __block CMMotionActivity *currentActivity;
@@ -129,7 +129,7 @@ static IQTracker *_iqTracker;
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
                                                                                                                     IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:belf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                                                                                                    updateBlock(tp, kIQTrackerResultFound);
+                                                                                                                    progressBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
                                                                                                                     if (result == kIQLocationResultSoftDenied || result == kIQLocationResultSystemDenied) {
@@ -137,7 +137,7 @@ static IQTracker *_iqTracker;
                                                                                                                         [belf stopTracker];
                                                                                                                         
                                                                                                                     } else {
-                                                                                                                        updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                        progressBlock(nil, kIQTrackerResultLocationError);
                                                                                                                         
                                                                                                                     }
                                                                                                                 }
@@ -188,7 +188,7 @@ static IQTracker *_iqTracker;
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
                                                                                                                     IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:belf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                                                                                                    updateBlock(tp, kIQTrackerResultFound);
+                                                                                                                    progressBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
                                                                                                                     if (result == kIQLocationResultSoftDenied || result == kIQLocationResultSystemDenied) {
@@ -196,7 +196,7 @@ static IQTracker *_iqTracker;
                                                                                                                         [belf stopTracker];
                                                                                                                         
                                                                                                                     } else {
-                                                                                                                        updateBlock(nil, kIQTrackerResultLocationError);
+                                                                                                                        progressBlock(nil, kIQTrackerResultLocationError);
                                                                                                                         
                                                                                                                     }
                                                                                                                 }
@@ -205,14 +205,14 @@ static IQTracker *_iqTracker;
                 }
             }
         } else {
-            updateBlock(nil, kIQTrackerResultMotionError);
+            progressBlock(nil, kIQTrackerResultMotionError);
             
         }
     }];
 }
 
 - (void)reverseStartTrackerForActivity:(NSString *)activityString
-                                update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                              progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
                             completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock
 {
     __block CMMotionActivity *currentActivity;
@@ -277,7 +277,7 @@ static IQTracker *_iqTracker;
                                                                        location:locationOrNil
                                                                      andTrackID:belf.currentTrack.objectID
                                                                       inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                            updateBlock(tp, kIQTrackerResultFound);
+                            progressBlock(tp, kIQTrackerResultFound);
                             
                         } else if (currentActivity) {
                             // filters
@@ -317,7 +317,7 @@ static IQTracker *_iqTracker;
                                                                        location:locationOrNil
                                                                      andTrackID:belf.currentTrack.objectID
                                                                       inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                            updateBlock(tp, kIQTrackerResultFound);
+                            progressBlock(tp, kIQTrackerResultFound);
                         }
                     }
                 }
@@ -329,7 +329,7 @@ static IQTracker *_iqTracker;
                 [belf stopTracker];
                 
             } else {
-                updateBlock(nil, kIQTrackerResultLocationError);
+                progressBlock(nil, kIQTrackerResultLocationError);
                 
             }
         }

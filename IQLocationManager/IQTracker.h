@@ -38,7 +38,7 @@ extern const struct IQMotionActivityTypes {
  @fact: The tracker result depends on activity
  */
 - (void)startTrackerForActivity:(NSString *)activityString
-                         update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                       progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
                      completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
 
 /**
@@ -47,7 +47,7 @@ extern const struct IQMotionActivityTypes {
  @fact: The tracker result depends on location
  */
 - (void)reverseStartTrackerForActivity:(NSString *)activityString
-                                update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                              progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
                             completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
 
 - (void)stopTracker;
