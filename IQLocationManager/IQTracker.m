@@ -262,7 +262,8 @@ static IQTracker *_iqTracker;
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                             
         if (locationOrNil && result == kIQLocationResultFound) {
-            [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
+            [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
+            {
                 if (result == kIQMotionActivityResultFound && activity) {
                     if (activityString) { // CASE: AUTOMATIC
                         if ([activity containsActivityType:activityString]) {
@@ -305,7 +306,6 @@ static IQTracker *_iqTracker;
 
                         }
                     } else { // CASE: MANUAL
-                        // catch all
                         if (!belf.currentTrack) {
                             belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
                                                              andActivityType:@"all"

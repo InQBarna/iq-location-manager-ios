@@ -9,7 +9,7 @@
 #import "IQTrackListVC.h"
 
 #import "IQTrack.h"
-#import "IQLocationDataSource.h"
+#import "IQTracker.h"
 #import <CoreData/CoreData.h>
 #import "IQTrackMapVC.h"
 
@@ -31,9 +31,7 @@
 {
     [super viewDidAppear:animated];
     
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
-    NSError *error = nil;
-    self.tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+    self.tracks = [[IQTracker sharedManager] getCompletedTracks].copy;
     [self.tableView reloadData];
 }
 
