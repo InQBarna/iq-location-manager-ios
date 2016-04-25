@@ -15,15 +15,16 @@
 
 // Insert code here to add functionality to your managed object subclass
 
-+ (instancetype)createWithActivity:(CMMotionActivity *)activity
-                         inContext:(NSManagedObjectContext *)ctxt
++ (instancetype)createWithStartDate:(NSDate *)start_date
+                    andActivityType:(NSString *)activityType
+                          inContext:(NSManagedObjectContext *)ctxt
 {
     IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                inManagedObjectContext:ctxt];
     
     t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
-    t.activityType = [activity motionTypeStrings];
-    t.start_date = activity.startDate;
+    t.activityType = activityType;
+    t.start_date = start_date;
     
     NSError *error;
     [ctxt save:&error];

@@ -152,6 +152,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                     }
                                                 } completion:^(IQTrack *t, IQTrackerResult result) {
                                                     if (t) {
+                                                        NSString *title = [NSString stringWithFormat:@"Track Ended: %@", t.activityType];
                                                         NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
                                                                            [NSDateFormatter localizedStringFromDate:t.start_date
                                                                                                           dateStyle:NSDateFormatterShortStyle
@@ -159,7 +160,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                                            [NSDateFormatter localizedStringFromDate:t.end_date
                                                                                                           dateStyle:NSDateFormatterShortStyle
                                                                                                           timeStyle:NSDateFormatterShortStyle]];
-                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
+                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
                                                                                                                                  message:dates
                                                                                                                           preferredStyle:UIAlertControllerStyleAlert];
                                                         UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
@@ -183,7 +184,10 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                         [welf presentViewController:alertController animated:YES completion:nil];
                                                         
                                                     }
-                                                    welf.tracks = [NSArray array];
+                                                    dispatch_async(dispatch_get_main_queue(), ^{
+                                                        welf.tracks = [NSArray array];
+                                                        [self.tableView reloadData];
+                                                    });
                                                 }];
 }
 

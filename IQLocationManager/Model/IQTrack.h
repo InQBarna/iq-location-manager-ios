@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Insert code here to declare functionality of your managed object subclass
 
-+ (instancetype)createWithActivity:(CMMotionActivity *)activity
-                         inContext:(NSManagedObjectContext *)ctxt;
++ (instancetype)createWithStartDate:(NSDate *)start_date
+                    andActivityType:(NSString *)activityType
+                          inContext:(NSManagedObjectContext *)ctxt;
 
 - (BOOL)closeTrackInContext:(NSManagedObjectContext *)ctxt;
 

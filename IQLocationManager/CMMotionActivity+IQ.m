@@ -33,6 +33,10 @@
     }
     if ([string isEqualToString:@""]) {
         string = @"*not determined*";
+    } else {
+        if ([[string substringFromIndex:[string length]-1] isEqualToString:@","]) {
+            string = [string substringToIndex:[string length]-1];
+        }
     }
     return string;
 }

@@ -68,6 +68,10 @@
     }
     if ([string isEqualToString:@""]) {
         string = @"*not determined*";
+    } else {
+        if ([[string substringFromIndex:[string length]-1] isEqualToString:@","]) {
+            string = [string substringToIndex:[string length]-1];
+        }
     }
     return string;
 }
@@ -88,12 +92,14 @@
 #pragma mark - MKAnnotation protocol
 - (NSString *)title
 {
-    return nil;
+    return [NSString stringWithFormat:@"point: %li", self.order.integerValue];
 }
 
 - (NSString *)subtitle
 {
-    return nil;
+    return [NSDateFormatter localizedStringFromDate:self.date
+                                          dateStyle:NSDateFormatterShortStyle
+                                          timeStyle:NSDateFormatterMediumStyle];
 }
 
 - (CLLocationCoordinate2D)coordinate

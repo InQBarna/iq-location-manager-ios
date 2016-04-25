@@ -118,6 +118,7 @@
         } else if ([(IQTrackPoint *)annotation cycling].boolValue) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
+        annView.canShowCallout = YES;
         return annView;
         
     } else {

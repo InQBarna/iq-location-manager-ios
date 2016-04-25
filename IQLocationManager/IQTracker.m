@@ -111,8 +111,9 @@ static IQTracker *_iqTracker;
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
                     if (!belf.currentTrack) {
-                        belf.currentTrack = [IQTrack createWithActivity:activity
-                                                              inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                        belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
+                                                         andActivityType:activityString
+                                                               inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                     }
                     deflectionCounter = 0;
                     currentActivity = activity;
@@ -162,8 +163,9 @@ static IQTracker *_iqTracker;
                 
             } else {
                 if (!belf.currentTrack) {
-                    belf.currentTrack = [IQTrack createWithActivity:activity
-                                                          inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                    belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
+                                                     andActivityType:@"all"
+                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                 }
                 if (activity.running || activity.walking || activity.automotive || activity.cycling) {
                     currentActivity = activity;
