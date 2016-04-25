@@ -12,6 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "IQTracker.h"
+#import "IQTrack.h"
 #import "IQTrackPoint.h"
 #import "CMMotionActivity+IQ.h"
 
@@ -134,7 +135,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     __weak __typeof(self) welf = self;
     NSString *activity;
     if (self.trackerMode == kIQTrackerModeAutomatic) {
-        activity = IQMotionActivityType.automotive;
+        activity = IQMotionActivityType.walking;
     }
     [[IQTracker sharedManager] startTrackerForActivity:activity
                                                 update:^(IQTrackPoint *t, IQTrackerResult result) {
@@ -149,6 +150,40 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                             [self.tableView reloadData];
                                                         });
                                                     }
+                                                } completion:^(IQTrack *t, IQTrackerResult result) {
+                                                    if (t) {
+                                                        NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
+                                                                           [NSDateFormatter localizedStringFromDate:t.start_date
+                                                                                                          dateStyle:NSDateFormatterShortStyle
+                                                                                                          timeStyle:NSDateFormatterShortStyle],
+                                                                           [NSDateFormatter localizedStringFromDate:t.end_date
+                                                                                                          dateStyle:NSDateFormatterShortStyle
+                                                                                                          timeStyle:NSDateFormatterShortStyle]];
+                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
+                                                                                                                                 message:dates
+                                                                                                                          preferredStyle:UIAlertControllerStyleAlert];
+                                                        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                                                         style:UIAlertActionStyleDefault
+                                                                                                       handler:^(UIAlertAction * action) {
+                                                                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                                                                       }];
+                                                        [alertController addAction:cancel];
+                                                        [welf presentViewController:alertController animated:YES completion:nil];
+                                                        
+                                                    } else {
+                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
+                                                                                                                                 message:@"NO TRACK REGISTERED"
+                                                                                                                          preferredStyle:UIAlertControllerStyleAlert];
+                                                        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
+                                                                                                         style:UIAlertActionStyleDefault
+                                                                                                       handler:^(UIAlertAction * action) {
+                                                                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                                                                       }];
+                                                        [alertController addAction:cancel];
+                                                        [welf presentViewController:alertController animated:YES completion:nil];
+                                                        
+                                                    }
+                                                    welf.tracks = [NSArray array];
                                                 }];
 }
 

@@ -32,6 +32,7 @@ const struct IQMotionActivityTypes IQMotionActivityType = {
 
 @property (nonatomic, assign) BOOL                  locationMonitoringStarted;
 @property (nonatomic, strong) IQTrack               *currentTrack;
+@property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQTrackerResult result);
 
 @end
 
@@ -65,6 +66,7 @@ static IQTracker *_iqTracker;
 
 - (void)startTrackerForActivity:(NSString *)activityString
                          update:(void (^)(IQTrackPoint *t, IQTrackerResult result))updateBlock
+                     completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock
 {
     __block CMMotionActivity *currentActivity;
     static int deflectionCounter = 0;
@@ -102,19 +104,20 @@ static IQTracker *_iqTracker;
         
     }
     
-    __weak __typeof(self) welf = self;
+    self.completionBlock = completionBlock;
+    __block __typeof(self) belf = self;
     [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
         if (result == kIQMotionActivityResultFound && activity) {
             if (activityString) {
                 if ([activity containsActivityType:activityString]) {
-                    if (!welf.currentTrack) {
-                        welf.currentTrack = [IQTrack createWithActivity:activity
+                    if (!belf.currentTrack) {
+                        belf.currentTrack = [IQTrack createWithActivity:activity
                                                               inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                     }
                     deflectionCounter = 0;
                     currentActivity = activity;
-                    if (!welf.locationMonitoringStarted) {
-                        welf.locationMonitoringStarted = YES;
+                    if (!belf.locationMonitoringStarted) {
+                        belf.locationMonitoringStarted = YES;
                         [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                                           accuracy:desiredAccuracy
                                                                                                     distanceFilter:distanceFilter
@@ -124,7 +127,7 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:belf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                                                                                                     updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
@@ -133,14 +136,15 @@ static IQTracker *_iqTracker;
                                                                                                             }];
                     }
                     
-                } else {
+                } else if (currentActivity) {
                     if ((activity.running || activity.walking || activity.automotive || activity.cycling) && activity.confidence > CMMotionActivityConfidenceLow) {
                         deflectionCounter++;
                         if (deflectionCounter == 3) {
                             // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
                             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-                            welf.locationMonitoringStarted = NO;
-                            [welf closeCurrentTrack];
+                            belf.locationMonitoringStarted = NO;
+                            currentActivity = nil;
+                            [belf closeCurrentTrack];
                             
                         }
                     } else {
@@ -148,22 +152,23 @@ static IQTracker *_iqTracker;
                         if (seconds > 120) {
                             // 2 minuts since last correct activity -> close current track
                             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-                            welf.locationMonitoringStarted = NO;
-                            [welf closeCurrentTrack];
+                            belf.locationMonitoringStarted = NO;
+                            currentActivity = nil;
+                            [belf closeCurrentTrack];
                             
                         }
                     }
                 }
                 
             } else {
-                if (!welf.currentTrack) {
-                    welf.currentTrack = [IQTrack createWithActivity:activity
+                if (!belf.currentTrack) {
+                    belf.currentTrack = [IQTrack createWithActivity:activity
                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                 }
                 if (activity.running || activity.walking || activity.automotive || activity.cycling) {
                     currentActivity = activity;
-                    if (!welf.locationMonitoringStarted) {
-                        welf.locationMonitoringStarted = YES;
+                    if (!belf.locationMonitoringStarted) {
+                        belf.locationMonitoringStarted = YES;
                         [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                                           accuracy:desiredAccuracy
                                                                                                     distanceFilter:distanceFilter
@@ -173,7 +178,7 @@ static IQTracker *_iqTracker;
                                                                                                             update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                                                 if (locationOrNil && result == kIQLocationResultFound) {
                                                                                                                     
-                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:welf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                                                                                                    IQTrackPoint *tp = [IQTrackPoint createWithActivity:currentActivity location:locationOrNil andTrackID:belf.currentTrack.objectID inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                                                                                                     updateBlock(tp, kIQTrackerResultFound);
                                                                                                                     
                                                                                                                 } else {
@@ -204,8 +209,9 @@ static IQTracker *_iqTracker;
     if (self.currentTrack) {
         BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
         NSAssert(result, @"error closing track");
-        self.currentTrack = nil;
     }
+    self.completionBlock(self.currentTrack, kIQTrackerResultTrackEnd);
+    self.currentTrack = nil;
 }
 
 @end
