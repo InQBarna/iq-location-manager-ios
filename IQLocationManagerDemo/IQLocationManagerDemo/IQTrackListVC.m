@@ -67,7 +67,9 @@
     }
     
     IQTrack *t = self.tracks[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@: %2.f meters", t.activityType, t.distance.floatValue];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@: %2.f meters",
+                           t.activityType,
+                           t.distance.floatValue];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@ - Points: %lu",
                                  [NSDateFormatter localizedStringFromDate:t.start_date
                                                                 dateStyle:NSDateFormatterShortStyle

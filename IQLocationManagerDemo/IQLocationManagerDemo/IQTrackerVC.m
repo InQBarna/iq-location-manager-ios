@@ -163,24 +163,24 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
                                                                                                                                  message:dates
                                                                                                                           preferredStyle:UIAlertControllerStyleAlert];
-                                                        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                                                         style:UIAlertActionStyleDefault
-                                                                                                       handler:^(UIAlertAction * action) {
+                                                        UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
+                                                                                                          style:UIAlertActionStyleDefault
+                                                                                                        handler:^(UIAlertAction * action) {
                                                                                                            [alertController dismissViewControllerAnimated:YES completion:nil];
-                                                                                                       }];
-                                                        [alertController addAction:cancel];
+                                                                                                        }];
+                                                        [alertController addAction:aceptar];
                                                         [welf presentViewController:alertController animated:YES completion:nil];
                                                         
                                                     } else {
                                                         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
                                                                                                                                  message:@"NO TRACK REGISTERED"
                                                                                                                           preferredStyle:UIAlertControllerStyleAlert];
-                                                        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel"
-                                                                                                         style:UIAlertActionStyleDefault
-                                                                                                       handler:^(UIAlertAction * action) {
+                                                        UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
+                                                                                                          style:UIAlertActionStyleDefault
+                                                                                                        handler:^(UIAlertAction * action) {
                                                                                                            [alertController dismissViewControllerAnimated:YES completion:nil];
-                                                                                                       }];
-                                                        [alertController addAction:cancel];
+                                                                                                        }];
+                                                        [alertController addAction:aceptar];
                                                         [welf presentViewController:alertController animated:YES completion:nil];
                                                         
                                                     }
