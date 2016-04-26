@@ -321,6 +321,7 @@ static IQTracker *_iqTracker;
                         }
                     }
                 }
+                [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
             }];
                                                                                                 
         } else {
