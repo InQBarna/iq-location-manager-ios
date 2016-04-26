@@ -35,7 +35,9 @@ extern const struct IQMotionActivityTypes {
 /**
  The tracker starts first the IQMotionActivityManager :: startActivityMonitoring and when there's a match starts IQPermanentLocation :: startPermanentMonitoringLocation. When there's a result, create IQTrackPoint.
  
- @fact: The tracker result depends on activity
+ @fact The tracker result depends on activity
+ 
+ @alert Doesn't working in background
  */
 - (void)startTrackerForActivity:(NSString *)activityString
                        progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
@@ -52,8 +54,10 @@ extern const struct IQMotionActivityTypes {
 
 - (void)stopTracker;
 
+
 - (NSArray *)getCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;
+- (id)getLastTrack;
 
 @end
