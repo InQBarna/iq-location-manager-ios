@@ -100,7 +100,7 @@
                                                                                 distanceFilter:100.0
                                                                                   activityType:CLActivityTypeAutomotiveNavigation
                                                                allowsBackgroundLocationUpdates:YES
-                                                            pausesLocationUpdatesAutomatically:YES
+                                                            pausesLocationUpdatesAutomatically:NO
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                             if (result == kIQLocationResultFound && locationOrNil) {
                                                                                                 NSMutableArray *temp1 = welf.locations.mutableCopy;

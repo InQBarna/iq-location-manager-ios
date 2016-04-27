@@ -135,16 +135,16 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     __weak __typeof(self) welf = self;
     NSString *activity;
     if (self.trackerMode == kIQTrackerModeAutomatic) {
-        activity = IQMotionActivityType.walking;
+        activity = IQMotionActivityType.automotive;
     }
-    [[IQTracker sharedManager] reverseStartTrackerForActivity:activity
-                                              progress:^(IQTrackPoint *t, IQTrackerResult result) {
-                                                    if (result == kIQTrackerResultFound && t) {
+    [[IQTracker sharedManager] startLIVETrackerForActivity:activity
+                                              progress:^(IQTrackPoint *p, IQTrackerResult result) {
+                                                    if (result == kIQTrackerResultFound && p) {
                                                         NSMutableArray *temp = welf.tracks.mutableCopy;
                                                         if (!temp) {
                                                             temp = [NSMutableArray array];
                                                         }
-                                                        [temp addObject:t];
+                                                        [temp addObject:p];
                                                         dispatch_async(dispatch_get_main_queue(), ^{
                                                             welf.tracks = temp.copy;
                                                             [self.tableView reloadData];

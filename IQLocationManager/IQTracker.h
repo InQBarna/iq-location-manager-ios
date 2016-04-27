@@ -32,32 +32,28 @@ extern const struct IQMotionActivityTypes {
 
 + (IQTracker *)sharedManager;
 
-/**
- The tracker starts first the IQMotionActivityManager :: startActivityMonitoring and when there's a match starts IQPermanentLocation :: startPermanentMonitoringLocation. When there's a result, create IQTrackPoint.
- 
- @fact The tracker result depends on activity
- 
- @alert Doesn't working in background
- */
-- (void)startTrackerForActivity:(NSString *)activityString
-                       progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
-                     completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
 
 /**
  The tracker starts first the IQPermanentLocation :: startPermanentMonitoringLocation and when there's a result, starts IQMotionActivityManager :: startActivityMonitoring. If there's an activity match, create IQTrackPoint.
  
  @fact: The tracker result depends on location
+ 
+ @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running || walking || automotive || cycling.
+ Doesn't expect activityString == unknown || activityString == stationary, don't be that bright spark, huh?
  */
-- (void)reverseStartTrackerForActivity:(NSString *)activityString
-                              progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
-                            completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
+- (void)startLIVETrackerForActivity:(NSString *)activityString
+                           progress:(void (^)(IQTrackPoint *p, IQTrackerResult result))progressBlock
+                         completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
+- (void)startTrackerForActivity:(NSString *)activityString;
 
+/**
+ The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. */
 - (void)stopTracker;
 
 
+- (id)getLastTrack;
 - (NSArray *)getCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;
-- (id)getLastTrack;
 
 @end
