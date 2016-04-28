@@ -20,12 +20,10 @@
 #import <CoreMotion/CoreMotion.h>
 
 const struct IQMotionActivityTypes IQMotionActivityType = {
-    .stationary     = @"stationary",
     .walking        = @"walking",
     .running        = @"running",
     .automotive     = @"automotive",
     .cycling        = @"cycling",
-    .unknown        = @"unknown",
 };
 
 @interface IQTracker()

@@ -20,12 +20,10 @@ typedef NS_ENUM(NSInteger, IQTrackerResult) {
 };
 
 extern const struct IQMotionActivityTypes {
-    __unsafe_unretained NSString * stationary;
     __unsafe_unretained NSString * walking;
     __unsafe_unretained NSString * running;
     __unsafe_unretained NSString * automotive;
     __unsafe_unretained NSString * cycling;
-    __unsafe_unretained NSString * unknown;
 } IQMotionActivityType;
 
 @interface IQTracker : NSObject
@@ -39,7 +37,6 @@ extern const struct IQMotionActivityTypes {
  @fact: The tracker result depends on location
  
  @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running || walking || automotive || cycling.
- Doesn't expect activityString == unknown || activityString == stationary, don't be that bright spark, huh?
  */
 - (void)startLIVETrackerForActivity:(NSString *)activityString
                            progress:(void (^)(IQTrackPoint *p, IQTrackerResult result))progressBlock
