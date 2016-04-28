@@ -17,30 +17,30 @@
                         andTrackID:(NSManagedObjectID *)trackID
                          inContext:(NSManagedObjectContext *)ctxt
 {
-    IQTrackPoint *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
-                                                    inManagedObjectContext:ctxt];
-    
-    p.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
-    p.date = [NSDate date];
-    
-    p.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
-    p.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
-    
-    p.unknown = [NSNumber numberWithBool:activity.unknown];
-    p.stationary = [NSNumber numberWithBool:activity.stationary];
-    p.walking = [NSNumber numberWithBool:activity.walking];
-    p.running = [NSNumber numberWithBool:activity.running];
-    p.automotive = [NSNumber numberWithBool:activity.automotive];
-    p.cycling = [NSNumber numberWithBool:activity.cycling];
-    
-    NSError *error;
-    IQTrack *t = [ctxt existingObjectWithID:trackID error:&error];
-    p.order = [NSNumber numberWithInteger:t.points.allObjects.count];
-    p.track = t;
-    [ctxt save:&error];
-    if (error) {
-        return nil;
-    }
+    __block IQTrackPoint *p;
+    [ctxt performBlockAndWait:^{
+        p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+                                          inManagedObjectContext:ctxt];
+        
+        p.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
+        p.date = [NSDate date];
+        
+        p.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
+        p.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
+        
+        p.unknown = [NSNumber numberWithBool:activity.unknown];
+        p.stationary = [NSNumber numberWithBool:activity.stationary];
+        p.walking = [NSNumber numberWithBool:activity.walking];
+        p.running = [NSNumber numberWithBool:activity.running];
+        p.automotive = [NSNumber numberWithBool:activity.automotive];
+        p.cycling = [NSNumber numberWithBool:activity.cycling];
+        
+        NSError *error;
+        IQTrack *t = [ctxt existingObjectWithID:trackID error:&error];
+        p.order = [NSNumber numberWithInteger:t.points.allObjects.count];
+        p.track = t;
+        [ctxt save:&error];
+    }];
     
     return p;
 }

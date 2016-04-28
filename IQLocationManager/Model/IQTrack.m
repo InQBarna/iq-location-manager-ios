@@ -19,18 +19,19 @@
                     andActivityType:(NSString *)activityType
                           inContext:(NSManagedObjectContext *)ctxt
 {
-    IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
-                                               inManagedObjectContext:ctxt];
+    __block IQTrack *t;
+    [ctxt performBlockAndWait:^{
+        t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+                                          inManagedObjectContext:ctxt];
+        
+        t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
+        t.activityType = activityType;
+        t.start_date = start_date;
+        
+        NSError *error;
+        [ctxt save:&error];
+    }];
     
-    t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
-    t.activityType = activityType;
-    t.start_date = start_date;
-    
-    NSError *error;
-    [ctxt save:&error];
-    if (error) {
-        return nil;
-    }
     return t;
 }
 
