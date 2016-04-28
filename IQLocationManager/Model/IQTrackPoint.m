@@ -89,22 +89,4 @@
     return string;
 }
 
-#pragma mark - MKAnnotation protocol
-- (NSString *)title
-{
-    return [NSString stringWithFormat:@"point: %li", self.order.integerValue];
-}
-
-- (NSString *)subtitle
-{
-    return [NSDateFormatter localizedStringFromDate:self.date
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterMediumStyle];
-}
-
-- (CLLocationCoordinate2D)coordinate
-{
-    return CLLocationCoordinate2DMake(self.latitude.doubleValue, self.longitude.doubleValue);
-}
-
 @end

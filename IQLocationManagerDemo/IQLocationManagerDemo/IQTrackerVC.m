@@ -166,7 +166,8 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                         UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
                                                                                                           style:UIAlertActionStyleDefault
                                                                                                         handler:^(UIAlertAction * action) {
-                                                                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                                                                           [alertController dismissViewControllerAnimated:YES
+                                                                                                                                               completion:nil];
                                                                                                         }];
                                                         [alertController addAction:aceptar];
                                                         [welf presentViewController:alertController animated:YES completion:nil];
@@ -178,7 +179,8 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                         UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
                                                                                                           style:UIAlertActionStyleDefault
                                                                                                         handler:^(UIAlertAction * action) {
-                                                                                                           [alertController dismissViewControllerAnimated:YES completion:nil];
+                                                                                                           [alertController dismissViewControllerAnimated:YES
+                                                                                                                                               completion:nil];
                                                                                                         }];
                                                         [alertController addAction:aceptar];
                                                         [welf presentViewController:alertController animated:YES completion:nil];

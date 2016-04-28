@@ -8,8 +8,8 @@
 
 #import "IQMapVC.h"
 
-#import "IQTrack.h"
-#import "IQTrackPoint.h"
+#import "Track.h"
+#import "TrackPoint.h"
 #import "IQLocationDataSource.h"
 #import "CMMotionActivity+IQ.h"
 
@@ -19,7 +19,7 @@
 @interface IQMapVC () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView  *mapView;
-@property (weak, nonatomic) IQTrack             *currentTrack;
+@property (weak, nonatomic) Track             *currentTrack;
 
 @end
 
@@ -34,7 +34,7 @@
 {
     [super viewDidAppear:animated];
     if (self.currentTrack) {
-        [self addTracks:[self.currentTrack sortedPoints]];
+        [self addTracks:self.currentTrack.points];
     }
 }
 
@@ -58,10 +58,9 @@
 }
 */
 
-- (void)configureWithTrackID:(NSManagedObjectID *)trackID
+- (void)configureWithTrack:(Track *)track
 {
-    NSError *error = nil;
-    self.currentTrack = (IQTrack *)[[IQLocationDataSource sharedDataSource].managedObjectContext existingObjectWithID:trackID error:&error];
+    self.currentTrack = track;
 }
 
 - (void)addTracks:(NSArray *)tracks
@@ -69,7 +68,7 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    IQTrackPoint *current;
+    TrackPoint *current;
     CLLocationCoordinate2D coordinates[tracks.count];
     for (int i = 0; i < tracks.count; i++) {
         current = tracks[i];
@@ -109,13 +108,13 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView *annotationView;
-    if ([annotation isKindOfClass:[IQTrackPoint class]]) {        
+    if ([annotation isKindOfClass:[TrackPoint class]]) {
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-        if ([(IQTrackPoint *)annotation running].boolValue || [(IQTrackPoint *)annotation walking].boolValue) {
+        if ([(TrackPoint *)annotation running].boolValue || [(TrackPoint *)annotation walking].boolValue) {
             annView.pinColor = MKPinAnnotationColorRed;
-        } else if ([(IQTrackPoint *)annotation automotive].boolValue) {
+        } else if ([(TrackPoint *)annotation automotive].boolValue) {
             annView.pinColor = MKPinAnnotationColorPurple;
-        } else if ([(IQTrackPoint *)annotation cycling].boolValue) {
+        } else if ([(TrackPoint *)annotation cycling].boolValue) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
         annView.canShowCallout = YES;

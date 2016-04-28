@@ -8,7 +8,7 @@
 
 #import "IQTrackListVC.h"
 
-#import "IQTrack.h"
+#import "Track.h"
 #import "IQTracker.h"
 #import <CoreData/CoreData.h>
 #import "IQTrackMapVC.h"
@@ -45,9 +45,9 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"showMap"] && [sender isKindOfClass:[NSManagedObjectID class]]) {
+    if ([segue.identifier isEqualToString:@"showMap"] && [sender isKindOfClass:[Track class]]) {
         IQTrackMapVC *vc = (IQTrackMapVC *)segue.destinationViewController;
-        [vc configureWithTrackID:(NSManagedObjectID *)sender];
+        [vc configureWithTrack:(Track *)sender];
     }
 }
 
@@ -66,7 +66,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    IQTrack *t = self.tracks[indexPath.row];
+    Track *t = self.tracks[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@: %2.f meters",
                            t.activityType,
                            t.distance.floatValue];
@@ -77,14 +77,14 @@
                                  [NSDateFormatter localizedStringFromDate:t.end_date
                                                                 dateStyle:NSDateFormatterShortStyle
                                                                 timeStyle:NSDateFormatterShortStyle],
-                                 (unsigned long)[t sortedPoints].count];
+                                 (unsigned long)t.points.count];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     IQTrack *t = self.tracks[indexPath.row];
-    [self performSegueWithIdentifier:@"showMap" sender:t.objectID];
+    [self performSegueWithIdentifier:@"showMap" sender:t];
 }
 
 @end

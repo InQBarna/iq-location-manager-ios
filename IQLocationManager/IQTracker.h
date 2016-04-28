@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class IQTrackPoint, IQTrack;
+@class IQTrackPoint, IQTrack, Track;
 
 typedef NS_ENUM(NSInteger, IQTrackerResult) {
     kIQTrackerResultError,
@@ -48,7 +48,7 @@ extern const struct IQMotionActivityTypes {
 - (void)stopTracker;
 
 
-- (id)getLastTrack;
+- (Track *)getLastTrack;
 - (NSArray *)getCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;

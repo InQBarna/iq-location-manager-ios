@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import <CoreData/CoreData.h>
+@class Track;
 
 @interface IQMapVC : UIViewController
 
 - (void)addLocations:(NSArray *)locations;
 - (void)addTracks:(NSArray *)tracks;
-- (void)configureWithTrackID:(NSManagedObjectID *)trackID;
+- (void)configureWithTrack:(Track *)track;
 
 @end

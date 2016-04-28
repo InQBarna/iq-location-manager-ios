@@ -16,6 +16,9 @@
 #import "IQTrackPoint.h"
 #import "IQLocationDataSource.h"
 
+#import "Track.i.h"
+#import "TrackPoint.i.h"
+
 #import "CMMotionActivity+IQ.h"
 #import <CoreMotion/CoreMotion.h>
 
@@ -437,8 +440,19 @@ static IQTracker *_iqTracker;
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
     request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil"];
-    NSError *error = nil;
-    return [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+    
+    NSMutableArray *temp = [NSMutableArray array];
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+        
+        for (IQTrack *iqTrack in tracks) {
+            Track *t = [[Track alloc] initWithIQTrack:iqTrack];
+            [temp addObject:t];
+        }
+    }];
+    
+    return temp.copy;
 }
 
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
@@ -447,11 +461,22 @@ static IQTracker *_iqTracker;
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
     request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil AND start_date <= %@ AND end_date >= %@", start_date, end_date];
-    NSError *error = nil;
-    return [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+    
+    NSMutableArray *temp = [NSMutableArray array];
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+        
+        for (IQTrack *iqTrack in tracks) {
+            Track *t = [[Track alloc] initWithIQTrack:iqTrack];
+            [temp addObject:t];
+        }
+    }];
+    
+    return temp.copy;
 }
 
-- (id)getLastTrack
+- (Track *)getLastTrack
 {
     NSArray *array = [self getCompletedTracks].copy;
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"end_date" ascending:YES];
