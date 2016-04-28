@@ -546,7 +546,13 @@
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
-                    <navigationItem key="navigationItem" title="Tracks" id="41r-Gl-KYM"/>
+                    <navigationItem key="navigationItem" title="Tracks" id="41r-Gl-KYM">
+                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="ugx-fe-Whh">
+                            <connections>
+                                <action selector="deleteModel:" destination="BhG-M0-Emr" id="aob-qz-SNW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="pOd-uT-kab" id="Hlr-Tr-jLX"/>
                         <segue destination="XeN-gn-pzs" kind="push" identifier="showMap" id="m72-nF-FPf"/>
@@ -631,7 +637,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LQ8-D9-vjX">
                                 <rect key="frame" x="270" y="455" width="0.0" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

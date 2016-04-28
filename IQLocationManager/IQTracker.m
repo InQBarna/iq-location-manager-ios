@@ -483,4 +483,21 @@ static IQTracker *_iqTracker;
     return [array sortedArrayUsingDescriptors:@[sort]].lastObject;
 }
 
+
+- (void)deleteTracks
+{
+    if (self.currentTrack) {
+        [self closeCurrentTrack];
+    }
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+        
+        for (IQTrack *iqTrack in tracks) {
+            [[IQLocationDataSource sharedDataSource].managedObjectContext deleteObject:iqTrack];
+        }
+    }];
+}
+
 @end

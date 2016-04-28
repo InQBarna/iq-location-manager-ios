@@ -6,7 +6,7 @@
         <attribute name="end_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="start_date" optional="YES" attributeType="Date" syncable="YES"/>
-        <relationship name="points" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IQTrackPoint" inverseName="track" inverseEntity="IQTrackPoint" syncable="YES"/>
+        <relationship name="points" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IQTrackPoint" inverseName="track" inverseEntity="IQTrackPoint" syncable="YES"/>
     </entity>
     <entity name="IQTrackPoint" representedClassName="IQTrackPoint" syncable="YES">
         <attribute name="automotive" optional="YES" attributeType="Boolean" syncable="YES"/>

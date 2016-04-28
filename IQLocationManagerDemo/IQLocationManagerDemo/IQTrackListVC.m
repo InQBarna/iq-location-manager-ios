@@ -40,6 +40,33 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)deleteModel:(id)sender
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Delete all tracks"
+                                                                             message:@"This action will stop the current track and will delete it with the rest of the tracks."
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
+                                                      style:UIAlertActionStyleDefault
+                                                    handler:^(UIAlertAction * action) {
+                                                        [[IQTracker sharedManager] deleteTracks];
+                                                        self.tracks = [NSArray array];
+                                                        [self.tableView reloadData];
+                                                        [alertController dismissViewControllerAnimated:YES
+                                                                                            completion:nil];
+                                                    }];
+    
+    UIAlertAction* cancelar = [UIAlertAction actionWithTitle:@"Cancelar"
+                                                       style:UIAlertActionStyleDefault
+                                                     handler:^(UIAlertAction * action) {
+                                                         [alertController dismissViewControllerAnimated:YES
+                                                                                             completion:nil];
+                                                     }];
+    
+    [alertController addAction:aceptar];
+    [alertController addAction:cancelar];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
