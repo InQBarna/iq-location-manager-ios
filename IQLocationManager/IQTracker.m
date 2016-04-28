@@ -31,9 +31,9 @@ const struct IQMotionActivityTypes IQMotionActivityType = {
 
 @interface IQTracker()
 
-@property (nonatomic, assign) BOOL                  locationMonitoringStarted;
 @property (nonatomic, strong) IQTrack               *currentTrack;
 @property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQTrackerResult result);
+@property (nonatomic, assign) IQTrackerStatus       status;
 
 @end
 
@@ -64,6 +64,11 @@ static IQTracker *_iqTracker;
 {
     self.currentTrack = nil;
     self.completionBlock = nil;
+}
+
+- (IQTrackerStatus)trackerStatus
+{
+    return self.status;
 }
 
 //- (void)startTrackerForActivity:(NSString *)activityString
@@ -225,6 +230,8 @@ static IQTracker *_iqTracker;
     CLActivityType activityType;
     BOOL pausesLocationUpdatesAutomatically;
     
+    self.status = kIQTrackerStatusWorkingAutotracking;
+    
     // configure location settings for activity
     if ([activityString isEqualToString:IQMotionActivityType.automotive]) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
@@ -255,6 +262,8 @@ static IQTracker *_iqTracker;
         activityType = CLActivityTypeAutomotiveNavigation;
         pausesLocationUpdatesAutomatically = NO;
         
+        self.status = kIQTrackerStatusWorkingManual;
+        
     }
     
     self.completionBlock = completionBlock;
@@ -279,7 +288,6 @@ static IQTracker *_iqTracker;
                             if (seconds > 300) {
                                 // 2 minuts since last correct activity -> close current track
                                 deflectionCounter = 0;
-                                belf.locationMonitoringStarted = NO;
                                 lastActivity = nil;
                                 [belf closeCurrentTrack];
                                 
@@ -310,7 +318,6 @@ static IQTracker *_iqTracker;
                                 if (deflectionCounter == 3) {
                                     // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
                                     deflectionCounter = 0;
-                                    belf.locationMonitoringStarted = NO;
                                     lastActivity = nil;
                                     [belf closeCurrentTrack];
                                     
@@ -320,7 +327,6 @@ static IQTracker *_iqTracker;
                                 if (seconds > 120) {
                                     // 2 minuts since last correct activity -> close current track
                                     deflectionCounter = 0;
-                                    belf.locationMonitoringStarted = NO;
                                     lastActivity = nil;
                                     [belf closeCurrentTrack];
                                     
@@ -405,7 +411,7 @@ static IQTracker *_iqTracker;
 {
     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
     [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
-    self.locationMonitoringStarted = NO;
+    self.status = kIQTrackerStatusStopped;
     [self closeCurrentTrack];
 }
 
@@ -483,7 +489,7 @@ static IQTracker *_iqTracker;
     return [array sortedArrayUsingDescriptors:@[sort]].lastObject;
 }
 
-
+#pragma mark - DELETE IQTracks method
 - (void)deleteTracks
 {
     if (self.currentTrack) {

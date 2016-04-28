@@ -10,6 +10,12 @@
 
 @class IQTrackPoint, IQTrack, Track;
 
+typedef NS_ENUM(NSInteger, IQTrackerStatus) {
+    kIQTrackerStatusStopped,
+    kIQTrackerStatusWorkingAutotracking,
+    kIQTrackerStatusWorkingManual,
+};
+
 typedef NS_ENUM(NSInteger, IQTrackerResult) {
     kIQTrackerResultError,
     kIQTrackerResultMotionError,
@@ -30,6 +36,9 @@ extern const struct IQMotionActivityTypes {
 
 + (IQTracker *)sharedManager;
 
+/**
+ Returns IQTrackerStatus: kIQTrackerStatusStopped || kIQTrackerStatusWorkingAutotracking || kIQTrackerStatusWorkingManual */
+- (IQTrackerStatus)trackerStatus;
 
 /**
  The tracker starts first the IQPermanentLocation :: startPermanentMonitoringLocation and when there's a result, starts IQMotionActivityManager :: startActivityMonitoring. If there's an activity match, create IQTrackPoint.
@@ -54,7 +63,7 @@ extern const struct IQMotionActivityTypes {
                           andDate:(NSDate *)end_date;
 
 /**
- This method stops the current track and delete all tracks in the model including their trackPoints */
+ This method stops the current track and delete all tracks in the model including their trackPoints. */
 - (void)deleteTracks;
 
 @end
