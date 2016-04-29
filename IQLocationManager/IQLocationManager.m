@@ -8,7 +8,9 @@
 
 #import "IQLocationManager.h"
 
-@interface IQLocationManager() <UIAlertViewDelegate>
+#import "IQLocationPermissions.h"
+
+@interface IQLocationManager() /*<UIAlertViewDelegate>*/
 
 @property (nonatomic, strong) CLLocationManager     *locationManager;
 @property (nonatomic, copy) void (^progressBlock)(CLLocation *location, IQLocationResult result);
@@ -25,10 +27,9 @@ static IQLocationManager *_iqLocationManager;
 
 #pragma mark Initialization and destroy calls
 
-+ (IQLocationManager *)sharedManager {
-    
-
-    static dispatch_once_t onceToken;    
++ (IQLocationManager *)sharedManager
+{
+    static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _iqLocationManager = [[self alloc] init];
     });
@@ -36,8 +37,8 @@ static IQLocationManager *_iqLocationManager;
     return _iqLocationManager;
 }
 
-- (id)init {
-    
+- (id)init
+{
      NSAssert([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationUsageDescription"] != nil, @"To use location services in iOS < 8+, your Info.plist must provide a value for NSLocationUsageDescription.");
     
     self = [super init];
@@ -111,55 +112,77 @@ static IQLocationManager *_iqLocationManager;
         return;
     }
     
-    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+//    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+//    
+//    if ( status ==  kCLAuthorizationStatusNotDetermined ) {
+//        if (softAccessRequest) {
+//            
+//            NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
+//            if ([localizedTitle isEqualToString:@"location_request_alert_title"]) {
+//                localizedTitle = NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil);
+//            }
+//            
+//            NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
+//            if ([localizedDescription isEqualToString:@"location_request_alert_description"]) {
+//                localizedDescription = NSLocalizedStringFromTable(@"NSLocationUsageDescription", @"InfoPlist", nil);
+//                if ([localizedDescription isEqualToString:@"NSLocationUsageDescription"]) {
+//                    localizedDescription = NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil);
+//                }
+//            }
+//            NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
+//            NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
+//            
+//            
+//            [[[UIAlertView alloc] initWithTitle: localizedTitle
+//                                        message: localizedDescription
+//                                       delegate: self
+//                              cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
+//                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
+//                              otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
+//                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
+//            
+//            return;
+//        } else {
+//            _isGettingPermissions = YES;
+//            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
+//                [self requestSystemPermissionForLocation];
+//            } else {
+//                // for iOS 7, startUpdating forces the request to the user
+//                [_locationManager startUpdatingLocation];
+//            }
+//            return;
+//        }
+//    } else if ( status == kCLAuthorizationStatusDenied ) {
+//        [self stopUpdatingLocationWithResult:kIQLocationResultSystemDenied];
+//        return;
+//    }
+//    
+//    [_locationManager startUpdatingLocation];
+//    
+//    if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
+//        [self startUpdatingLocation];
+//    }
     
-    if ( status ==  kCLAuthorizationStatusNotDetermined ) {
-        if (softAccessRequest) {
-            
-            NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
-            if ([localizedTitle isEqualToString:@"location_request_alert_title"]) {
-                localizedTitle = NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil);
-            }
-            
-            NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
-            if ([localizedDescription isEqualToString:@"location_request_alert_description"]) {
-                localizedDescription = NSLocalizedStringFromTable(@"NSLocationUsageDescription", @"InfoPlist", nil);
-                if ([localizedDescription isEqualToString:@"NSLocationUsageDescription"]) {
-                    localizedDescription = NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil);
-                }
-            }
-            NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
-            NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
-            
-            
-            [[[UIAlertView alloc] initWithTitle: localizedTitle
-                                        message: localizedDescription
-                                       delegate: self
-                              cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
-                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
-                              otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
-                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
-            
-            return;
-        } else {
-            _isGettingPermissions = YES;
-            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-                [self requestSystemPermissionForLocation];
-            } else {
-                // for iOS 7, startUpdating forces the request to the user
-                [_locationManager startUpdatingLocation];
-            }
-            return;
-        }
-    } else if ( status == kCLAuthorizationStatusDenied ) {
-        [self stopUpdatingLocationWithResult:kIQLocationResultSystemDenied];
-        return;
-    }
-    
-    [_locationManager startUpdatingLocation];
-    
-    if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
+    __weak __typeof(self) welf = self;
+    if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined ||
+        [[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultSoftDenied) {
+        [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
+                                                              withSoftAccessRequest:softAccessRequest
+                                                                      andCompletion:^(IQLocationResult result) {
+                                                                          if (result == kIQlocationResultAuthorized) {
+                                                                              [welf startUpdatingLocation];
+                                                                          } else {
+                                                                              [welf stopUpdatingLocationWithResult:result];
+                                                                              completion(nil, result);
+                                                                          }
+                                                                      }];
+        
+    } else if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized) {
         [self startUpdatingLocation];
+        
+    } else {
+        [self stopUpdatingLocationWithResult:[[IQLocationPermissions sharedManager] getLocationStatus]];
+        completion(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);
     }
 }
 
@@ -181,39 +204,39 @@ static IQLocationManager *_iqLocationManager;
                        }];
 }
 
-- (IQLocationResult)getLocationStatus
-{
-    if (!CLLocationManager.locationServicesEnabled) {
-        return kIQLocationResultNotEnabled;
-    } else {
-        CLAuthorizationStatus const status = CLLocationManager.authorizationStatus;
-        
-        if (status == kCLAuthorizationStatusNotDetermined) {
-            if (self.getSoftDeniedFromDefaults){
-                return kIQLocationResultSoftDenied;
-            } else {
-                return kIQLocationResultNotDetermined;
-            }
-        } else {
-            if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
-                return kIQLocationResultSystemDenied;
-            } else if (status == kCLAuthorizationStatusAuthorized) {
-                return kIQlocationResultAuthorized;
-            }
-            
-            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-                if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-                    return kIQlocationResultAuthorized;
-                }
-            }
-            
-            if (self.getSoftDeniedFromDefaults){
-                return kIQLocationResultSoftDenied;
-            }
-        }
-    }
-    return kIQLocationResultNotDetermined;
-}
+//- (IQLocationResult)getLocationStatus
+//{
+//    if (!CLLocationManager.locationServicesEnabled) {
+//        return kIQLocationResultNotEnabled;
+//    } else {
+//        CLAuthorizationStatus const status = CLLocationManager.authorizationStatus;
+//        
+//        if (status == kCLAuthorizationStatusNotDetermined) {
+//            if (self.getSoftDeniedFromDefaults){
+//                return kIQLocationResultSoftDenied;
+//            } else {
+//                return kIQLocationResultNotDetermined;
+//            }
+//        } else {
+//            if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
+//                return kIQLocationResultSystemDenied;
+//            } else if (status == kCLAuthorizationStatusAuthorized) {
+//                return kIQlocationResultAuthorized;
+//            }
+//            
+//            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
+//                if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+//                    return kIQlocationResultAuthorized;
+//                }
+//            }
+//            
+//            if (self.getSoftDeniedFromDefaults){
+//                return kIQLocationResultSoftDenied;
+//            }
+//        }
+//    }
+//    return kIQLocationResultNotDetermined;
+//}
 
 #pragma mark Private location calls
 
@@ -275,18 +298,18 @@ static IQLocationManager *_iqLocationManager;
     return [NSKeyedUnarchiver unarchiveObjectWithData:userLoc];
 }
 
-- (BOOL)getSoftDeniedFromDefaults
-{
-    BOOL softDenied = [NSUserDefaults.standardUserDefaults boolForKey:kIQLocationSoftDenied];
-    return softDenied;
-}
+//- (BOOL)getSoftDeniedFromDefaults
+//{
+//    BOOL softDenied = [NSUserDefaults.standardUserDefaults boolForKey:kIQLocationSoftDenied];
+//    return softDenied;
+//}
 
-- (BOOL)setSoftDenied:(BOOL)softDenied
-{
-    NSUserDefaults *const standardUserDefaults = NSUserDefaults.standardUserDefaults;
-    [NSUserDefaults.standardUserDefaults setBool:softDenied forKey:kIQLocationSoftDenied];
-    return [standardUserDefaults synchronize];
-}
+//- (BOOL)setSoftDenied:(BOOL)softDenied
+//{
+//    NSUserDefaults *const standardUserDefaults = NSUserDefaults.standardUserDefaults;
+//    [NSUserDefaults.standardUserDefaults setBool:softDenied forKey:kIQLocationSoftDenied];
+//    return [standardUserDefaults synchronize];
+//}
 
 #pragma mark CLLocationManagerDelegate calls
 
@@ -362,59 +385,59 @@ static IQLocationManager *_iqLocationManager;
                 _progressBlock(nil, kIQlocationResultAuthorized);
             }
         } else {
-            [self stopUpdatingLocationWithResult:self.getLocationStatus];
+            [self stopUpdatingLocationWithResult:[[IQLocationPermissions sharedManager] getLocationStatus]];
         }
     } else {
         if (status == kCLAuthorizationStatusAuthorized) {
             [self startUpdatingLocation];
         } else {
-            [self stopUpdatingLocationWithResult:self.getLocationStatus];
+            [self stopUpdatingLocationWithResult:[[IQLocationPermissions sharedManager] getLocationStatus]];
         }
     }
     
     _isGettingPermissions = NO;
 }
 
-#pragma mark - UIAlertViewDelegate methods
-
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if ( buttonIndex == [alertView cancelButtonIndex] ) {
-        [self stopUpdatingLocationWithResult:kIQLocationResultSoftDenied];
-        [self setSoftDenied:YES];
-    } else {
-        [self setSoftDenied:NO];
-        _isGettingPermissions = YES;
-        if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-            [self requestSystemPermissionForLocation];
-            return;
-        } else {
-            [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
-                                  maximumTimeout: self.maximumTimeout
-                           maximumMeasurementAge: self.maximumMeasurementAge
-                               softAccessRequest: NO
-                                        progress: self.progressBlock
-                                      completion: self.completionBlock];
-        }
-
-    }
-}
-
-- (void)requestSystemPermissionForLocation {
-    // As of iOS 8, apps must explicitly request location services permissions. IQLocationManager supports both levels, "Always" and "When In Use".
-    // IQLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
-    // If you provide values for both description keys, the more permissive "Always" level is requested.
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
-        BOOL hasAlwaysKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
-        BOOL hasWhenInUseKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
-        if (hasAlwaysKey) {
-            [self.locationManager requestAlwaysAuthorization];
-        } else if (hasWhenInUseKey) {
-            [self.locationManager requestWhenInUseAuthorization];
-        } else {
-            // At least one of the keys NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription MUST be present in the Info.plist file to use location services on iOS 8+.
-            NSAssert(hasAlwaysKey || hasWhenInUseKey, @"To use location services in iOS 8+, your Info.plist must provide a value for either NSLocationWhenInUseUsageDescription or NSLocationAlwaysUsageDescription.");
-        }
-    }
-}
+//#pragma mark - UIAlertViewDelegate methods
+//
+//- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    if ( buttonIndex == [alertView cancelButtonIndex] ) {
+//        [self stopUpdatingLocationWithResult:kIQLocationResultSoftDenied];
+//        [self setSoftDenied:YES];
+//    } else {
+//        [self setSoftDenied:NO];
+//        _isGettingPermissions = YES;
+//        if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
+//            [self requestSystemPermissionForLocation];
+//            return;
+//        } else {
+//            [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
+//                                  maximumTimeout: self.maximumTimeout
+//                           maximumMeasurementAge: self.maximumMeasurementAge
+//                               softAccessRequest: NO
+//                                        progress: self.progressBlock
+//                                      completion: self.completionBlock];
+//        }
+//
+//    }
+//}
+//
+//- (void)requestSystemPermissionForLocation {
+//    // As of iOS 8, apps must explicitly request location services permissions. IQLocationManager supports both levels, "Always" and "When In Use".
+//    // IQLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
+//    // If you provide values for both description keys, the more permissive "Always" level is requested.
+//    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+//        BOOL hasAlwaysKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
+//        BOOL hasWhenInUseKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
+//        if (hasAlwaysKey) {
+//            [self.locationManager requestAlwaysAuthorization];
+//        } else if (hasWhenInUseKey) {
+//            [self.locationManager requestWhenInUseAuthorization];
+//        } else {
+//            // At least one of the keys NSLocationAlwaysUsageDescription or NSLocationWhenInUseUsageDescription MUST be present in the Info.plist file to use location services on iOS 8+.
+//            NSAssert(hasAlwaysKey || hasWhenInUseKey, @"To use location services in iOS 8+, your Info.plist must provide a value for either NSLocationWhenInUseUsageDescription or NSLocationAlwaysUsageDescription.");
+//        }
+//    }
+//}
 
 @end

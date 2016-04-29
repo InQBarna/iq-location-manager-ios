@@ -50,7 +50,8 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
     self.updateBlock = updateBlock;
     
     __weak __typeof(self) welf = self;
-    if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined) {
+    if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined ||
+        [[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultSoftDenied) {
         [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
                                                               withSoftAccessRequest:softAccessRequest
                                                                       andCompletion:^(IQLocationResult result) {
@@ -62,7 +63,7 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
                                                                       }];
         
     } else if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized) {
-        [welf startSignificantChangeUpdates];
+        [self startSignificantChangeUpdates];
         
     } else {
         updateBlock(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);

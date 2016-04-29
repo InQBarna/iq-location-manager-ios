@@ -79,7 +79,7 @@ static IQPermanentLocation *_iqPermanentLocation;
                                                                       }];
         
     } else if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized) {
-        [welf startMonitoringUpdates];
+        [self startMonitoringUpdates];
         
     } else {
         updateBlock(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);

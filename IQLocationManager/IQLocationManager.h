@@ -9,25 +9,27 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+#import "IQLocationPermissions.h"
+
 #define kIQLocationLastKnownLocation @"kIQLocationLastKnownLocation"
 #define kIQLocationSoftDenied @"kIQLocationSoftDenied"
 
 #define kIQLocationMeasurementAgeDefault        300.0
 #define kIQLocationMeasurementTimeoutDefault    5.0
 
-typedef NS_ENUM(NSInteger, IQLocationResult) {
-    kIQLocationResultNotEnabled,
-    kIQLocationResultNotDetermined,
-    kIQLocationResultSoftDenied,
-    kIQLocationResultSystemDenied,
-    kIQlocationResultAuthorized,
-    kIQLocationResultError,
-    kIQLocationResultNoResult,
-    kIQLocationResultTimeout,
-    kIQLocationResultIntermediateFound,
-    kIQLocationResultFound,
-    kIQLocationResultAlreadyGettingLocation
-};
+//typedef NS_ENUM(NSInteger, IQLocationResult) {
+//    kIQLocationResultNotEnabled,
+//    kIQLocationResultNotDetermined,
+//    kIQLocationResultSoftDenied,
+//    kIQLocationResultSystemDenied,
+//    kIQlocationResultAuthorized,
+//    kIQLocationResultError,
+//    kIQLocationResultNoResult,
+//    kIQLocationResultTimeout,
+//    kIQLocationResultIntermediateFound,
+//    kIQLocationResultFound,
+//    kIQLocationResultAlreadyGettingLocation
+//};
 
 @interface IQLocationManager : NSObject <CLLocationManagerDelegate>
 
@@ -71,8 +73,8 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion;
 - (void)getAddressFromLocation:(CLLocation*)location
                 withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion;
-- (IQLocationResult)getLocationStatus;
-- (BOOL)getSoftDeniedFromDefaults;
-- (BOOL)setSoftDenied:(BOOL)softDenied;
+//- (IQLocationResult)getLocationStatus;
+//- (BOOL)getSoftDeniedFromDefaults;
+//- (BOOL)setSoftDenied:(BOOL)softDenied;
 
 @end
