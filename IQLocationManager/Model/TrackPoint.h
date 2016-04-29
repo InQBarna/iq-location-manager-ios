@@ -26,7 +26,7 @@
 
 - (nullable instancetype) init __unavailable;
 
-- (NSString * _Nonnull)activityTypeString;
-- (NSString * _Nonnull)confidenceString;
+- (nonnull NSString *)activityTypeString;
+- (nonnull NSString *)confidenceString;
 
 @end

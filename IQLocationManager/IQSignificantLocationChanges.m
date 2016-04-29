@@ -52,14 +52,14 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
     __weak __typeof(self) welf = self;
     if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined) {
         [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
-                                    withSoftAccessRequest:softAccessRequest
-                                            andCompletion:^(IQLocationResult result) {
-                                                if (result == kIQlocationResultAuthorized) {
-                                                    [welf startSignificantChangeUpdates];
-                                                } else {
-                                                    updateBlock(nil, result);
-                                                }
-                                            }];
+                                                              withSoftAccessRequest:softAccessRequest
+                                                                      andCompletion:^(IQLocationResult result) {
+                                                                          if (result == kIQlocationResultAuthorized) {
+                                                                              [welf startSignificantChangeUpdates];
+                                                                          } else {
+                                                                              updateBlock(nil, result);
+                                                                          }
+                                                                      }];
         
     } else if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized) {
         [welf startSignificantChangeUpdates];

@@ -100,8 +100,6 @@ static IQMotionActivityManager *_iqMotionActivityManager;
                                                               } else {
                                                                   NSPredicate *predicateConf = [NSPredicate predicateWithFormat:@"confidence >= %i", confidence];
                                                                   NSArray *temp = [activities filteredArrayUsingPredicate:predicateConf].copy;
-//                                          NSString *pro = @"hola";
-//                                          predicate = [NSPredicate predicateWithFormat:[NSString stringWithFormat:@"%@ == %%i", pro], confidence];
                                                                   if (temp.count > 0) {
                                                                       NSMutableArray *preArray = [NSMutableArray array];
                                                                       for (NSString *str in activityTypes) {
