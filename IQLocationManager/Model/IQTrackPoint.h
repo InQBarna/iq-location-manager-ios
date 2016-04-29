@@ -11,13 +11,12 @@
 
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
-#import <MapKit/MapKit.h>
 
 @class IQTrack;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IQTrackPoint : NSManagedObject <MKAnnotation>
+@interface IQTrackPoint : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 

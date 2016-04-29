@@ -12,12 +12,12 @@
 
 @interface Track : NSObject
 
-@property (nullable, nonatomic, retain, readonly) NSDate *start_date;
-@property (nullable, nonatomic, retain, readonly) NSDate *end_date;
-@property (nullable, nonatomic, retain, readonly) NSNumber *distance;
-@property (nullable, nonatomic, retain, readonly) NSString *objectId;
-@property (nullable, nonatomic, retain, readonly) NSString *activityType;
-@property (nullable, nonatomic, retain, readonly) NSArray<TrackPoint *> *points;
+@property (nonnull, nonatomic, retain, readonly) NSDate *start_date;
+@property (nonnull, nonatomic, retain, readonly) NSDate *end_date;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *distance;
+@property (nonnull, nonatomic, retain, readonly) NSString *objectId;
+@property (nonnull, nonatomic, retain, readonly) NSString *activityType;
+@property (nonnull, nonatomic, retain, readonly) NSArray<TrackPoint *> *points;
 
 - (nullable instancetype) init __unavailable;
 

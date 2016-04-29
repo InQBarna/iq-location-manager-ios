@@ -11,19 +11,22 @@
 
 @interface TrackPoint : NSObject <MKAnnotation>
 
-@property (nullable, nonatomic, retain, readonly) NSNumber *automotive;
-@property (nullable, nonatomic, retain, readonly) NSNumber *confidence;
-@property (nullable, nonatomic, retain, readonly) NSNumber *cycling;
-@property (nullable, nonatomic, retain, readonly) NSDate *date;
-@property (nullable, nonatomic, retain, readonly) NSNumber *latitude;
-@property (nullable, nonatomic, retain, readonly) NSNumber *longitude;
-@property (nullable, nonatomic, retain, readonly) NSString *objectId;
-@property (nullable, nonatomic, retain, readonly) NSNumber *running;
-@property (nullable, nonatomic, retain, readonly) NSNumber *stationary;
-@property (nullable, nonatomic, retain, readonly) NSNumber *unknown;
-@property (nullable, nonatomic, retain, readonly) NSNumber *walking;
-@property (nullable, nonatomic, retain, readonly) NSNumber *order;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *automotive;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *confidence;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *cycling;
+@property (nonnull, nonatomic, retain, readonly) NSDate *date;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *latitude;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *longitude;
+@property (nonnull, nonatomic, retain, readonly) NSString *objectId;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *running;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *stationary;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *unknown;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *walking;
+@property (nonnull, nonatomic, retain, readonly) NSNumber *order;
 
 - (nullable instancetype) init __unavailable;
+
+- (NSString * _Nonnull)activityTypeString;
+- (NSString * _Nonnull)confidenceString;
 
 @end

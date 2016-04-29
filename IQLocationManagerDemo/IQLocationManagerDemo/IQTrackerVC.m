@@ -12,8 +12,8 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "IQTracker.h"
-#import "IQTrack.h"
-#import "IQTrackPoint.h"
+#import "Track.h"
+#import "TrackPoint.h"
 #import "CMMotionActivity+IQ.h"
 
 typedef NS_ENUM(NSInteger, IQTrackerMode) {
@@ -138,7 +138,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
         activity = IQMotionActivityType.automotive;
     }
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
-                                              progress:^(IQTrackPoint *p, IQTrackerResult result) {
+                                              progress:^(TrackPoint *p, IQTrackerResult result) {
                                                     if (result == kIQTrackerResultFound && p) {
                                                         NSMutableArray *temp = welf.tracks.mutableCopy;
                                                         if (!temp) {
@@ -150,7 +150,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                             [self.tableView reloadData];
                                                         });
                                                     }
-                                                } completion:^(IQTrack *t, IQTrackerResult result) {
+                                                } completion:^(Track *t, IQTrackerResult result) {
                                                     if (t) {
                                                         NSString *title = [NSString stringWithFormat:@"Track Ended: %@", t.activityType];
                                                         NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    IQTrackPoint *t = self.tracks[indexPath.row];
+    TrackPoint *t = self.tracks[indexPath.row];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%li. %@ %@",
                            t.order.integerValue,

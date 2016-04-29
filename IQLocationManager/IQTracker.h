@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class IQTrackPoint, IQTrack, Track;
+@class IQTrackPoint, IQTrack, Track, TrackPoint;
 
 typedef NS_ENUM(NSInteger, IQTrackerStatus) {
     kIQTrackerStatusStopped,
@@ -37,7 +37,8 @@ extern const struct IQMotionActivityTypes {
 + (IQTracker *)sharedManager;
 
 /**
- Returns IQTrackerStatus: kIQTrackerStatusStopped || kIQTrackerStatusWorkingAutotracking || kIQTrackerStatusWorkingManual */
+ Returns IQTrackerStatus: kIQTrackerStatusStopped || kIQTrackerStatusWorkingAutotracking || kIQTrackerStatusWorkingManual 
+ */
 - (IQTrackerStatus)trackerStatus;
 
 /**
@@ -48,14 +49,14 @@ extern const struct IQMotionActivityTypes {
  @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running && walking && automotive && cycling.
  */
 - (void)startLIVETrackerForActivity:(NSString *)activityString
-                           progress:(void (^)(IQTrackPoint *p, IQTrackerResult result))progressBlock
-                         completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock;
+                           progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
+                         completion:(void (^)(Track *t, IQTrackerResult result))completionBlock;
 - (void)startTrackerForActivity:(NSString *)activityString;
 
 /**
- The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. */
+ The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. 
+ */
 - (void)stopTracker;
-
 
 - (Track *)getLastTrack;
 - (NSArray *)getCompletedTracks;
@@ -63,7 +64,8 @@ extern const struct IQMotionActivityTypes {
                           andDate:(NSDate *)end_date;
 
 /**
- This method stops the current track and delete all tracks in the model including their trackPoints. */
+ This method stops the current track and delete all tracks in the model including their trackPoints. 
+ */
 - (void)deleteTracks;
 
 @end
