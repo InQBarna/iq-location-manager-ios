@@ -10,6 +10,8 @@
 
 @class IQTrackPoint, IQTrack, Track, TrackPoint;
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, IQTrackerStatus) {
     kIQTrackerStatusStopped,
     kIQTrackerStatusWorkingAutotracking,
@@ -48,17 +50,17 @@ extern const struct IQMotionActivityTypes {
  
  @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running && walking && automotive && cycling.
  */
-- (void)startLIVETrackerForActivity:(NSString *)activityString
-                           progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
-                         completion:(void (^)(Track *t, IQTrackerResult result))completionBlock;
-- (void)startTrackerForActivity:(NSString *)activityString;
+- (void)startLIVETrackerForActivity:(nullable NSString *)activityString
+                           progress:(void (^)(TrackPoint * _Nullable p, IQTrackerResult result))progressBlock
+                         completion:(void (^)(Track * _Nullable t, IQTrackerResult result))completionBlock;
+- (void)startTrackerForActivity:(nullable NSString *)activityString;
 
 /**
  The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. 
  */
 - (void)stopTracker;
 
-- (Track *)getLastTrack;
+- (nullable Track *)getLastTrack;
 - (NSArray *)getCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;
@@ -69,3 +71,5 @@ extern const struct IQMotionActivityTypes {
 - (void)deleteTracks;
 
 @end
+
+NS_ASSUME_NONNULL_END

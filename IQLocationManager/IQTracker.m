@@ -492,7 +492,11 @@ static IQTracker *_iqTracker;
 {
     NSArray *array = [self getCompletedTracks].copy;
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"end_date" ascending:YES];
-    return [array sortedArrayUsingDescriptors:@[sort]].lastObject;
+    NSArray *temp = [array sortedArrayUsingDescriptors:@[sort]].copy;    
+    if (temp.count > 0) {
+        return temp.lastObject;
+    }
+    return nil;
 }
 
 #pragma mark - DELETE IQTracks method
