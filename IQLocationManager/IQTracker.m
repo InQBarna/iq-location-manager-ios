@@ -240,14 +240,16 @@ static IQTracker *_iqTracker;
         pausesLocationUpdatesAutomatically = NO;
         
     } else if ([activityString isEqualToString:IQMotionActivityType.walking] || [activityString isEqualToString:IQMotionActivityType.running]) {
-//        desiredAccuracy = kCLLocationAccuracyBest;
-//        distanceFilter = 5.f;
-//        activityType = CLActivityTypeFitness;
-//        pausesLocationUpdatesAutomatically = NO;
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 5.f;
-        activityType = CLActivityTypeAutomotiveNavigation;
+        activityType = CLActivityTypeFitness;
         pausesLocationUpdatesAutomatically = NO;
+        
+        // TEST
+//        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+//        distanceFilter = 5.f;
+//        activityType = CLActivityTypeAutomotiveNavigation;
+//        pausesLocationUpdatesAutomatically = NO;
         
     } else if ([activityString isEqualToString:IQMotionActivityType.cycling]) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
@@ -282,11 +284,11 @@ static IQTracker *_iqTracker;
                 if (result == kIQMotionActivityResultFound && activity) {
                     if (activityString) { // CASE: AUTOMATIC
                         
-                        // Compare dates with lastActivity -> CASE: track finished, but it wasn't possible to determine
+                        // CASE: track finished, but it wasn't possible to determine because no location received after motion stop
                         if (lastActivity) {
                             NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                             if (seconds > 300) {
-                                // 2 minuts since last correct activity -> close current track
+                                // 5 minuts since last correct activity -> close current track
                                 deflectionCounter = 0;
                                 lastActivity = nil;
                                 [belf closeCurrentTrack];
@@ -356,7 +358,6 @@ static IQTracker *_iqTracker;
                                 
                                 tp_temp = [[TrackPoint alloc] initWithIQTrackPoint:tp];
                             }];
-                            
                             progressBlock(tp_temp, kIQTrackerResultFound);
                         }
                     }
@@ -446,7 +447,7 @@ static IQTracker *_iqTracker;
     }
 }
 
-#pragma mark - GET IQTracks methods
+#pragma mark - GET Tracks methods
 - (NSArray *)getCompletedTracks
 {
     [self checkCurrentTrack];
@@ -513,6 +514,8 @@ static IQTracker *_iqTracker;
         for (IQTrack *iqTrack in tracks) {
             [[IQLocationDataSource sharedDataSource].managedObjectContext deleteObject:iqTrack];
         }
+        
+        [[IQLocationDataSource sharedDataSource].managedObjectContext save:&error];        
     }];
 }
 

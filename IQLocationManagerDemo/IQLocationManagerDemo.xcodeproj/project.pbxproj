@@ -352,10 +352,10 @@
 		C46B87C61CC8E0CC00D43262 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				C4260B841CCA609200BE509A /* IQLocationDataSource.h */,
-				C4260B851CCA609200BE509A /* IQLocationDataSource.m */,
 				C46ED7851CD22D740016B870 /* Model */,
 				C4260BAE1CCA697300BE509A /* CoreDataModel */,
+				C4260B841CCA609200BE509A /* IQLocationDataSource.h */,
+				C4260B851CCA609200BE509A /* IQLocationDataSource.m */,
 			);
 			name = DataSource;
 			sourceTree = "<group>";
