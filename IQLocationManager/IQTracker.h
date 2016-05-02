@@ -49,6 +49,8 @@ extern const struct IQMotionActivityTypes {
  @fact: The tracker result depends on location
  
  @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running && walking && automotive && cycling.
+ @param progress block will be called with the current trackPoint of the current track
+ @param completion block will be called with the finished track
  */
 - (void)startTrackerForActivity:(nullable NSString *)activityString;
 

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, IQLocationResult) {
     kIQLocationResultNotEnabled,
     kIQLocationResultNotDetermined,
@@ -34,3 +36,5 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 - (IQLocationResult)getLocationStatus;
 
 @end
+
+NS_ASSUME_NONNULL_END

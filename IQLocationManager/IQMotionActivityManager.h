@@ -10,6 +10,8 @@
 
 #import <CoreMotion/CoreMotion.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
     kIQMotionActivityResultNotAvailable,
     kIQMotionActivityResultError,
@@ -21,7 +23,7 @@ typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
 
 + (IQMotionActivityManager *)sharedManager;
 
-- (void)startActivityMonitoringWithUpdateBlock:(void(^)(CMMotionActivity *activity, IQMotionActivityResult result))updateBlock;
+- (void)startActivityMonitoringWithUpdateBlock:(void(^)(CMMotionActivity * _Nullable activity, IQMotionActivityResult result))updateBlock;
 
 - (void)stopActivityMonitoring;
 
@@ -32,7 +34,9 @@ typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
 - (void)getMotionActivityWithConfidence:(CMMotionActivityConfidence)confidence
                                fromDate:(NSDate *)start_date
                                  toDate:(NSDate *)end_date
-                       forActivityTypes:(NSArray *)activityTypes
+                       forActivityTypes:(nullable NSArray *)activityTypes
                              completion:(void(^)(NSArray *activities, IQMotionActivityResult result))completion;
 
 @end
+
+NS_ASSUME_NONNULL_END

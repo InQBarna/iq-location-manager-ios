@@ -141,11 +141,6 @@
     return nil;
 }
 
-//- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views
-//{
-//    [self makeAnnotationsVisible:self.mapView.annotations animated:YES];
-//}
-
 - (void)makeAnnotationsVisible:(NSArray *const)annotations animated:(BOOL const)animated
 {
     MKMapRect zoomRect = MKMapRectNull;

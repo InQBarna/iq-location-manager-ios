@@ -11,13 +11,17 @@
 
 #import "IQLocationPermissions.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IQSignificantLocationChanges : NSObject 
 
 + (IQSignificantLocationChanges *)sharedManager;
 
 - (void)startMonitoringLocationWithSoftAccessRequest:(BOOL)softAccessRequest
-                                              update:(void (^)(CLLocation *locationOrNil, IQLocationResult result))updateBlock;
+                                              update:(void (^)(CLLocation * _Nullable locationOrNil, IQLocationResult result))updateBlock;
 
 - (void)stopMonitoringLocation;
 
 @end
+
+NS_ASSUME_NONNULL_END
