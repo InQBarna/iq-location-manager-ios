@@ -109,6 +109,7 @@
 {
     MKAnnotationView *annotationView;
     if ([annotation isKindOfClass:[TrackPoint class]]) {
+        
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
         if ([(TrackPoint *)annotation running].boolValue || [(TrackPoint *)annotation walking].boolValue) {
             annView.pinColor = MKPinAnnotationColorRed;
@@ -117,7 +118,15 @@
         } else if ([(TrackPoint *)annotation cycling].boolValue) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
-        annView.canShowCallout = YES;
+        
+        if ([annotation isEqual:[self.currentTrack points].firstObject] || [annotation isEqual:[self.currentTrack points].lastObject]) {
+            annView.canShowCallout = YES;
+            annView.hidden = NO;
+        } else {
+            annView.canShowCallout = NO;
+            annView.hidden = YES;
+        }
+        
         return annView;
         
     } else {
@@ -130,17 +139,17 @@
 {
     if ([overlay isKindOfClass:[MKPolyline class]]) {
         MKPolylineRenderer *renderer = [[MKPolylineRenderer alloc] initWithOverlay:overlay];
-        [renderer setStrokeColor:[UIColor redColor]];
+        [renderer setStrokeColor:[UIColor purpleColor]];
         [renderer setLineWidth:5.0];
         return renderer;
     }
     return nil;
 }
 
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views
-{
+//- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray<MKAnnotationView *> *)views
+//{
 //    [self makeAnnotationsVisible:self.mapView.annotations animated:YES];
-}
+//}
 
 - (void)makeAnnotationsVisible:(NSArray *const)annotations animated:(BOOL const)animated
 {
