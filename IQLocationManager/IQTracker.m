@@ -501,6 +501,22 @@ static IQTracker *_iqTracker;
 }
 
 #pragma mark - DELETE IQTracks method
+- (void)deleteTrackWithObjectId:(NSString *)objectId
+{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
+    request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil AND objectId == %@", objectId];
+    
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+        for (IQTrack *iqTrack in tracks) {
+            [[IQLocationDataSource sharedDataSource].managedObjectContext deleteObject:iqTrack];
+        }
+        
+        [[IQLocationDataSource sharedDataSource].managedObjectContext save:&error];
+    }];
+}
+
 - (void)deleteTracks
 {
     if (self.currentTrack) {

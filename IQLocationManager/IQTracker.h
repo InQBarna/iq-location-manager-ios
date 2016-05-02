@@ -50,17 +50,18 @@ extern const struct IQMotionActivityTypes {
  
  @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running && walking && automotive && cycling.
  */
+- (void)startTrackerForActivity:(nullable NSString *)activityString;
+
 - (void)startLIVETrackerForActivity:(nullable NSString *)activityString
                            progress:(void (^)(TrackPoint * _Nullable p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track * _Nullable t, IQTrackerResult result))completionBlock;
-- (void)startTrackerForActivity:(nullable NSString *)activityString;
 
 /**
  The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. 
  */
 - (void)stopTracker;
 
-- (nullable Track *)getLastTrack;
+- (nullable Track *)getLastCompletedTrack;
 - (NSArray *)getCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;
@@ -69,6 +70,12 @@ extern const struct IQMotionActivityTypes {
  This method stops the current track and delete all tracks in the model including their trackPoints. 
  */
 - (void)deleteTracks;
+
+/**
+ This method delete the track that match with the @param objectId.
+ */
+- (void)deleteTrackWithObjectId:(NSString *)objectId;
+
 
 @end
 
