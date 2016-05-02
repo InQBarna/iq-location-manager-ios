@@ -45,7 +45,7 @@
     if (self.containerMap.hidden == YES) {
         self.containerMap.hidden = NO;
         self.containerTable.hidden = YES;
-        [[self mapViewController] addTracks:[self tableViewController].tracks];
+        [[self mapViewController] addTrackPoints:[self tableViewController].tracks];
         
     } else if (self.containerTable.hidden == YES) {
         self.containerTable.hidden = NO;

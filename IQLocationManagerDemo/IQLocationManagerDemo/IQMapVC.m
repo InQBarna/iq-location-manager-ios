@@ -33,7 +33,7 @@
 {
     [super viewDidAppear:animated];
     if (self.currentTrack) {
-        [self addTracks:self.currentTrack.points];
+        [self addTrackPoints:self.currentTrack.points];
     }
 }
 
@@ -62,23 +62,23 @@
     self.currentTrack = track;
 }
 
-- (void)addTracks:(NSArray *)tracks
+- (void)addTrackPoints:(NSArray *)trackPoints
 {
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     TrackPoint *current;
-    CLLocationCoordinate2D coordinates[tracks.count];
-    for (int i = 0; i < tracks.count; i++) {
-        current = tracks[i];
+    CLLocationCoordinate2D coordinates[trackPoints.count];
+    for (int i = 0; i < trackPoints.count; i++) {
+        current = trackPoints[i];
         coordinates[i] = CLLocationCoordinate2DMake(current.latitude.doubleValue, current.longitude.doubleValue);
     }
     
-    MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:tracks.count];
+    MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:trackPoints.count];
     [self.mapView setVisibleMapRect:route.boundingMapRect animated:NO];
     [self.mapView addOverlay:route];
     
-    [self.mapView addAnnotations:tracks];
+    [self.mapView addAnnotations:trackPoints];
 }
 
 - (void)addLocations:(NSArray *)locations
@@ -86,12 +86,6 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    [self drawLineWithLocations:locations];
-    [self.mapView addAnnotations:locations];
-}
-
-- (void)drawLineWithLocations:(NSArray *)locations
-{
     CLLocation *current;
     CLLocationCoordinate2D coordinates[locations.count];
     for (int i = 0; i < locations.count; i++) {
@@ -102,6 +96,8 @@
     MKPolyline *route = [MKPolyline polylineWithCoordinates:coordinates count:locations.count];
     [self.mapView setVisibleMapRect:route.boundingMapRect animated:NO];
     [self.mapView addOverlay:route];
+    
+    [self.mapView addAnnotations:locations];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation

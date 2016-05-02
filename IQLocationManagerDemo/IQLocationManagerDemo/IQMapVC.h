@@ -13,7 +13,7 @@
 @interface IQMapVC : UIViewController
 
 - (void)addLocations:(NSArray *)locations;
-- (void)addTracks:(NSArray *)tracks;
+- (void)addTrackPoints:(NSArray *)tracks;
 - (void)configureWithTrack:(Track *)track;
 
 @end

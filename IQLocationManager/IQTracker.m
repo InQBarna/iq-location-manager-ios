@@ -489,7 +489,7 @@ static IQTracker *_iqTracker;
     return temp.copy;
 }
 
-- (Track *)getLastTrack
+- (Track *)getLastCompletedTrack
 {
     NSArray *array = [self getCompletedTracks].copy;
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"end_date" ascending:YES];

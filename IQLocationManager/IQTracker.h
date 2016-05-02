@@ -76,7 +76,6 @@ extern const struct IQMotionActivityTypes {
  */
 - (void)deleteTrackWithObjectId:(NSString *)objectId;
 
-
 @end
 
 NS_ASSUME_NONNULL_END
