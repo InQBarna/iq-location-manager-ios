@@ -97,14 +97,14 @@
 #pragma mark - MKAnnotation protocol
 - (NSString *)title
 {
-    return [NSString stringWithFormat:@"%li - %@", self.order.integerValue, [self confidenceString]];
+    return [NSString stringWithFormat:@"%li. %@", self.order.integerValue, [self activityTypeString]];
 }
 
 - (NSString *)subtitle
 {
-    return [NSDateFormatter localizedStringFromDate:self.date
-                                          dateStyle:NSDateFormatterShortStyle
-                                          timeStyle:NSDateFormatterMediumStyle];
+    return [NSString stringWithFormat:@"%@ - %@",
+            [self confidenceString],
+            [NSDateFormatter localizedStringFromDate:self.date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle]];
 }
 
 - (CLLocationCoordinate2D)coordinate
