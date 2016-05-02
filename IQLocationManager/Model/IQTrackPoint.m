@@ -33,6 +33,8 @@
     p.automotive = [NSNumber numberWithBool:activity.automotive];
     p.cycling = [NSNumber numberWithBool:activity.cycling];
     
+    p.confidence = [NSNumber numberWithInteger:activity.confidence];
+    
     NSError *error;
     IQTrack *t = [ctxt existingObjectWithID:trackID error:&error];
     p.order = [NSNumber numberWithInteger:t.points.allObjects.count];

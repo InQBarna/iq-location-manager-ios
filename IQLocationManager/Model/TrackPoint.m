@@ -97,7 +97,7 @@
 #pragma mark - MKAnnotation protocol
 - (NSString *)title
 {
-    return [NSString stringWithFormat:@"point: %li", self.order.integerValue];
+    return [NSString stringWithFormat:@"%li - %@", self.order.integerValue, [self confidenceString]];
 }
 
 - (NSString *)subtitle
