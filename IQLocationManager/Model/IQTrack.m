@@ -9,8 +9,6 @@
 #import "IQTrack.h"
 #import "IQTrackPoint.h"
 
-#import "CMMotionActivity+IQ.h"
-
 @implementation IQTrack
 
 // Insert code here to add functionality to your managed object subclass

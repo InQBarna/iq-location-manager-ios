@@ -11,7 +11,6 @@
 #import "Track.h"
 #import "TrackPoint.h"
 #import "IQLocationDataSource.h"
-#import "CMMotionActivity+IQ.h"
 
 #import <CoreMotion/CoreMotion.h>
 #import <MapKit/MapKit.h>

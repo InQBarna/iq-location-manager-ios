@@ -9,13 +9,11 @@
 #import "IQPermanentLocationVC.h"
 
 #import "IQMotionActivityManager.h"
-#import "CMMotionActivity+IQ.h"
 #import "IQPermanentLocation.h"
 
 @interface IQPermanentLocationVC ()
 
 @property (weak, nonatomic) IBOutlet UITableView    *tableView;
-@property (strong, nonatomic) NSArray               *activities;
 @property (strong, nonatomic) NSArray               *locationDates;
 
 @end
@@ -38,7 +36,6 @@
         [sender setTitle:@"stop" forState:UIControlStateNormal];
         self.locationDates = [NSArray array];
         self.locations = [NSArray array];
-        self.activities = [NSArray array];
         [self startMonitoring];
         [self getBatteryLevelInitial:YES];
     } else if ([sender.titleLabel.text isEqualToString:@"stop"]) {
@@ -79,22 +76,6 @@
 - (void)startMonitoring
 {
     __weak __typeof(self) welf = self;
-    [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result) {
-        if (result != kIQMotionActivityResultNotAvailable && result != kIQMotionActivityResultNoResult) {
-            NSMutableArray *temp = welf.activities.mutableCopy;
-            if (!temp) {
-                temp = [NSMutableArray array];
-            }
-            [temp addObject:activity];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                welf.activities = temp.copy;
-                [self.tableView reloadData];
-            });
-        } else {
-            NSLog(@"startActivityMonitoringWithUpdateBlock :: %li", (long)result);
-        }
-    }];
-    
     [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                       accuracy:kCLLocationAccuracyBestForNavigation
                                                                                 distanceFilter:100.0
@@ -146,11 +127,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return self.locations.count;
-    } else {
-        return self.activities.count;
-    }
+    return self.locations.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -162,23 +139,15 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    if (indexPath.section == 0) {
-        CLLocation *location = self.locations[indexPath.row];
-        cell.textLabel.text = [NSString stringWithFormat:@"%ld. lat: %f - lon: %f", (long)indexPath.row, location.coordinate.latitude, location.coordinate.longitude];
-        NSDate *date = self.locationDates[indexPath.row];
-        cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:date
-                                                                   dateStyle:NSDateFormatterShortStyle
-                                                                   timeStyle:NSDateFormatterShortStyle];
-        
-    } else {
-        CMMotionActivity *activity = self.activities[indexPath.row];
-        cell.textLabel.text = [activity motionTypeStrings];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@",
-                                     [NSDateFormatter localizedStringFromDate:activity.startDate
-                                                                    dateStyle:NSDateFormatterShortStyle
-                                                                    timeStyle:NSDateFormatterShortStyle],
-                                     [activity confidenceString]];
-    }
+    CLLocation *location = self.locations[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld. lat: %f - lon: %f",
+                           (long)indexPath.row,
+                           location.coordinate.latitude,
+                           location.coordinate.longitude];
+    NSDate *date = self.locationDates[indexPath.row];
+    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:date
+                                                               dateStyle:NSDateFormatterShortStyle
+                                                               timeStyle:NSDateFormatterShortStyle];
     
     return cell;
 }

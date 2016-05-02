@@ -14,7 +14,6 @@
 #import "IQTracker.h"
 #import "Track.h"
 #import "TrackPoint.h"
-#import "CMMotionActivity+IQ.h"
 
 typedef NS_ENUM(NSInteger, IQTrackerMode) {
     kIQTrackerModeAutomatic,
