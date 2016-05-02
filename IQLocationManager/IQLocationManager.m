@@ -261,6 +261,8 @@ static IQLocationManager *_iqLocationManager;
 
 - (void)startUpdatingLocation {
     self.isGettingLocation = YES;
+    self.locationManager.delegate = self;
+    [self.locationManager startUpdatingLocation];
     [self performSelector: @selector(stopUpdatingLocationWithTimeout)
                withObject: nil
                afterDelay: self.maximumTimeout ?: kIQLocationMeasurementTimeoutDefault];
