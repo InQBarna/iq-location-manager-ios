@@ -22,13 +22,6 @@
 #import "CMMotionActivity+IQ.h"
 #import <CoreMotion/CoreMotion.h>
 
-const struct IQMotionActivityTypes IQMotionActivityType = {
-    .walking        = @"walking",
-    .running        = @"running",
-    .automotive     = @"automotive",
-    .cycling        = @"cycling",
-};
-
 @interface IQTracker()
 
 @property (nonatomic, strong) IQTrack               *currentTrack;
@@ -218,7 +211,7 @@ static IQTracker *_iqTracker;
 //    }];
 //}
 
-- (void)startLIVETrackerForActivity:(NSString *)activityString
+- (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
                            progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track *t, IQTrackerResult result))completionBlock
 {
@@ -227,41 +220,41 @@ static IQTracker *_iqTracker;
     
     CLLocationAccuracy desiredAccuracy;
     CLLocationDistance distanceFilter;
-    CLActivityType activityType;
+    CLActivityType clActivityType;
     BOOL pausesLocationUpdatesAutomatically;
     
     self.status = kIQTrackerStatusWorkingAutotracking;
     
     // configure location settings for activity
-    if ([activityString isEqualToString:IQMotionActivityType.automotive]) {
+    if (activityType == kIQMotionActivityTypeAutomotive) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 100.f;
-        activityType = CLActivityTypeAutomotiveNavigation;
+        clActivityType = CLActivityTypeAutomotiveNavigation;
         pausesLocationUpdatesAutomatically = NO;
         
-    } else if ([activityString isEqualToString:IQMotionActivityType.walking] || [activityString isEqualToString:IQMotionActivityType.running]) {
+    } else if (activityType == kIQMotionActivityTypeWalking || activityType == kIQMotionActivityTypeRunning) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 5.f;
-        activityType = CLActivityTypeFitness;
+        clActivityType = CLActivityTypeFitness;
         pausesLocationUpdatesAutomatically = NO;
         
         // TEST
 //        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
 //        distanceFilter = 5.f;
-//        activityType = CLActivityTypeAutomotiveNavigation;
+//        clActivityType = CLActivityTypeAutomotiveNavigation;
 //        pausesLocationUpdatesAutomatically = NO;
         
-    } else if ([activityString isEqualToString:IQMotionActivityType.cycling]) {
+    } else if (activityType == kIQMotionActivityTypeCycling) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 30.f;
-        activityType = CLActivityTypeOtherNavigation;
+        clActivityType = CLActivityTypeOtherNavigation;
         pausesLocationUpdatesAutomatically = NO;
         
     } else {
         // Default == Automotive
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 100.f;
-        activityType = CLActivityTypeAutomotiveNavigation;
+        clActivityType = CLActivityTypeAutomotiveNavigation;
         pausesLocationUpdatesAutomatically = NO;
         
         self.status = kIQTrackerStatusWorkingManual;
@@ -273,7 +266,7 @@ static IQTracker *_iqTracker;
     [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                       accuracy:desiredAccuracy
                                                                                 distanceFilter:distanceFilter
-                                                                                  activityType:activityType
+                                                                                  activityType:clActivityType
                                                                allowsBackgroundLocationUpdates:YES
                                                             pausesLocationUpdatesAutomatically:pausesLocationUpdatesAutomatically
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
@@ -282,7 +275,7 @@ static IQTracker *_iqTracker;
             [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
             {
                 if (result == kIQMotionActivityResultFound && activity) {
-                    if (activityString) { // CASE: AUTOMATIC
+                    if (activityType) { // CASE: AUTOMATIC
                         
                         // CASE: track finished, but it wasn't possible to determine because no location received after motion stop
                         if (lastActivity) {
@@ -296,7 +289,7 @@ static IQTracker *_iqTracker;
                             }
                         }
                         
-                        if ([activity containsActivityType:activityString]) {
+                        if ([self activity:activity containsActivityType:activityType]) {
                             deflectionCounter = 0;
                             lastActivity = activity;
                             
@@ -304,7 +297,7 @@ static IQTracker *_iqTracker;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
-                                                                     andActivityType:activityString
+                                                                     andActivityType:activityType
                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 }
                                 IQTrackPoint *tp = [IQTrackPoint createWithActivity:lastActivity
@@ -348,7 +341,7 @@ static IQTracker *_iqTracker;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
-                                                                     andActivityType:@"all"
+                                                                     andActivityType:kIQMotionActivityTypeAll
                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 }                                
                                 IQTrackPoint *tp = [IQTrackPoint createWithActivity:lastActivity
@@ -380,9 +373,9 @@ static IQTracker *_iqTracker;
     }];
 }
 
-- (void)startTrackerForActivity:(NSString *)activityString
+- (void)startTrackerForActivity:(IQMotionActivityType)activityType
 {
-    [self startLIVETrackerForActivity:activityString
+    [self startLIVETrackerForActivity:activityType
                              progress:^(TrackPoint *t, IQTrackerResult result) {
                                  if (t) {
                                      NSLog(@"%@", [NSString stringWithFormat:@"Point: %li. %@ %@",
@@ -436,7 +429,7 @@ static IQTracker *_iqTracker;
 
 - (void)checkCurrentTrack
 {
-    if (self.currentTrack && ![self.currentTrack.activityType isEqualToString:@"all"]) {
+    if (self.currentTrack && self.currentTrack.activityType != kIQMotionActivityTypeAll) {
         NSArray *points = [self.currentTrack sortedPoints];
         IQTrackPoint *lastP = [points lastObject];
         NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:lastP.date];
@@ -445,6 +438,24 @@ static IQTracker *_iqTracker;
             [self closeCurrentTrack];
         }
     }
+}
+
+- (BOOL)activity:(CMMotionActivity *)activity containsActivityType:(IQMotionActivityType)activityType
+{
+    BOOL result = NO;
+    if (activity.walking && activityType == kIQMotionActivityTypeWalking) {
+        result = YES;
+    }
+    if (activity.running && activityType == kIQMotionActivityTypeRunning) {
+        result = YES;
+    }
+    if (activity.automotive && activityType == kIQMotionActivityTypeAutomotive) {
+        result = YES;
+    }
+    if (activity.cycling && activityType == kIQMotionActivityTypeCycling) {
+        result = YES;
+    }
+    return result;
 }
 
 #pragma mark - GET Tracks methods

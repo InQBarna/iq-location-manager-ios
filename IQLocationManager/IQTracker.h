@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class IQTrackPoint, IQTrack, Track, TrackPoint;
+@class IQTrack, IQTrackPoint, Track, TrackPoint;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,12 +27,13 @@ typedef NS_ENUM(NSInteger, IQTrackerResult) {
     kIQTrackerResultTrackEnd,
 };
 
-extern const struct IQMotionActivityTypes {
-    __unsafe_unretained NSString * walking;
-    __unsafe_unretained NSString * running;
-    __unsafe_unretained NSString * automotive;
-    __unsafe_unretained NSString * cycling;
-} IQMotionActivityType;
+typedef NS_ENUM(NSInteger, IQMotionActivityType) {
+    kIQMotionActivityTypeAll,
+    kIQMotionActivityTypeWalking,
+    kIQMotionActivityTypeRunning,
+    kIQMotionActivityTypeAutomotive,
+    kIQMotionActivityTypeCycling,
+};
 
 @interface IQTracker : NSObject
 
@@ -48,15 +49,15 @@ extern const struct IQMotionActivityTypes {
  
  @fact: The tracker's result depends on location.
  
- @param activityString is an IQMotionActivityType. 
- If activityString != nil, autotracking mode starts: the IQTracker will track this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
- If activityString == nil, manual mode starts: the tracker will track every valuable activity (running && walking && automotive && cycling), considering all in the same Track and the Track will stop when stopTracker method is called.
+ @param activityType is an IQMotionActivityType.
+ If activityType != kIQMotionActivityTypeAll, autotracking mode starts: the IQTracker will track this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
+ If activityType == kIQMotionActivityTypeAll, manual mode starts: the tracker will track every valuable activity (running && walking && automotive && cycling), considering all in the same Track and the Track will stop when stopTracker method is called.
  @param progressBlock will be called with the current trackPoint of the current track.
  @param completionBlock will be called with the finished track.
  */
-- (void)startTrackerForActivity:(nullable NSString *)activityString;
+- (void)startTrackerForActivity:(IQMotionActivityType)activityType;
 
-- (void)startLIVETrackerForActivity:(nullable NSString *)activityString
+- (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
                            progress:(void (^)(TrackPoint * _Nullable p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track * _Nullable t, IQTrackerResult result))completionBlock;
 
@@ -72,7 +73,7 @@ extern const struct IQMotionActivityTypes {
                           andDate:(NSDate *)end_date;
 
 /**
- This method stops the current track and delete all tracks in the model including their trackPoints. 
+ This method stops the current track and delete all tracks in the model including their trackPoints.
  */
 - (void)deleteTracks;
 

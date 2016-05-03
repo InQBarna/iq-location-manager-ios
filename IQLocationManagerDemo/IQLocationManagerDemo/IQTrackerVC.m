@@ -132,9 +132,9 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
 - (void)startTracker
 {
     __weak __typeof(self) welf = self;
-    NSString *activity;
+    IQMotionActivityType activity = kIQMotionActivityTypeAll;
     if (self.trackerMode == kIQTrackerModeAutomatic) {
-        activity = IQMotionActivityType.automotive;
+        activity = kIQMotionActivityTypeAutomotive;
     }
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
                                               progress:^(TrackPoint *p, IQTrackerResult result) {

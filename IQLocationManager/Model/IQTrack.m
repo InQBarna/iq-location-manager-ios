@@ -14,14 +14,14 @@
 // Insert code here to add functionality to your managed object subclass
 
 + (instancetype)createWithStartDate:(NSDate *)start_date
-                    andActivityType:(NSString *)activityType
+                    andActivityType:(NSInteger)activityType
                           inContext:(NSManagedObjectContext *)ctxt
 {
     IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                inManagedObjectContext:ctxt];
         
     t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
-    t.activityType = activityType;
+    t.activityType = [NSNumber numberWithInteger:activityType];
     t.start_date = start_date;
     
     NSError *error;

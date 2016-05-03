@@ -20,7 +20,7 @@
 @property (nonatomic, retain, readwrite) NSDate *end_date;
 @property (nonatomic, retain, readwrite) NSNumber *distance;
 @property (nonatomic, retain, readwrite) NSString *objectId;
-@property (nonatomic, retain, readwrite) NSString *activityType;
+@property (nonatomic, retain, readwrite) NSNumber *activityType;
 @property (nonatomic, retain, readwrite) NSArray<TrackPoint *> *points;
 
 @end
