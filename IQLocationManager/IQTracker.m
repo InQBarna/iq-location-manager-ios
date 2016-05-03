@@ -466,7 +466,7 @@ static IQTracker *_iqTracker;
 }
 
 #pragma mark - GET Tracks methods
-- (NSArray <TrackPoint *> *)getCompletedTracks
+- (NSArray <Track *> *)getCompletedTracks
 {
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
@@ -501,8 +501,8 @@ static IQTracker *_iqTracker;
     return count;
 }
 
-- (NSArray <TrackPoint *> *)getTracksBetweenDate:(NSDate *)start_date
-                          andDate:(NSDate *)end_date
+- (NSArray <Track *> *)getTracksBetweenDate:(NSDate *)start_date
+                                    andDate:(NSDate *)end_date
 {
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];

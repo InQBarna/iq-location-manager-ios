@@ -67,10 +67,10 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
 - (void)stopTracker;
 
 - (nullable Track *)getLastCompletedTrack;
-- (NSArray <TrackPoint *> *)getCompletedTracks;
+- (NSArray <Track *> *)getCompletedTracks;
 - (NSInteger)getCountCompletedTracks;
-- (NSArray <TrackPoint *> *)getTracksBetweenDate:(NSDate *)start_date
-                                       andDate:(NSDate *)end_date;
+- (NSArray <Track *> *)getTracksBetweenDate:(NSDate *)start_date
+                                    andDate:(NSDate *)end_date;
 
 /**
  This method stops the current track and delete all tracks in the model including their trackPoints.
