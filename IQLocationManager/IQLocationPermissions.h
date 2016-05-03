@@ -37,6 +37,8 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 
 - (BOOL)getSoftDeniedFromDefaults;
 
+- (BOOL)setSoftDenied:(BOOL)softDenied;
+
 @end
 
 NS_ASSUME_NONNULL_END
