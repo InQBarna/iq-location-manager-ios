@@ -416,13 +416,15 @@ static IQTracker *_iqTracker;
 
 - (void)closeCurrentTrack
 {
-    Track *t_temp;
+    __block Track *t_temp;
     if (self.currentTrack) {
-        BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-        NSAssert(result, @"error closing track");
-        t_temp = [[Track alloc] initWithIQTrack:self.currentTrack];
-    }
-    
+        __block __typeof(self) belf = self;
+        [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+            BOOL result = [belf.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+            NSAssert(result, @"error closing track");
+            t_temp = [[Track alloc] initWithIQTrack:belf.currentTrack];
+        }];
+    }    
     if (self.completionBlock) {
         if (t_temp && t_temp.points.count > 0) {
             self.completionBlock(t_temp, kIQTrackerResultNoResult);
