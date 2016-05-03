@@ -423,7 +423,13 @@ static IQTracker *_iqTracker;
         t_temp = [[Track alloc] initWithIQTrack:self.currentTrack];
     }
     
-    self.completionBlock(t_temp, kIQTrackerResultTrackEnd);
+    if (self.completionBlock) {
+        if (t_temp && t_temp.points.count > 0) {
+            self.completionBlock(t_temp, kIQTrackerResultNoResult);
+        } else {
+            self.completionBlock(t_temp, kIQTrackerResultTrackEnd);
+        }
+    }
     self.currentTrack = nil;
 }
 
