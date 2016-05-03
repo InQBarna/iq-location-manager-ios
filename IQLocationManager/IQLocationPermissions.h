@@ -35,6 +35,10 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 
 - (IQLocationResult)getLocationStatus;
 
+- (BOOL)getSoftDeniedFromDefaults;
+
+- (BOOL)setSoftDenied:(BOOL)softDenied;
+
 @end
 
 NS_ASSUME_NONNULL_END
