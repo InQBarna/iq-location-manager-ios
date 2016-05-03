@@ -204,8 +204,8 @@ static IQLocationManager *_iqLocationManager;
                        }];
 }
 
-//- (IQLocationResult)getLocationStatus
-//{
+- (IQLocationResult)getLocationStatus
+{
 //    if (!CLLocationManager.locationServicesEnabled) {
 //        return kIQLocationResultNotEnabled;
 //    } else {
@@ -236,7 +236,9 @@ static IQLocationManager *_iqLocationManager;
 //        }
 //    }
 //    return kIQLocationResultNotDetermined;
-//}
+    
+    return [[IQLocationPermissions sharedManager] getLocationStatus];
+}
 
 #pragma mark Private location calls
 
@@ -300,18 +302,20 @@ static IQLocationManager *_iqLocationManager;
     return [NSKeyedUnarchiver unarchiveObjectWithData:userLoc];
 }
 
-//- (BOOL)getSoftDeniedFromDefaults
-//{
+- (BOOL)getSoftDeniedFromDefaults
+{
 //    BOOL softDenied = [NSUserDefaults.standardUserDefaults boolForKey:kIQLocationSoftDenied];
 //    return softDenied;
-//}
+    return [[IQLocationPermissions sharedManager] getSoftDeniedFromDefaults];
+}
 
-//- (BOOL)setSoftDenied:(BOOL)softDenied
-//{
+- (BOOL)setSoftDenied:(BOOL)softDenied
+{
 //    NSUserDefaults *const standardUserDefaults = NSUserDefaults.standardUserDefaults;
 //    [NSUserDefaults.standardUserDefaults setBool:softDenied forKey:kIQLocationSoftDenied];
 //    return [standardUserDefaults synchronize];
-//}
+    return [[IQLocationPermissions sharedManager] setSoftDenied:softDenied];
+}
 
 #pragma mark CLLocationManagerDelegate calls
 

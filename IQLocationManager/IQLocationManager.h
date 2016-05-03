@@ -73,8 +73,9 @@
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion;
 - (void)getAddressFromLocation:(CLLocation*)location
                 withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion;
-//- (IQLocationResult)getLocationStatus;
-//- (BOOL)getSoftDeniedFromDefaults;
-//- (BOOL)setSoftDenied:(BOOL)softDenied;
+
+- (IQLocationResult)getLocationStatus DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: getLocationStatus instead.");
+- (BOOL)getSoftDeniedFromDefaults DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: getSoftDeniedFromDefaults instead.");
+- (BOOL)setSoftDenied:(BOOL)softDenied DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: setSoftDeniedinstead.");
 
 @end
