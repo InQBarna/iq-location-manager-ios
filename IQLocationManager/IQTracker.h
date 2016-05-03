@@ -44,13 +44,15 @@ extern const struct IQMotionActivityTypes {
 - (IQTrackerStatus)trackerStatus;
 
 /**
- The tracker starts first the IQPermanentLocation :: startPermanentMonitoringLocation and when there's a result, starts IQMotionActivityManager :: startActivityMonitoring. If there's an activity match, create IQTrackPoint.
+ The tracker starts first the IQPermanentLocation :: startPermanentMonitoringLocation and when there's a result, starts IQMotionActivityManager :: startActivityMonitoring. When there's an activity match, if no currentTrack created, create one and then create a TrackPoint related to that Track. If currentTrack already created, just create a new TrackPoint and relates it to the currentTrack.
  
- @fact: The tracker result depends on location
+ @fact: The tracker's result depends on location.
  
- @param activityString is an IQMotionActivityType. If it's nil the tracker will track every valuable activity: running && walking && automotive && cycling.
- @param progress block will be called with the current trackPoint of the current track
- @param completion block will be called with the finished track
+ @param activityString is an IQMotionActivityType. 
+ If activityString != nil, autotracking mode starts: the IQTracker will track this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
+ If activityString == nil, manual mode starts: the tracker will track every valuable activity (running && walking && automotive && cycling), considering all in the same Track and the Track will stop when stopTracker method is called.
+ @param progressBlock will be called with the current trackPoint of the current track.
+ @param completionBlock will be called with the finished track.
  */
 - (void)startTrackerForActivity:(nullable NSString *)activityString;
 
@@ -59,12 +61,13 @@ extern const struct IQMotionActivityTypes {
                          completion:(void (^)(Track * _Nullable t, IQTrackerResult result))completionBlock;
 
 /**
- The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it. 
+ The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it as well.
  */
 - (void)stopTracker;
 
 - (nullable Track *)getLastCompletedTrack;
 - (NSArray *)getCompletedTracks;
+- (NSInteger)getCountCompletedTracks;
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
                           andDate:(NSDate *)end_date;
 

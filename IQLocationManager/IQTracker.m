@@ -423,12 +423,12 @@ static IQTracker *_iqTracker;
 
 - (void)closeCurrentTrack
 {
+    Track *t_temp;
     if (self.currentTrack) {
         BOOL result = [self.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
         NSAssert(result, @"error closing track");
+        t_temp = [[Track alloc] initWithIQTrack:self.currentTrack];
     }
-    
-    Track *t_temp = [[Track alloc] initWithIQTrack:self.currentTrack];
     
     self.completionBlock(t_temp, kIQTrackerResultTrackEnd);
     self.currentTrack = nil;
@@ -454,7 +454,7 @@ static IQTracker *_iqTracker;
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
     request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil"];
     
-    NSMutableArray *temp = [NSMutableArray array];
+    __block NSMutableArray *temp = [NSMutableArray array];
     [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
@@ -466,6 +466,21 @@ static IQTracker *_iqTracker;
     }];
     
     return temp.copy;
+}
+
+- (NSInteger)getCountCompletedTracks
+{
+    [self checkCurrentTrack];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrack"];
+    request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil"];
+    
+    __block NSUInteger count = 0;
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        count = [[IQLocationDataSource sharedDataSource].managedObjectContext countForFetchRequest:request error:&error];
+    }];
+    
+    return count;
 }
 
 - (NSArray *)getTracksBetweenDate:(NSDate *)start_date
