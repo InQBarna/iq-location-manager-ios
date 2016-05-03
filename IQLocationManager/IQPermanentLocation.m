@@ -58,7 +58,7 @@ static IQPermanentLocation *_iqPermanentLocation;
     
     if (allowsBackgroundLocationUpdates) {
         BOOL plistCheck = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"] containsObject:@"location"];
-        NSAssert(plistCheck, @"Apps that want to receive location updates when suspended must include the UIBackgroundModes key (with the location value) in their app’s Info.plist file");
+        NSAssert(plistCheck, @"Apps that want to receive location updates when suspended must include:\n\"UIBackgroundModes\" key with \"location\" value\nin their app’s Info.plist file");
         self.locationManager.allowsBackgroundLocationUpdates = allowsBackgroundLocationUpdates;
     }
     
