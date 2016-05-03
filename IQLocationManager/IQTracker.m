@@ -391,7 +391,7 @@ static IQTracker *_iqTracker;
                              } completion:^(Track *t, IQTrackerResult result) {
                                  if (t) {
                                      NSLog(@"\n%@\n%@",
-                                           [NSString stringWithFormat:@"Track Ended: %@", t.activityType],
+                                           [NSString stringWithFormat:@"activityType: %@ Ended", t.activityType],
                                            [NSString stringWithFormat:@"from: %@\nto: %@",
                                             [NSDateFormatter localizedStringFromDate:t.start_date
                                                                            dateStyle:NSDateFormatterShortStyle
