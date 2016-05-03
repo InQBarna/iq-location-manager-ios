@@ -60,10 +60,10 @@
     return NO;
 }
 
-- (NSArray *)sortedPoints
+- (NSArray <IQTrackPoint *> *)sortedPoints
 {
     if ([self.points allObjects] > 0) {
-        NSArray<IQTrackPoint*> *pointsArray = [self.points allObjects];
+        NSArray<IQTrackPoint *> *pointsArray = [self.points allObjects];
         return [pointsArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]];
     }
     return nil;
