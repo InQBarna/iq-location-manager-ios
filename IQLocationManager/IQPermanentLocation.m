@@ -56,11 +56,13 @@ static IQPermanentLocation *_iqPermanentLocation;
     self.locationManager.distanceFilter = distanceFilter;
     self.locationManager.activityType = activityType;
     
-    if (allowsBackgroundLocationUpdates) {
-        BOOL plistCheck = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"] containsObject:@"location"];
-        NSAssert(plistCheck, @"Apps that want to receive location updates when suspended must include:\n\"UIBackgroundModes\" key with \"location\" value\nin their app’s Info.plist file");
-        self.locationManager.allowsBackgroundLocationUpdates = allowsBackgroundLocationUpdates;
-    }
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_8_4) {
+        if (allowsBackgroundLocationUpdates) {
+            BOOL plistCheck = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"] containsObject:@"location"];
+            NSAssert(plistCheck, @"Apps that want to receive location updates when suspended must include:\n\"UIBackgroundModes\" key with \"location\" value\nin their app’s Info.plist file");
+            self.locationManager.allowsBackgroundLocationUpdates = allowsBackgroundLocationUpdates;
+        }
+    }    
     
     self.locationManager.pausesLocationUpdatesAutomatically = pausesLocationUpdatesAutomatically;
     self.updateBlock = updateBlock;

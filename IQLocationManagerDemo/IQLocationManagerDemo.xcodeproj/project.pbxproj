@@ -56,8 +56,6 @@
 		C46ED78C1CD232410016B870 /* TrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C46ED78B1CD232410016B870 /* TrackPoint.m */; };
 		C46ED78D1CD232410016B870 /* TrackPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = C46ED78B1CD232410016B870 /* TrackPoint.m */; };
 		C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */; };
-		C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
-		C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */; };
 		C497A5571CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */; };
 		C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */; };
 		C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */; };
@@ -147,8 +145,6 @@
 		C46ED7921CD244D80016B870 /* TrackPoint.i.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TrackPoint.i.h; path = ../IQLocationManager/Model/TrackPoint.i.h; sourceTree = "<group>"; };
 		C497A54E1CC505CC00CB08B9 /* IQSignificantLocationVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantLocationVC.h; sourceTree = "<group>"; };
 		C497A54F1CC505CC00CB08B9 /* IQSignificantLocationVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantLocationVC.m; sourceTree = "<group>"; };
-		C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "CMMotionActivity+IQ.h"; path = "../IQLocationManager/CMMotionActivity+IQ.h"; sourceTree = "<group>"; };
-		C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "CMMotionActivity+IQ.m"; path = "../IQLocationManager/CMMotionActivity+IQ.m"; sourceTree = "<group>"; };
 		C497A5551CC52D0D00CB08B9 /* IQSignificantLocationChanges.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQSignificantLocationChanges.h; path = ../IQLocationManager/IQSignificantLocationChanges.h; sourceTree = "<group>"; };
 		C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQSignificantLocationChanges.m; path = ../IQLocationManager/IQSignificantLocationChanges.m; sourceTree = "<group>"; };
 		C497A5591CC52D6E00CB08B9 /* IQLocationPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationPermissions.h; path = ../IQLocationManager/IQLocationPermissions.h; sourceTree = "<group>"; };
@@ -302,8 +298,6 @@
 				C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */,
 				C4FFF0CF1CC66C6F004E2A8A /* IQTracker.h */,
 				C4FFF0D01CC66C6F004E2A8A /* IQTracker.m */,
-				C497A5511CC515D500CB08B9 /* CMMotionActivity+IQ.h */,
-				C497A5521CC515D500CB08B9 /* CMMotionActivity+IQ.m */,
 				C46B87C61CC8E0CC00D43262 /* DataSource */,
 			);
 			name = IQLocationManager;
@@ -528,7 +522,6 @@
 				C4260BAC1CCA655700BE509A /* IQTrackPoint.m in Sources */,
 				C4260B901CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */,
 				C46ED78C1CD232410016B870 /* TrackPoint.m in Sources */,
-				C497A5531CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
 				C46B87C51CC8D23500D43262 /* IQTrackerMapVC.m in Sources */,
 				669F6BBD199D1D1100B88AAE /* IQAppDelegate.m in Sources */,
 				C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */,
@@ -553,7 +546,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C46ED78D1CD232410016B870 /* TrackPoint.m in Sources */,
-				C497A5541CC515D500CB08B9 /* CMMotionActivity+IQ.m in Sources */,
 				C4260B991CCA64FE00BE509A /* IQTrack+CoreDataProperties.m in Sources */,
 				C497A55C1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C4FFF0D21CC66C6F004E2A8A /* IQTracker.m in Sources */,

@@ -19,7 +19,6 @@
 #import "Track.i.h"
 #import "TrackPoint.i.h"
 
-#import "CMMotionActivity+IQ.h"
 #import <CoreMotion/CoreMotion.h>
 
 @interface IQTracker()
@@ -312,7 +311,7 @@ static IQTracker *_iqTracker;
                             
                         } else if (lastActivity) {
                             // filters
-                            if ((activity.running || activity.walking || activity.automotive || activity.cycling) && activity.confidence > CMMotionActivityConfidenceLow) {
+                            if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
                                 deflectionCounter++;
                                 if (deflectionCounter == 3) {
                                     // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
@@ -334,7 +333,7 @@ static IQTracker *_iqTracker;
 
                         }
                     } else { // CASE: MANUAL
-                        if (activity.running || activity.walking || activity.automotive || activity.cycling) {
+                        if (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) {
                             lastActivity = activity;
                             
                             __block TrackPoint *tp_temp;
@@ -460,7 +459,7 @@ static IQTracker *_iqTracker;
     if (activity.automotive && activityType == kIQMotionActivityTypeAutomotive) {
         result = YES;
     }
-    if (activity.cycling && activityType == kIQMotionActivityTypeCycling) {
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling && activityType == kIQMotionActivityTypeCycling) {
         result = YES;
     }
     return result;
