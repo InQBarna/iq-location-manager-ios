@@ -275,7 +275,7 @@ static IQTracker *_iqTracker;
             [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
             {
                 if (result == kIQMotionActivityResultFound && activity) {
-                    if (activityType) { // CASE: AUTOMATIC
+                    if (activityType != kIQMotionActivityTypeAll) { // CASE: AUTOMATIC
                         
                         // CASE: track finished, but it wasn't possible to determine because no location received after motion stop
                         if (lastActivity) {
@@ -341,7 +341,7 @@ static IQTracker *_iqTracker;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
-                                                                     andActivityType:kIQMotionActivityTypeAll
+                                                                     andActivityType:activityType
                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 }                                
                                 IQTrackPoint *tp = [IQTrackPoint createWithActivity:lastActivity
