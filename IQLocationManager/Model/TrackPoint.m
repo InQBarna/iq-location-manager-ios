@@ -94,6 +94,42 @@
     return string;
 }
 
+#pragma mark - NSCoding protocol
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super init]) {
+        self.automotive = [decoder decodeObjectForKey:@"automotive"];
+        self.confidence = [decoder decodeObjectForKey:@"confidence"];
+        self.cycling = [decoder decodeObjectForKey:@"cycling"];
+        self.date = [decoder decodeObjectForKey:@"date"];
+        self.latitude = [decoder decodeObjectForKey:@"latitude"];
+        self.longitude = [decoder decodeObjectForKey:@"longitude"];
+        self.objectId = [decoder decodeObjectForKey:@"objectId"];
+        self.running = [decoder decodeObjectForKey:@"running"];
+        self.stationary = [decoder decodeObjectForKey:@"stationary"];
+        self.unknown = [decoder decodeObjectForKey:@"unknown"];
+        self.walking = [decoder decodeObjectForKey:@"walking"];
+        self.order = [decoder decodeObjectForKey:@"order"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.automotive forKey:@"automotive"];
+    [encoder encodeObject:self.confidence forKey:@"confidence"];
+    [encoder encodeObject:self.cycling forKey:@"cycling"];
+    [encoder encodeObject:self.date forKey:@"date"];
+    [encoder encodeObject:self.latitude forKey:@"latitude"];
+    [encoder encodeObject:self.longitude forKey:@"longitude"];
+    [encoder encodeObject:self.objectId forKey:@"objectId"];
+    [encoder encodeObject:self.running forKey:@"running"];
+    [encoder encodeObject:self.stationary forKey:@"stationary"];
+    [encoder encodeObject:self.unknown forKey:@"unknown"];
+    [encoder encodeObject:self.walking forKey:@"walking"];
+    [encoder encodeObject:self.order forKey:@"order"];
+}
+
 #pragma mark - MKAnnotation protocol
 - (NSString *)title
 {

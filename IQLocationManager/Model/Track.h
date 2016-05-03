@@ -10,7 +10,7 @@
 
 @class TrackPoint;
 
-@interface Track : NSObject
+@interface Track : NSObject <NSCoding>
 
 @property (nonnull, nonatomic, retain, readonly) NSDate *start_date;
 @property (nonnull, nonatomic, retain, readonly) NSDate *end_date;

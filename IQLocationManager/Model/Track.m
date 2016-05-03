@@ -49,4 +49,28 @@
     return self;
 }
 
+#pragma mark - NSCoding protocol
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super init]) {
+        self.start_date = [decoder decodeObjectForKey:@"start_date"];
+        self.end_date = [decoder decodeObjectForKey:@"end_date"];
+        self.distance = [decoder decodeObjectForKey:@"distance"];
+        self.objectId = [decoder decodeObjectForKey:@"objectId"];
+        self.activityType = [decoder decodeObjectForKey:@"activityType"];
+        self.points = [decoder decodeObjectForKey:@"points"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeObject:self.start_date forKey:@"start_date"];
+    [encoder encodeObject:self.end_date forKey:@"end_date"];
+    [encoder encodeObject:self.distance forKey:@"distance"];
+    [encoder encodeObject:self.objectId forKey:@"objectId"];
+    [encoder encodeObject:self.activityType forKey:@"activityType"];
+    [encoder encodeObject:self.points forKey:@"points"];
+}
+
 @end
