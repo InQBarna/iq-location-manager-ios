@@ -133,14 +133,12 @@
 #pragma mark - MKAnnotation protocol
 - (NSString *)title
 {
-    return [NSString stringWithFormat:@"%li. %@", self.order.integerValue, [self activityTypeString]];
+    return self.titleAnnotation;
 }
 
 - (NSString *)subtitle
 {
-    return [NSString stringWithFormat:@"%@ - %@",
-            [self confidenceString],
-            [NSDateFormatter localizedStringFromDate:self.date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle]];
+    return self.subtitleAnnotation;
 }
 
 - (CLLocationCoordinate2D)coordinate

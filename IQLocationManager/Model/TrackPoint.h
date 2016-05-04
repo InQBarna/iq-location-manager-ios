@@ -24,6 +24,10 @@
 @property (nonnull, nonatomic, retain, readonly) NSNumber *walking;
 @property (nonnull, nonatomic, retain, readonly) NSNumber *order;
 
+// Set this properties for MKAnnotation methods - (NSString *)title && - (NSString *)subtitle
+@property (nullable, nonatomic, retain, readonly) NSString *titleAnnotation;
+@property (nullable, nonatomic, retain, readonly) NSString *subtitleAnnotation;
+
 - (nullable instancetype) init __unavailable;
 
 - (nonnull NSString *)activityTypeString;
