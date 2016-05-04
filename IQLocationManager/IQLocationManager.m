@@ -199,7 +199,7 @@ static IQLocationManager *_iqLocationManager;
     [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
         
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddress"];
-        request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGIN WITH %@ AND longitude BEGIN WITH %@",
+        request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
                              [NSString stringWithFormat:@"%.6f", location.coordinate.latitude],
                              [NSString stringWithFormat:@"%.6f", location.coordinate.longitude]];
         
