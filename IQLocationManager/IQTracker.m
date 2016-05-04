@@ -48,6 +48,11 @@ static IQTracker *_iqTracker;
     self = [super init];
     if (self) {
         
+        // For applications that support background execution, this method is generally not called when the user quits the application because the application simply moves to the background in that case. However, this method may be called in situations where the application is running in the background (not suspended) and the system needs to terminate it for some reason.        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(stopTracker)
+                                                     name:UIApplicationWillTerminateNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -56,6 +61,7 @@ static IQTracker *_iqTracker;
 {
     self.currentTrack = nil;
     self.completionBlock = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IQTrackerStatus)trackerStatus
