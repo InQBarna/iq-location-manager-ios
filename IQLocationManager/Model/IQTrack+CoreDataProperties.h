@@ -2,7 +2,7 @@
 //  IQTrack+CoreDataProperties.h
 //  IQLocationManagerDemo
 //
-//  Created by Raul Peña on 03/05/16.
+//  Created by Raul Peña on 04/05/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSDate *end_date;
 @property (nullable, nonatomic, retain) NSString *objectId;
 @property (nullable, nonatomic, retain) NSDate *start_date;
+@property (nullable, nonatomic, retain) id userInfo;
 @property (nullable, nonatomic, retain) NSSet<IQTrackPoint *> *points;
 
 @end

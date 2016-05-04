@@ -22,6 +22,7 @@
 @property (nonatomic, retain, readwrite) NSString *objectId;
 @property (nonatomic, retain, readwrite) NSNumber *activityType;
 @property (nonatomic, retain, readwrite) NSArray<TrackPoint *> *points;
+@property (nonatomic, retain, readwrite) NSDictionary *userInfo;
 
 @end
 
@@ -36,6 +37,7 @@
     self.distance      = iqTrack.distance;
     self.objectId      = iqTrack.objectId;
     self.activityType  = iqTrack.activityType;
+    self.userInfo      = iqTrack.userInfo;
     
     NSMutableArray *temp = [NSMutableArray array];
     for (IQTrackPoint *iqTrackPoint in [iqTrack sortedPoints]) {

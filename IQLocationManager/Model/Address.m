@@ -21,7 +21,7 @@
     self.address = iqAddress.address;
     self.latitude = iqAddress.latitude;
     self.longitude = iqAddress.longitude;
-    self.placemark = [NSKeyedUnarchiver unarchiveObjectWithData:iqAddress.placemark];
+    self.placemark = iqAddress.placemark;
     
     return self;
 }

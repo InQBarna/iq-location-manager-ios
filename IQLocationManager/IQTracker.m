@@ -211,6 +211,7 @@ static IQTracker *_iqTracker;
 //}
 
 - (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
+                           userInfo:(nullable NSDictionary *)userInfo
                            progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track *t, IQTrackerResult result))completionBlock
 {
@@ -296,7 +297,8 @@ static IQTracker *_iqTracker;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
-                                                                     andActivityType:activityType
+                                                                        activityType:activityType
+                                                                         andUserInfo:userInfo
                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 }
                                 IQTrackPoint *tp = [IQTrackPoint createWithActivity:lastActivity
@@ -340,7 +342,8 @@ static IQTracker *_iqTracker;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrack createWithStartDate:activity.startDate
-                                                                     andActivityType:activityType
+                                                                        activityType:activityType
+                                                                         andUserInfo:userInfo
                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 }                                
                                 IQTrackPoint *tp = [IQTrackPoint createWithActivity:lastActivity
@@ -373,8 +376,10 @@ static IQTracker *_iqTracker;
 }
 
 - (void)startTrackerForActivity:(IQMotionActivityType)activityType
+                       userInfo:(nullable NSDictionary *)userInfo
 {
     [self startLIVETrackerForActivity:activityType
+                             userInfo:userInfo
                              progress:^(TrackPoint *t, IQTrackerResult result) {
                                  if (t) {
                                      NSLog(@"%@", [NSString stringWithFormat:@"Point: %li. %@ %@",

@@ -27,7 +27,7 @@
     a.address = [placemark.addressDictionary objectForKey:@"Name"];
     a.locality = [placemark.addressDictionary objectForKey:@"City"];
     
-    a.placemark = [NSKeyedArchiver archivedDataWithRootObject:placemark];
+    a.placemark = placemark;
     
     NSError *error;
     [ctxt save:&error];

@@ -55,9 +55,11 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
  @param progressBlock will be called with the current trackPoint of the current track.
  @param completionBlock will be called with the finished track.
  */
-- (void)startTrackerForActivity:(IQMotionActivityType)activityType;
+- (void)startTrackerForActivity:(IQMotionActivityType)activityType
+                       userInfo:(nullable NSDictionary *)userInfo;
 
 - (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
+                           userInfo:(nullable NSDictionary *)userInfo
                            progress:(void (^)(TrackPoint * _Nullable p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track * _Nullable t, IQTrackerResult result))completionBlock;
 

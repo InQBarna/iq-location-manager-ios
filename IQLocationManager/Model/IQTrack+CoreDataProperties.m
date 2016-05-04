@@ -2,7 +2,7 @@
 //  IQTrack+CoreDataProperties.m
 //  IQLocationManagerDemo
 //
-//  Created by Raul Peña on 03/05/16.
+//  Created by Raul Peña on 04/05/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -18,6 +18,7 @@
 @dynamic end_date;
 @dynamic objectId;
 @dynamic start_date;
+@dynamic userInfo;
 @dynamic points;
 
 @end

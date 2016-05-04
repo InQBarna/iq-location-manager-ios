@@ -18,6 +18,7 @@
 @property (nonnull, nonatomic, retain, readonly) NSString *objectId;
 @property (nonnull, nonatomic, retain, readonly) NSNumber *activityType;
 @property (nonnull, nonatomic, retain, readonly) NSArray<TrackPoint *> *points;
+@property (nonnull, nonatomic, retain, readonly) NSDictionary *userInfo;
 
 - (nullable instancetype) init __unavailable;
 

@@ -14,6 +14,7 @@
         <attribute name="end_date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="start_date" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userInfo" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="points" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IQTrackPoint" inverseName="track" inverseEntity="IQTrackPoint" syncable="YES"/>
     </entity>
     <entity name="IQTrackPoint" representedClassName="IQTrackPoint" syncable="YES">
@@ -32,8 +33,8 @@
         <relationship name="track" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="IQTrack" inverseName="points" inverseEntity="IQTrack" syncable="YES"/>
     </entity>
     <elements>
-        <element name="IQTrack" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="IQTrackPoint" positionX="-54" positionY="-9" width="128" height="240"/>
         <element name="IQAddress" positionX="-63" positionY="90" width="128" height="135"/>
+        <element name="IQTrack" positionX="-63" positionY="-18" width="128" height="150"/>
+        <element name="IQTrackPoint" positionX="-54" positionY="-9" width="128" height="240"/>
     </elements>
 </model>

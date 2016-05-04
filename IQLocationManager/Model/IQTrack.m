@@ -14,7 +14,8 @@
 // Insert code here to add functionality to your managed object subclass
 
 + (instancetype)createWithStartDate:(NSDate *)start_date
-                    andActivityType:(NSInteger)activityType
+                       activityType:(NSInteger)activityType
+                        andUserInfo:(NSDictionary *)userInfo
                           inContext:(NSManagedObjectContext *)ctxt
 {
     IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
@@ -23,6 +24,7 @@
     t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     t.activityType = [NSNumber numberWithInteger:activityType];
     t.start_date = start_date;
+    t.userInfo = userInfo;
     
     NSError *error;
     [ctxt save:&error];

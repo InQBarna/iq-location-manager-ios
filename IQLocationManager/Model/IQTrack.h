@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 // Insert code here to declare functionality of your managed object subclass
 
 + (instancetype)createWithStartDate:(NSDate *)start_date
-                    andActivityType:(NSInteger)activityType
+                       activityType:(NSInteger)activityType
+                        andUserInfo:(NSDictionary *)userInfo
                           inContext:(NSManagedObjectContext *)ctxt;
 
 - (BOOL)closeTrackInContext:(NSManagedObjectContext *)ctxt;

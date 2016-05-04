@@ -137,6 +137,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
         activity = kIQMotionActivityTypeAutomotive;
     }
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
+                                                  userInfo:@{@"testing":@"holaaa"}
                                               progress:^(TrackPoint *p, IQTrackerResult result) {
                                                     if (result == kIQTrackerResultFound && p) {
                                                         NSMutableArray *temp = welf.tracks.mutableCopy;

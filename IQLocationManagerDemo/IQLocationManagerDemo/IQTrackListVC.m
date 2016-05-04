@@ -94,7 +94,8 @@
     }
     
     Track *t = self.tracks[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@: %2.f meters",
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@: %2.f meters",
+                           t.userInfo[@"testing"],
                            t.activityType,
                            t.distance.floatValue];
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ - %@ - Points: %lu",

@@ -200,8 +200,8 @@ static IQLocationManager *_iqLocationManager;
         
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddress"];
         request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGIN WITH %@ AND longitude BEGIN WITH %@",
-                             [NSString stringWithFormat:@"%.5f", location.coordinate.latitude],
-                             [NSString stringWithFormat:@"%.5f", location.coordinate.longitude]];
+                             [NSString stringWithFormat:@"%.6f", location.coordinate.latitude],
+                             [NSString stringWithFormat:@"%.6f", location.coordinate.longitude]];
         
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
