@@ -221,6 +221,11 @@ static IQTracker *_iqTracker;
                            progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
                          completion:(void (^)(Track *t, IQTrackerResult result))completionBlock
 {
+    if (self.currentTrack) {
+        NSAssert(NO, @"startTrackerForActivity called twice without call stopTracker before");
+        return;
+    }
+    
     __block CMMotionActivity *lastActivity;
     static int deflectionCounter = 0;
     
