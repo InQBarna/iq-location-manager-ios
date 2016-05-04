@@ -64,6 +64,8 @@
 		C4F7594D1CDA07A80090A7ED /* IQAddress+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F759491CDA07A80090A7ED /* IQAddress+CoreDataProperties.m */; };
 		C4F7594E1CDA07A80090A7ED /* IQAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F7594B1CDA07A80090A7ED /* IQAddress.m */; };
 		C4F7594F1CDA07A80090A7ED /* IQAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F7594B1CDA07A80090A7ED /* IQAddress.m */; };
+		C4F759521CDA0DFC0090A7ED /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F759511CDA0DFC0090A7ED /* Address.m */; };
+		C4F759531CDA0DFC0090A7ED /* Address.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F759511CDA0DFC0090A7ED /* Address.m */; };
 		C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D791CC787A6002174AD /* IQMapVC.m */; };
 		C4FB0D7D1CC788E7002174AD /* IQPermanentContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D7C1CC788E7002174AD /* IQPermanentContainerVC.m */; };
 		C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C4FB0D7F1CC788FD002174AD /* IQSignificantContainerVC.m */; };
@@ -157,6 +159,9 @@
 		C4F759491CDA07A80090A7ED /* IQAddress+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "IQAddress+CoreDataProperties.m"; path = "../IQLocationManager/Model/IQAddress+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C4F7594A1CDA07A80090A7ED /* IQAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQAddress.h; path = ../IQLocationManager/Model/IQAddress.h; sourceTree = "<group>"; };
 		C4F7594B1CDA07A80090A7ED /* IQAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQAddress.m; path = ../IQLocationManager/Model/IQAddress.m; sourceTree = "<group>"; };
+		C4F759501CDA0DFC0090A7ED /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Address.h; path = ../IQLocationManager/Model/Address.h; sourceTree = "<group>"; };
+		C4F759511CDA0DFC0090A7ED /* Address.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Address.m; path = ../IQLocationManager/Model/Address.m; sourceTree = "<group>"; };
+		C4F759541CDA0E1E0090A7ED /* Address.i.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Address.i.h; path = ../IQLocationManager/Model/Address.i.h; sourceTree = "<group>"; };
 		C4FB0D781CC787A6002174AD /* IQMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQMapVC.h; sourceTree = "<group>"; };
 		C4FB0D791CC787A6002174AD /* IQMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQMapVC.m; sourceTree = "<group>"; };
 		C4FB0D7B1CC788E7002174AD /* IQPermanentContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPermanentContainerVC.h; sourceTree = "<group>"; };
@@ -375,6 +380,9 @@
 				C46ED78A1CD232410016B870 /* TrackPoint.h */,
 				C46ED7921CD244D80016B870 /* TrackPoint.i.h */,
 				C46ED78B1CD232410016B870 /* TrackPoint.m */,
+				C4F759501CDA0DFC0090A7ED /* Address.h */,
+				C4F759541CDA0E1E0090A7ED /* Address.i.h */,
+				C4F759511CDA0DFC0090A7ED /* Address.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -531,6 +539,7 @@
 				C4FB0D7A1CC787A6002174AD /* IQMapVC.m in Sources */,
 				C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
 				C46B87BF1CC8D1FE00D43262 /* IQTrackerContainerVC.m in Sources */,
+				C4F759521CDA0DFC0090A7ED /* Address.m in Sources */,
 				C4260BAC1CCA655700BE509A /* IQTrackPoint.m in Sources */,
 				C4260B901CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */,
 				C46ED78C1CD232410016B870 /* TrackPoint.m in Sources */,
@@ -569,6 +578,7 @@
 				C4260B9B1CCA64FE00BE509A /* IQTrack.m in Sources */,
 				C4FFF0C81CC63714004E2A8A /* IQPermanentLocation.m in Sources */,
 				C46ED7891CD232260016B870 /* Track.m in Sources */,
+				C4F759531CDA0DFC0090A7ED /* Address.m in Sources */,
 				669F6BD8199D1D1100B88AAE /* IQLocationManagerDemoTests.m in Sources */,
 				C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */,
 				C4260B911CCA625D00BE509A /* IQLocationModel.xcdatamodeld in Sources */,
