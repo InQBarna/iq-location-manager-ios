@@ -49,6 +49,16 @@
     return self;
 }
 
+- (nonnull TrackPoint *)firstPoint
+{
+    return self.points.firstObject;
+}
+
+- (nonnull TrackPoint *)lastPoint
+{
+    return self.points.lastObject;
+}
+
 #pragma mark - NSCoding protocol
 - (id)initWithCoder:(NSCoder *)decoder
 {

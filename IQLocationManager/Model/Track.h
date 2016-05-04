@@ -21,4 +21,7 @@
 
 - (nullable instancetype) init __unavailable;
 
+- (nonnull TrackPoint *)firstPoint;
+- (nonnull TrackPoint *)lastPoint;
+
 @end
