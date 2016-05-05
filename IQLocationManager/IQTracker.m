@@ -69,6 +69,12 @@ static IQTracker *_iqTracker;
     return self.status;
 }
 
+- (BOOL)isTrackInProcess
+{
+    [self checkCurrentTrack];
+    return self.currentTrack;
+}
+
 //- (void)startTrackerForActivity:(NSString *)activityString
 //                       progress:(void (^)(IQTrackPoint *t, IQTrackerResult result))progressBlock
 //                     completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock

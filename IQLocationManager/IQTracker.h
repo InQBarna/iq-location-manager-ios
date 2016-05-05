@@ -45,6 +45,11 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
 - (IQTrackerStatus)trackerStatus;
 
 /**
+ Returns YES if there is a Track working just now, otherwise returns NO.
+ */
+- (BOOL)isTrackInProcess;
+
+/**
  The tracker starts first the IQPermanentLocation :: startPermanentMonitoringLocation and when there's a result, starts IQMotionActivityManager :: startActivityMonitoring. When there's an activity match, if no currentTrack created, create one and then create a TrackPoint related to that Track. If currentTrack already created, just create a new TrackPoint and relates it to the currentTrack.
  
  @fact: The tracker's result depends on location.
