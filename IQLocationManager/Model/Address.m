@@ -8,20 +8,20 @@
 
 #import "Address.h"
 
-#import "IQAddress.h"
+#import "IQAddressManaged.h"
 
 @implementation Address
 
-- (instancetype)initWithIQAddress:(IQAddress *)iqAddress
+- (instancetype)initWithIQAddress:(IQAddressManaged *)iqAddressManaged
 {
     self = [super init];
     
-    self.objectId = iqAddress.objectId;
-    self.locality = iqAddress.locality;
-    self.address = iqAddress.address;
-    self.latitude = iqAddress.latitude;
-    self.longitude = iqAddress.longitude;
-    self.placemark = iqAddress.placemark;
+    self.objectId = iqAddressManaged.objectId;
+    self.locality = iqAddressManaged.locality;
+    self.address = iqAddressManaged.address;
+    self.latitude = iqAddressManaged.latitude;
+    self.longitude = iqAddressManaged.longitude;
+    self.placemark = iqAddressManaged.placemark;
     
     return self;
 }

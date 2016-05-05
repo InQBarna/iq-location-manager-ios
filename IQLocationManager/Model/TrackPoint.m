@@ -9,7 +9,7 @@
 #import "TrackPoint.h"
 #import "TrackPoint.i.h"
 
-#import "IQTrackPoint.h"
+#import "IQTrackPointManaged.h"
 
 @interface TrackPoint ()
 
@@ -30,22 +30,22 @@
 
 @implementation TrackPoint
 
-- (instancetype)initWithIQTrackPoint:(IQTrackPoint *)iqTrackPoint
+- (instancetype)initWithIQTrackPoint:(IQTrackPointManaged *)iqTrackPointManaged
 {
     self = [super init];
     
-    self.automotive   = iqTrackPoint.automotive;
-    self.confidence   = iqTrackPoint.confidence;
-    self.cycling      = iqTrackPoint.cycling;
-    self.date         = iqTrackPoint.date;
-    self.latitude     = iqTrackPoint.latitude;
-    self.longitude    = iqTrackPoint.longitude;
-    self.objectId     = iqTrackPoint.objectId;
-    self.running      = iqTrackPoint.running;
-    self.stationary   = iqTrackPoint.stationary;
-    self.unknown      = iqTrackPoint.unknown;
-    self.walking      = iqTrackPoint.walking;
-    self.order        = iqTrackPoint.order;
+    self.automotive   = iqTrackPointManaged.automotive;
+    self.confidence   = iqTrackPointManaged.confidence;
+    self.cycling      = iqTrackPointManaged.cycling;
+    self.date         = iqTrackPointManaged.date;
+    self.latitude     = iqTrackPointManaged.latitude;
+    self.longitude    = iqTrackPointManaged.longitude;
+    self.objectId     = iqTrackPointManaged.objectId;
+    self.running      = iqTrackPointManaged.running;
+    self.stationary   = iqTrackPointManaged.stationary;
+    self.unknown      = iqTrackPointManaged.unknown;
+    self.walking      = iqTrackPointManaged.walking;
+    self.order        = iqTrackPointManaged.order;
     
     return self;
 }

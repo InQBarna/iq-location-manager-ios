@@ -8,10 +8,10 @@
 
 #import "TrackPoint.h"
 
-@class IQTrackPoint;
+@class IQTrackPointManaged;
 
 @interface TrackPoint (Internal)
 
-- (instancetype)initWithIQTrackPoint:(IQTrackPoint *)iqTrackPoint;
+- (instancetype)initWithIQTrackPoint:(IQTrackPointManaged *)iqTrackPointManaged;
 
 @end

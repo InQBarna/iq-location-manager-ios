@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class IQTrack, IQTrackPoint, Track, TrackPoint;
+@class IQTrackManaged, IQTrackPointManaged, Track, TrackPoint;
 
 NS_ASSUME_NONNULL_BEGIN
 

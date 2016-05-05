@@ -1,17 +1,17 @@
 //
-//  IQTrackPoint+CoreDataProperties.m
+//  IQTrackPointManaged+CoreDataProperties.m
 //  IQLocationManagerDemo
 //
-//  Created by Raul Peña on 25/04/16.
+//  Created by Raul Peña on 05/05/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.
 //
 
-#import "IQTrackPoint+CoreDataProperties.h"
+#import "IQTrackPointManaged+CoreDataProperties.h"
 
-@implementation IQTrackPoint (CoreDataProperties)
+@implementation IQTrackPointManaged (CoreDataProperties)
 
 @dynamic automotive;
 @dynamic confidence;
@@ -20,11 +20,11 @@
 @dynamic latitude;
 @dynamic longitude;
 @dynamic objectId;
+@dynamic order;
 @dynamic running;
 @dynamic stationary;
 @dynamic unknown;
 @dynamic walking;
-@dynamic order;
 @dynamic track;
 
 @end

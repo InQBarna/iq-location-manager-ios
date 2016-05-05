@@ -8,10 +8,10 @@
 
 #import "Track.h"
 
-@class IQTrack;
+@class IQTrackManaged;
 
 @interface Track (Internal)
 
-- (instancetype)initWithIQTrack:(IQTrack *)iqTrack;
+- (instancetype)initWithIQTrack:(IQTrackManaged *)iqTrackManaged;
 
 @end

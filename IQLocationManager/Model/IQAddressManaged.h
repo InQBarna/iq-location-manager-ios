@@ -1,5 +1,5 @@
 //
-//  IQAddress.h
+//  IQAddressManaged.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 04/05/16.
@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IQAddress : NSManagedObject
+@interface IQAddressManaged : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -24,4 +24,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "IQAddress+CoreDataProperties.h"
+#import "IQAddressManaged+CoreDataProperties.h"

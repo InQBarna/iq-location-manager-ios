@@ -11,8 +11,8 @@
 
 #import "TrackPoint.i.h"
 
-#import "IQTrack.h"
-#import "IQTrackPoint.h"
+#import "IQTrackManaged.h"
+#import "IQTrackPointManaged.h"
 
 @interface Track ()
 
@@ -28,20 +28,20 @@
 
 @implementation Track
 
-- (instancetype)initWithIQTrack:(IQTrack *)iqTrack
+- (instancetype)initWithIQTrack:(IQTrackManaged *)iqTrackManaged
 {
     self = [super init];
     
-    self.start_date    = iqTrack.start_date;
-    self.end_date      = iqTrack.end_date;
-    self.distance      = iqTrack.distance;
-    self.objectId      = iqTrack.objectId;
-    self.activityType  = iqTrack.activityType;
-    self.userInfo      = iqTrack.userInfo;
+    self.start_date    = iqTrackManaged.start_date;
+    self.end_date      = iqTrackManaged.end_date;
+    self.distance      = iqTrackManaged.distance;
+    self.objectId      = iqTrackManaged.objectId;
+    self.activityType  = iqTrackManaged.activityType;
+    self.userInfo      = iqTrackManaged.userInfo;
     
     NSMutableArray *temp = [NSMutableArray array];
-    for (IQTrackPoint *iqTrackPoint in [iqTrack sortedPoints]) {
-        TrackPoint *tp = [[TrackPoint alloc] initWithIQTrackPoint:iqTrackPoint];
+    for (IQTrackPointManaged *iqTrackPointManaged in [iqTrackManaged sortedPoints]) {
+        TrackPoint *tp = [[TrackPoint alloc] initWithIQTrackPoint:iqTrackPointManaged];
         if (tp) {
             [temp addObject:tp];
         }

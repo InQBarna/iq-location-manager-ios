@@ -1,14 +1,14 @@
 //
-//  IQAddress.m
+//  IQAddressManaged.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 04/05/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "IQAddress.h"
+#import "IQAddressManaged.h"
 
-@implementation IQAddress
+@implementation IQAddressManaged
 
 // Insert code here to add functionality to your managed object subclass
 
@@ -16,7 +16,7 @@
                       andPlacemark:(CLPlacemark *)placemark
                          inContext:(NSManagedObjectContext *)ctxt
 {
-    IQAddress *a = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+    IQAddressManaged *a = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                  inManagedObjectContext:ctxt];
     
     a.objectId = [[NSProcessInfo processInfo] globallyUniqueString];

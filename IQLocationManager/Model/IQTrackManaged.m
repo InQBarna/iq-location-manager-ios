@@ -1,15 +1,15 @@
 //
-//  IQTrack.m
+//  IQTrackManaged.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 22/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "IQTrack.h"
-#import "IQTrackPoint.h"
+#import "IQTrackManaged.h"
+#import "IQTrackPointManaged.h"
 
-@implementation IQTrack
+@implementation IQTrackManaged
 
 // Insert code here to add functionality to your managed object subclass
 
@@ -18,8 +18,8 @@
                         andUserInfo:(NSDictionary *)userInfo
                           inContext:(NSManagedObjectContext *)ctxt
 {
-    IQTrack *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
-                                               inManagedObjectContext:ctxt];
+    IQTrackManaged *t = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+                                                      inManagedObjectContext:ctxt];
         
     t.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     t.activityType = [NSNumber numberWithInteger:activityType];
@@ -38,8 +38,8 @@
         
         float distance = 0.0;
         
-        IQTrackPoint *previous;
-        IQTrackPoint *current;
+        IQTrackPointManaged *previous;
+        IQTrackPointManaged *current;
         CLLocation *l1;
         CLLocation *l2;
         
@@ -62,10 +62,10 @@
     return NO;
 }
 
-- (NSArray <IQTrackPoint *> *)sortedPoints
+- (NSArray <IQTrackPointManaged *> *)sortedPoints
 {
     if ([self.points allObjects] > 0) {
-        NSArray<IQTrackPoint *> *pointsArray = [self.points allObjects];
+        NSArray<IQTrackPointManaged *> *pointsArray = [self.points allObjects];
         return [pointsArray sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"order" ascending:YES]]];
     }
     return nil;

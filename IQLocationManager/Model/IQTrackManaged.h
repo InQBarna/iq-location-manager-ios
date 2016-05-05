@@ -1,5 +1,5 @@
 //
-//  IQTrack.h
+//  IQTrackManaged.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 22/04/16.
@@ -11,11 +11,11 @@
 
 #import <CoreMotion/CoreMotion.h>
 
-@class IQTrackPoint;
+@class IQTrackPointManaged;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IQTrack : NSManagedObject
+@interface IQTrackManaged : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -26,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL)closeTrackInContext:(NSManagedObjectContext *)ctxt;
 
-- (NSArray <IQTrackPoint *> *)sortedPoints;
+- (NSArray <IQTrackPointManaged *> *)sortedPoints;
 
 @end
 
 NS_ASSUME_NONNULL_END
 
-#import "IQTrack+CoreDataProperties.h"
+#import "IQTrackManaged+CoreDataProperties.h"

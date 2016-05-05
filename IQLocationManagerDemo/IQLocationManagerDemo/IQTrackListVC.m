@@ -111,7 +111,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    IQTrack *t = self.tracks[indexPath.row];
+    IQTrackManaged *t = self.tracks[indexPath.row];
     [self performSegueWithIdentifier:@"showMap" sender:t];
 }
 

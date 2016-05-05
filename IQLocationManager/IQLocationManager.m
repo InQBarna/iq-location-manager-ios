@@ -13,7 +13,7 @@
 
 #import "Address.h"
 #import "Address.i.h"
-#import "IQAddress.h"
+#import "IQAddressManaged.h"
 
 #import <CoreData/CoreData.h>
 
@@ -203,7 +203,7 @@ static IQLocationManager *_iqLocationManager;
         NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
         value_long = [value_long substringToIndex:value_long.length-2];
         
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddress"];
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddressManaged"];
         request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
                              value_lat,
                              value_long];
@@ -225,7 +225,7 @@ static IQLocationManager *_iqLocationManager;
                                CLPlacemark* placemark = [cl_placemarks lastObject];
                                
                                [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
-                                   [IQAddress createWithLocation:location
+                                   [IQAddressManaged createWithLocation:location
                                                     andPlacemark:placemark
                                                        inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                }];

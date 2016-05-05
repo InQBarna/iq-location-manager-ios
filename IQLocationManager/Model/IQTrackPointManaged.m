@@ -1,15 +1,15 @@
 //
-//  IQTrackPoint.m
+//  IQTrackPointManaged.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 22/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "IQTrackPoint.h"
-#import "IQTrack.h"
+#import "IQTrackPointManaged.h"
+#import "IQTrackManaged.h"
 
-@implementation IQTrackPoint
+@implementation IQTrackPointManaged
 
 // Insert code here to add functionality to your managed object subclass
 + (instancetype)createWithActivity:(CMMotionActivity *)activity
@@ -17,7 +17,7 @@
                         andTrackID:(NSManagedObjectID *)trackID
                          inContext:(NSManagedObjectContext *)ctxt
 {
-    IQTrackPoint *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+    IQTrackPointManaged *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
                                                     inManagedObjectContext:ctxt];
         
     p.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
@@ -36,7 +36,7 @@
     p.confidence = [NSNumber numberWithInteger:activity.confidence];
     
     NSError *error;
-    IQTrack *t = [ctxt existingObjectWithID:trackID error:&error];
+    IQTrackManaged *t = [ctxt existingObjectWithID:trackID error:&error];
     p.order = [NSNumber numberWithInteger:t.points.allObjects.count];
     p.track = t;
     [ctxt save:&error];

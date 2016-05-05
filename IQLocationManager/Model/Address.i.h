@@ -8,10 +8,10 @@
 
 #import "Address.h"
 
-@class IQAddress;
+@class IQAddressManaged;
 
 @interface Address (Internal)
 
-- (instancetype)initWithIQAddress:(IQAddress *)iqAddress;
+- (instancetype)initWithIQAddress:(IQAddressManaged *)iqAddressManaged;
 
 @end
