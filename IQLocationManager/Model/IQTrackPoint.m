@@ -1,17 +1,17 @@
 //
-//  TrackPoint.m
+//  IQTrackPoint.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 28/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "TrackPoint.h"
-#import "TrackPoint.i.h"
+#import "IQTrackPoint.h"
+#import "IQTrackPoint.i.h"
 
 #import "IQTrackPointManaged.h"
 
-@interface TrackPoint ()
+@interface IQTrackPoint ()
 
 @property (nonatomic, retain, readwrite) NSNumber *automotive;
 @property (nonatomic, retain, readwrite) NSNumber *confidence;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation TrackPoint
+@implementation IQTrackPoint
 
 - (instancetype)initWithIQTrackPoint:(IQTrackPointManaged *)iqTrackPointManaged
 {

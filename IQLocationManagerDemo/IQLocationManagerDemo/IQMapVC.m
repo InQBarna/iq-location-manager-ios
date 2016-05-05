@@ -8,8 +8,8 @@
 
 #import "IQMapVC.h"
 
-#import "Track.h"
-#import "TrackPoint.h"
+#import "IQTrack.h"
+#import "IQTrackPoint.h"
 #import "IQLocationDataSource.h"
 
 #import <CoreMotion/CoreMotion.h>
@@ -18,7 +18,7 @@
 @interface IQMapVC () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView  *mapView;
-@property (weak, nonatomic) Track             *currentTrack;
+@property (weak, nonatomic) IQTrack             *currentTrack;
 
 @end
 
@@ -57,9 +57,9 @@
 }
 */
 
-- (void)configureWithTrack:(Track *)track
+- (void)configureWithTrack:(IQTrack *)IQTrack
 {
-    self.currentTrack = track;
+    self.currentTrack = IQTrack;
 }
 
 - (void)addTrackPoints:(NSArray *)trackPoints
@@ -67,7 +67,7 @@
     [self.mapView removeOverlays:self.mapView.overlays];
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    TrackPoint *current;
+    IQTrackPoint *current;
     CLLocationCoordinate2D coordinates[trackPoints.count];
     for (int i = 0; i < trackPoints.count; i++) {
         current = trackPoints[i];
@@ -103,14 +103,14 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     MKAnnotationView *annotationView;
-    if ([annotation isKindOfClass:[TrackPoint class]]) {
+    if ([annotation isKindOfClass:[IQTrackPoint class]]) {
         
         MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"pin"];
-        if ([(TrackPoint *)annotation running].boolValue || [(TrackPoint *)annotation walking].boolValue) {
+        if ([(IQTrackPoint *)annotation running].boolValue || [(IQTrackPoint *)annotation walking].boolValue) {
             annView.pinColor = MKPinAnnotationColorRed;
-        } else if ([(TrackPoint *)annotation automotive].boolValue) {
+        } else if ([(IQTrackPoint *)annotation automotive].boolValue) {
             annView.pinColor = MKPinAnnotationColorPurple;
-        } else if ([(TrackPoint *)annotation cycling].boolValue) {
+        } else if ([(IQTrackPoint *)annotation cycling].boolValue) {
             annView.pinColor = MKPinAnnotationColorGreen;
         }
         

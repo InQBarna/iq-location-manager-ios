@@ -1,16 +1,16 @@
 //
-//  Track.i.h
+//  IQTrack.i.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 28/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "Track.h"
+#import "IQTrack.h"
 
 @class IQTrackManaged;
 
-@interface Track (Internal)
+@interface IQTrack (Internal)
 
 - (instancetype)initWithIQTrack:(IQTrackManaged *)iqTrackManaged;
 

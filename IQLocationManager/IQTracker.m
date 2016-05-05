@@ -16,15 +16,15 @@
 #import "IQTrackPointManaged.h"
 #import "IQLocationDataSource.h"
 
-#import "Track.i.h"
-#import "TrackPoint.i.h"
+#import "IQTrack.i.h"
+#import "IQTrackPoint.i.h"
 
 #import <CoreMotion/CoreMotion.h>
 
 @interface IQTracker()
 
 @property (nonatomic, strong) IQTrackManaged        *currentTrack;
-@property (nonatomic, copy) void (^completionBlock)(Track *t, IQTrackerResult result);
+@property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQTrackerResult result);
 @property (nonatomic, assign) IQTrackerStatus       status;
 
 @end
@@ -224,8 +224,8 @@ static IQTracker *_iqTracker;
 
 - (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
                            userInfo:(nullable NSDictionary *)userInfo
-                           progress:(void (^)(TrackPoint *p, IQTrackerResult result))progressBlock
-                         completion:(void (^)(Track *t, IQTrackerResult result))completionBlock
+                           progress:(void (^)(IQTrackPoint *p, IQTrackerResult result))progressBlock
+                         completion:(void (^)(IQTrack *t, IQTrackerResult result))completionBlock
 {
     if (self.currentTrack) {
         NSAssert(NO, @"startTrackerForActivity called twice without call stopTracker before");
@@ -310,7 +310,7 @@ static IQTracker *_iqTracker;
                             deflectionCounter = 0;
                             lastActivity = activity;
                             
-                            __block TrackPoint *tp_temp;
+                            __block IQTrackPoint *tp_temp;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
@@ -323,7 +323,7 @@ static IQTracker *_iqTracker;
                                                                          andTrackID:belf.currentTrack.objectID
                                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 
-                                tp_temp = [[TrackPoint alloc] initWithIQTrackPoint:tp];
+                                tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
                             }];
                             
                             progressBlock(tp_temp, kIQTrackerResultFound);
@@ -355,7 +355,7 @@ static IQTracker *_iqTracker;
                         if (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) {
                             lastActivity = activity;
                             
-                            __block TrackPoint *tp_temp;
+                            __block IQTrackPoint *tp_temp;
                             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                                 if (!belf.currentTrack) {
                                     belf.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
@@ -368,7 +368,7 @@ static IQTracker *_iqTracker;
                                                                          andTrackID:belf.currentTrack.objectID
                                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                                 
-                                tp_temp = [[TrackPoint alloc] initWithIQTrackPoint:tp];
+                                tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
                             }];
                             progressBlock(tp_temp, kIQTrackerResultFound);
                         }
@@ -397,7 +397,7 @@ static IQTracker *_iqTracker;
 {
     [self startLIVETrackerForActivity:activityType
                              userInfo:userInfo
-                             progress:^(TrackPoint *t, IQTrackerResult result) {
+                             progress:^(IQTrackPoint *t, IQTrackerResult result) {
                                  if (t) {
                                      NSLog(@"%@", [NSString stringWithFormat:@"Point: %li. %@ %@",
                                                    t.order.integerValue,
@@ -409,7 +409,7 @@ static IQTracker *_iqTracker;
                                      NSLog(@"NO POINT: %li", (long)result);
                                  }
                                  
-                             } completion:^(Track *t, IQTrackerResult result) {
+                             } completion:^(IQTrack *t, IQTrackerResult result) {
                                  if (t) {
                                      NSLog(@"\n%@\n%@",
                                            [NSString stringWithFormat:@"activityType: %@ Ended", t.activityType],
@@ -437,13 +437,13 @@ static IQTracker *_iqTracker;
 
 - (void)closeCurrentTrack
 {
-    __block Track *t_temp;
+    __block IQTrack *t_temp;
     if (self.currentTrack) {
         __block __typeof(self) belf = self;
         [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
             BOOL result = [belf.currentTrack closeTrackInContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
             NSAssert(result, @"error closing track");
-            t_temp = [[Track alloc] initWithIQTrack:belf.currentTrack];
+            t_temp = [[IQTrack alloc] initWithIQTrack:belf.currentTrack];
         }];
     }    
     if (self.completionBlock) {
@@ -488,7 +488,7 @@ static IQTracker *_iqTracker;
 }
 
 #pragma mark - GET Tracks methods
-- (NSArray <Track *> *)getCompletedTracks
+- (NSArray <IQTrack *> *)getCompletedTracks
 {
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrackManaged"];
@@ -500,7 +500,7 @@ static IQTracker *_iqTracker;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
         
         for (IQTrackManaged *iqTrackManaged in tracks) {
-            Track *t = [[Track alloc] initWithIQTrack:iqTrackManaged];
+            IQTrack *t = [[IQTrack alloc] initWithIQTrack:iqTrackManaged];
             [temp addObject:t];
         }
     }];
@@ -523,7 +523,7 @@ static IQTracker *_iqTracker;
     return count;
 }
 
-- (NSArray <Track *> *)getTracksBetweenDate:(NSDate *)start_date
+- (NSArray <IQTrack *> *)getTracksBetweenDate:(NSDate *)start_date
                                     andDate:(NSDate *)end_date
 {
     [self checkCurrentTrack];
@@ -536,7 +536,7 @@ static IQTracker *_iqTracker;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
         
         for (IQTrackManaged *iqTrackManaged in tracks) {
-            Track *t = [[Track alloc] initWithIQTrack:iqTrackManaged];
+            IQTrack *t = [[IQTrack alloc] initWithIQTrack:iqTrackManaged];
             [temp addObject:t];
         }
     }];
@@ -544,7 +544,7 @@ static IQTracker *_iqTracker;
     return temp.copy;
 }
 
-- (Track *)getLastCompletedTrack
+- (IQTrack *)getLastCompletedTrack
 {
     NSArray *array = [self getCompletedTracks].copy;
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"end_date" ascending:YES];

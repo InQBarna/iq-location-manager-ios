@@ -12,8 +12,8 @@
 #import <CoreLocation/CoreLocation.h>
 
 #import "IQTracker.h"
-#import "Track.h"
-#import "TrackPoint.h"
+#import "IQTrack.h"
+#import "IQTrackPoint.h"
 
 typedef NS_ENUM(NSInteger, IQTrackerMode) {
     kIQTrackerModeAutomatic,
@@ -138,7 +138,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     }
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
                                                   userInfo:@{@"testing":@"holaaa"}
-                                              progress:^(TrackPoint *p, IQTrackerResult result) {
+                                              progress:^(IQTrackPoint *p, IQTrackerResult result) {
                                                     if (result == kIQTrackerResultFound && p) {
                                                         NSMutableArray *temp = welf.tracks.mutableCopy;
                                                         if (!temp) {
@@ -150,7 +150,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                             [self.tableView reloadData];
                                                         });
                                                     }
-                                                } completion:^(Track *t, IQTrackerResult result) {
+                                                } completion:^(IQTrack *t, IQTrackerResult result) {
                                                     if (t) {
                                                         NSString *title = [NSString stringWithFormat:@"Track Ended: %@", t.activityType];
                                                         NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
-    TrackPoint *t = self.tracks[indexPath.row];
+    IQTrackPoint *t = self.tracks[indexPath.row];
     
     cell.textLabel.text = [NSString stringWithFormat:@"%li. %@ %@",
                            t.order.integerValue,

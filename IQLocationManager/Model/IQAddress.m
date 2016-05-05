@@ -1,16 +1,16 @@
 //
-//  Address.m
+//  IQAddress.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 04/05/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "Address.h"
+#import "IQAddress.h"
 
 #import "IQAddressManaged.h"
 
-@implementation Address
+@implementation IQAddress
 
 - (instancetype)initWithIQAddress:(IQAddressManaged *)iqAddressManaged
 {

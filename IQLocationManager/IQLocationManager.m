@@ -11,8 +11,8 @@
 #import "IQLocationDataSource.h"
 #import "IQLocationPermissions.h"
 
-#import "Address.h"
-#import "Address.i.h"
+#import "IQAddress.h"
+#import "IQAddress.i.h"
 #import "IQAddressManaged.h"
 
 #import <CoreData/CoreData.h>
@@ -211,7 +211,7 @@ static IQLocationManager *_iqLocationManager;
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
         if (tracks.count > 0) {
-            Address *a = [[Address alloc] initWithIQAddress:tracks.lastObject];
+            IQAddress *a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
             if (completion != nil) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     completion(a.placemark, a.address, a.locality, nil);

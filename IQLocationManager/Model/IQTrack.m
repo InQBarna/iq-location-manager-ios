@@ -1,32 +1,32 @@
 //
-//  Track.m
+//  IQTrack.m
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 28/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "Track.h"
-#import "Track.i.h"
+#import "IQTrack.h"
+#import "IQTrack.i.h"
 
-#import "TrackPoint.i.h"
+#import "IQTrackPoint.i.h"
 
 #import "IQTrackManaged.h"
 #import "IQTrackPointManaged.h"
 
-@interface Track ()
+@interface IQTrack ()
 
 @property (nonatomic, retain, readwrite) NSDate *start_date;
 @property (nonatomic, retain, readwrite) NSDate *end_date;
 @property (nonatomic, retain, readwrite) NSNumber *distance;
 @property (nonatomic, retain, readwrite) NSString *objectId;
 @property (nonatomic, retain, readwrite) NSNumber *activityType;
-@property (nonatomic, retain, readwrite) NSArray<TrackPoint *> *points;
+@property (nonatomic, retain, readwrite) NSArray<IQTrackPoint *> *points;
 @property (nonatomic, retain, readwrite) NSDictionary *userInfo;
 
 @end
 
-@implementation Track
+@implementation IQTrack
 
 - (instancetype)initWithIQTrack:(IQTrackManaged *)iqTrackManaged
 {
@@ -41,7 +41,7 @@
     
     NSMutableArray *temp = [NSMutableArray array];
     for (IQTrackPointManaged *iqTrackPointManaged in [iqTrackManaged sortedPoints]) {
-        TrackPoint *tp = [[TrackPoint alloc] initWithIQTrackPoint:iqTrackPointManaged];
+        IQTrackPoint *tp = [[IQTrackPoint alloc] initWithIQTrackPoint:iqTrackPointManaged];
         if (tp) {
             [temp addObject:tp];
         }
@@ -51,12 +51,12 @@
     return self;
 }
 
-- (nonnull TrackPoint *)firstPoint
+- (nonnull IQTrackPoint *)firstPoint
 {
     return self.points.firstObject;
 }
 
-- (nonnull TrackPoint *)lastPoint
+- (nonnull IQTrackPoint *)lastPoint
 {
     return self.points.lastObject;
 }

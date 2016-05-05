@@ -1,16 +1,16 @@
 //
-//  TrackPoint.i.h
+//  IQTrackPoint.i.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 28/04/16.
 //  Copyright © 2016 InQBarna. All rights reserved.
 //
 
-#import "TrackPoint.h"
+#import "IQTrackPoint.h"
 
 @class IQTrackPointManaged;
 
-@interface TrackPoint (Internal)
+@interface IQTrackPoint (Internal)
 
 - (instancetype)initWithIQTrackPoint:(IQTrackPointManaged *)iqTrackPointManaged;
 

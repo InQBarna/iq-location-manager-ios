@@ -1,5 +1,5 @@
 //
-//  Track.h
+//  IQTrack.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 28/04/16.
@@ -8,21 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class TrackPoint;
+@class IQTrackPoint;
 
-@interface Track : NSObject <NSCoding>
+@interface IQTrack : NSObject <NSCoding>
 
 @property (nonnull, nonatomic, retain, readonly) NSDate *start_date;
 @property (nonnull, nonatomic, retain, readonly) NSDate *end_date;
 @property (nonnull, nonatomic, retain, readonly) NSNumber *distance;
 @property (nonnull, nonatomic, retain, readonly) NSString *objectId;
 @property (nonnull, nonatomic, retain, readonly) NSNumber *activityType;
-@property (nonnull, nonatomic, retain, readonly) NSArray<TrackPoint *> *points;
+@property (nonnull, nonatomic, retain, readonly) NSArray<IQTrackPoint *> *points;
 @property (nonnull, nonatomic, retain, readonly) NSDictionary *userInfo;
 
 - (nullable instancetype) init __unavailable;
 
-- (nonnull TrackPoint *)firstPoint;
-- (nonnull TrackPoint *)lastPoint;
+- (nonnull IQTrackPoint *)firstPoint;
+- (nonnull IQTrackPoint *)lastPoint;
 
 @end

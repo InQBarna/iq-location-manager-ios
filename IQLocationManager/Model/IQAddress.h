@@ -1,5 +1,5 @@
 //
-//  Address.h
+//  IQAddress.h
 //  IQLocationManagerDemo
 //
 //  Created by Raul Peña on 04/05/16.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface Address : NSObject
+@interface IQAddress : NSObject
 
 @property (nonnull, nonatomic, retain) NSString *objectId;
 @property (nonnull, nonatomic, retain) NSString *locality;
