@@ -154,7 +154,6 @@ static IQLocationPermissions *_iqLocationPermissions;
 
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if ( buttonIndex == [alertView cancelButtonIndex] ) {
-//        [self stopUpdatingLocationWithResult:kIQLocationResultSoftDenied];
         [self setSoftDenied:YES];
         if (_completionBlock) {
             _completionBlock(kIQLocationResultSoftDenied);
@@ -164,13 +163,8 @@ static IQLocationPermissions *_iqLocationPermissions;
         if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
             [self requestSystemPermissionForLocation];
         } else {
-//            [self getCurrentLocationWithAccuracy: self.locationManager.desiredAccuracy
-//                                  maximumTimeout: self.maximumTimeout
-//                           maximumMeasurementAge: self.maximumMeasurementAge
-//                               softAccessRequest: NO
-//                                        progress: self.progressBlock
-//                                      completion: self.completionBlock];
-            // TODO
+            // for iOS 7, startUpdating forces the request to the user
+            [_locationManager startUpdatingLocation];
         }
     }
 }
