@@ -17,7 +17,7 @@
                          inContext:(NSManagedObjectContext *)ctxt
 {
     IQAddressManaged *a = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
-                                                 inManagedObjectContext:ctxt];
+                                                        inManagedObjectContext:ctxt];
     
     a.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     

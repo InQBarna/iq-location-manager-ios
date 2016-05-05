@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F27" minimumToolsVersion="Xcode 7.0">
-    <entity name="IQAddressManaged" representedClassName="IQAddress" syncable="YES">
+    <entity name="IQAddressManaged" representedClassName="IQAddressManaged" syncable="YES">
         <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="locality" optional="YES" attributeType="String" syncable="YES"/>
@@ -8,7 +8,7 @@
         <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="placemark" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
-    <entity name="IQTrackManaged" representedClassName="IQTrack" syncable="YES">
+    <entity name="IQTrackManaged" representedClassName="IQTrackManaged" syncable="YES">
         <attribute name="activityType" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="distance" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="end_date" optional="YES" attributeType="Date" syncable="YES"/>
@@ -17,7 +17,7 @@
         <attribute name="userInfo" optional="YES" attributeType="Transformable" syncable="YES"/>
         <relationship name="points" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="IQTrackPointManaged" inverseName="track" inverseEntity="IQTrackPointManaged" syncable="YES"/>
     </entity>
-    <entity name="IQTrackPointManaged" representedClassName="IQTrackPoint" syncable="YES">
+    <entity name="IQTrackPointManaged" representedClassName="IQTrackPointManaged" syncable="YES">
         <attribute name="automotive" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="confidence" optional="YES" attributeType="Integer 16" minValueString="0" maxValueString="2" defaultValueString="0" syncable="YES"/>
         <attribute name="cycling" optional="YES" attributeType="Boolean" syncable="YES"/>
