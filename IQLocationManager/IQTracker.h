@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
  @param activityType is an IQMotionActivityType.
  If activityType != kIQMotionActivityTypeAll, autotracking mode starts: the IQTracker will track this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
  If activityType == kIQMotionActivityTypeAll, manual mode starts: the tracker will track every valuable activity (running && walking && automotive && cycling), considering all in the same Track and the Track will stop when stopTracker method is called.
+ @param userInfo is a dictionary for passing custom information to the starting track.
  @param progressBlock will be called with the current trackPoint of the current track.
  @param completionBlock will be called with the finished track.
  */
