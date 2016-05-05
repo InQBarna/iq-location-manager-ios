@@ -69,7 +69,7 @@ static IQTracker *_iqTracker;
     return self.status;
 }
 
-- (BOOL)isTrackInProcess
+- (BOOL)isTrackInProgress
 {
     [self checkCurrentTrack];
     return self.currentTrack;
