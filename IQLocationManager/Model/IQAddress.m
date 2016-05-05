@@ -21,8 +21,11 @@
     
     a.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
     
-    a.latitude = [NSString stringWithFormat:@"%.6f", location.coordinate.latitude];
-    a.longitude = [NSString stringWithFormat:@"%.6f", location.coordinate.longitude];
+    // save lat & long with 6 decimals in a string for predicate use.
+    NSString *value = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
+    a.latitude = [value substringToIndex:value.length-1];
+    value = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
+    a.longitude = [value substringToIndex:value.length-1];
     
     a.address = [placemark.addressDictionary objectForKey:@"Name"];
     a.locality = [placemark.addressDictionary objectForKey:@"City"];

@@ -198,10 +198,15 @@ static IQLocationManager *_iqLocationManager;
 {
     [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
         
+        NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
+        value_lat = [value_lat substringToIndex:value_lat.length-2];
+        NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
+        value_long = [value_long substringToIndex:value_long.length-2];
+        
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddress"];
         request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
-                             [NSString stringWithFormat:@"%.6f", location.coordinate.latitude],
-                             [NSString stringWithFormat:@"%.6f", location.coordinate.longitude]];
+                             value_lat,
+                             value_long];
         
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
