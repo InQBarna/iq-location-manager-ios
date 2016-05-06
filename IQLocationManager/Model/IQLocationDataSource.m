@@ -20,7 +20,7 @@
 
 @implementation IQLocationDataSource
 
-static IQLocationDataSource *_iqLocationDataSource;
+static IQLocationDataSource *__iqLocationDataSource;
 
 #pragma mark Initialization and destroy calls
 
@@ -28,9 +28,9 @@ static IQLocationDataSource *_iqLocationDataSource;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqLocationDataSource = [[self alloc] init];
+        __iqLocationDataSource = [[self alloc] init];
     });
-    return _iqLocationDataSource;
+    return __iqLocationDataSource;
 }
 
 #pragma mark - Core Data stack

@@ -16,7 +16,7 @@
 
 @implementation IQMotionActivityManager
 
-static IQMotionActivityManager *_iqMotionActivityManager;
+static IQMotionActivityManager *__iqMotionActivityManager;
 
 #pragma mark Initialization and destroy calls
 
@@ -24,9 +24,9 @@ static IQMotionActivityManager *_iqMotionActivityManager;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqMotionActivityManager = [[self alloc] init];
+        __iqMotionActivityManager = [[self alloc] init];
     });    
-    return _iqMotionActivityManager;
+    return __iqMotionActivityManager;
 }
 
 - (id)init

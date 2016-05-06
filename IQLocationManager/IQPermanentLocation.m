@@ -17,7 +17,7 @@
 
 @implementation IQPermanentLocation
 
-static IQPermanentLocation *_iqPermanentLocation;
+static IQPermanentLocation *__iqPermanentLocation;
 
 #pragma mark Initialization and destroy calls
 
@@ -25,9 +25,9 @@ static IQPermanentLocation *_iqPermanentLocation;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqPermanentLocation = [[self alloc] init];
+        __iqPermanentLocation = [[self alloc] init];
     });
-    return _iqPermanentLocation;
+    return __iqPermanentLocation;
 }
 
 - (id)init {

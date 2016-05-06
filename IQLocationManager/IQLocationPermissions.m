@@ -19,7 +19,7 @@
 
 @implementation IQLocationPermissions
 
-static IQLocationPermissions *_iqLocationPermissions;
+static IQLocationPermissions *__iqLocationPermissions;
 
 #pragma mark Initialization and destroy calls
 
@@ -27,9 +27,9 @@ static IQLocationPermissions *_iqLocationPermissions;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqLocationPermissions = [[self alloc] init];
+        __iqLocationPermissions = [[self alloc] init];
     });
-    return _iqLocationPermissions;
+    return __iqLocationPermissions;
 }
 
 - (id)init {

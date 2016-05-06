@@ -30,7 +30,7 @@
 
 @implementation IQLocationManager
 
-static IQLocationManager *_iqLocationManager;
+static IQLocationManager *__iqLocationManager;
 
 #pragma mark Initialization and destroy calls
 
@@ -38,10 +38,10 @@ static IQLocationManager *_iqLocationManager;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqLocationManager = [[self alloc] init];
+        __iqLocationManager = [[self alloc] init];
     });
 
-    return _iqLocationManager;
+    return __iqLocationManager;
 }
 
 - (id)init

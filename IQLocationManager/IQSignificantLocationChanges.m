@@ -17,7 +17,7 @@
 
 @implementation IQSignificantLocationChanges
 
-static IQSignificantLocationChanges *_iqSignificantLocationChanges;
+static IQSignificantLocationChanges *__iqSignificantLocationChanges;
 
 #pragma mark Initialization and destroy calls
 
@@ -25,9 +25,9 @@ static IQSignificantLocationChanges *_iqSignificantLocationChanges;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqSignificantLocationChanges = [[self alloc] init];
+        __iqSignificantLocationChanges = [[self alloc] init];
     });
-    return _iqSignificantLocationChanges;
+    return __iqSignificantLocationChanges;
 }
 
 - (id)init {

@@ -17,20 +17,6 @@
 #define kIQLocationMeasurementAgeDefault        300.0
 #define kIQLocationMeasurementTimeoutDefault    5.0
 
-//typedef NS_ENUM(NSInteger, IQLocationResult) {
-//    kIQLocationResultNotEnabled,
-//    kIQLocationResultNotDetermined,
-//    kIQLocationResultSoftDenied,
-//    kIQLocationResultSystemDenied,
-//    kIQlocationResultAuthorized,
-//    kIQLocationResultError,
-//    kIQLocationResultNoResult,
-//    kIQLocationResultTimeout,
-//    kIQLocationResultIntermediateFound,
-//    kIQLocationResultFound,
-//    kIQLocationResultAlreadyGettingLocation
-//};
-
 @interface IQLocationManager : NSObject <CLLocationManagerDelegate>
 
 #ifdef DEBUG
