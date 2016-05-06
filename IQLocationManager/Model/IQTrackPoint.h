@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface IQTrackPoint : NSObject <MKAnnotation, NSCoding>
+@interface IQTrackPoint : NSObject <MKAnnotation, NSCoding, NSCopying>
 
 @property (nonnull, nonatomic, retain, readonly) NSNumber *automotive;
 @property (nonnull, nonatomic, retain, readonly) NSNumber *confidence;

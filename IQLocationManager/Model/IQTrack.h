@@ -10,7 +10,7 @@
 
 @class IQTrackPoint;
 
-@interface IQTrack : NSObject <NSCoding>
+@interface IQTrack : NSObject <NSCoding, NSCopying>
 
 @property (nonnull, nonatomic, retain, readonly) NSDate *start_date;
 @property (nonnull, nonatomic, retain, readonly) NSDate *end_date;

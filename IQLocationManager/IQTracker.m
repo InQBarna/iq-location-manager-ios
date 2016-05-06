@@ -484,7 +484,7 @@ static IQTracker *__iqTracker;
     return result;
 }
 
-#pragma mark - GET Tracks methods
+#pragma mark - GET IQTracks methods
 - (NSArray <IQTrack *> *)getCompletedTracks
 {
     [self checkCurrentTrack];

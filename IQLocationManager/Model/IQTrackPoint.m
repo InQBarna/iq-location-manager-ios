@@ -50,6 +50,7 @@
     return self;
 }
 
+// FIXME: using array
 - (NSString *)activityTypeString
 {
     NSString *string = @"";
@@ -132,6 +133,27 @@
     [encoder encodeObject:self.order forKey:@"order"];
     [encoder encodeObject:self.titleAnnotation forKey:@"titleAnnotation"];
     [encoder encodeObject:self.subtitleAnnotation forKey:@"subtitleAnnotation"];
+}
+
+#pragma mark - NSCopying protocol
+- (id)copyWithZone:(NSZone *)zone
+{
+    IQTrackPoint *copy = [[[self class] allocWithZone:zone] init];
+    if (copy) {
+        copy.automotive = self.automotive;
+        copy.confidence = self.confidence;
+        copy.cycling = self.cycling;
+        copy.date = self.date;
+        copy.latitude = self.latitude;
+        copy.longitude = self.longitude;
+        copy.objectId = self.objectId;
+        copy.running = self.running;
+        copy.stationary = self.stationary;
+        copy.unknown = self.unknown;
+        copy.walking = self.walking;
+        copy.order = self.order;
+    }
+    return copy;
 }
 
 #pragma mark - MKAnnotation protocol

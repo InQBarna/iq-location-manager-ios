@@ -85,4 +85,19 @@
     [encoder encodeObject:self.points forKey:@"points"];
 }
 
+#pragma mark - NSCopying protocol
+- (id)copyWithZone:(NSZone *)zone
+{
+    IQTrack *copy = [[[self class] allocWithZone: zone] init];
+    if (copy) {
+        copy.start_date = self.start_date;
+        copy.end_date = self.end_date;
+        copy.distance = self.distance;
+        copy.objectId = self.objectId;
+        copy.activityType = self.activityType;
+        copy.points = self.points;
+    }
+    return copy;
+}
+
 @end
