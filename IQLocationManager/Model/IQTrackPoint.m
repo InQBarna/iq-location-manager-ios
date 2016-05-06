@@ -50,36 +50,31 @@
     return self;
 }
 
-// FIXME: using array
 - (NSString *)activityTypeString
 {
-    NSString *string = @"";
+    NSMutableArray *temp = [NSMutableArray array];
     if (self.stationary.boolValue) {
-        string = [string stringByAppendingString:@"stationary,"];
+        [temp addObject:@"stationary"];
     }
     if (self.walking.boolValue) {
-        string = [string stringByAppendingString:@"walking,"];
+        [temp addObject:@"walking"];
     }
     if (self.running.boolValue) {
-        string = [string stringByAppendingString:@"running,"];
+        [temp addObject:@"running"];
     }
     if (self.automotive.boolValue) {
-        string = [string stringByAppendingString:@"automotive,"];
+        [temp addObject:@"automotive"];
     }
     if (self.cycling.boolValue) {
-        string = [string stringByAppendingString:@"cycling,"];
+        [temp addObject:@"cycling"];
     }
     if (self.unknown.boolValue) {
-        string = [string stringByAppendingString:@"unknown"];
+        [temp addObject:@"unknown"];
     }
-    if ([string isEqualToString:@""]) {
-        string = @"*not determined*";
-    } else {
-        if ([[string substringFromIndex:[string length]-1] isEqualToString:@","]) {
-            string = [string substringToIndex:[string length]-1];
-        }
+    if (temp.count == 0) {
+        [temp addObject:@"*not determined*"];
     }
-    return string;
+    return [temp componentsJoinedByString:@","];
 }
 
 - (NSString *)confidenceString

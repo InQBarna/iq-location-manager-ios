@@ -44,48 +44,4 @@
     return p;
 }
 
-- (NSString *)activityTypeString
-{
-    NSString *string = @"";
-    if (self.stationary.boolValue) {
-        string = [string stringByAppendingString:@"stationary,"];
-    }
-    if (self.walking.boolValue) {
-        string = [string stringByAppendingString:@"walking,"];
-    }
-    if (self.running.boolValue) {
-        string = [string stringByAppendingString:@"running,"];
-    }
-    if (self.automotive.boolValue) {
-        string = [string stringByAppendingString:@"automotive,"];
-    }
-    if (self.cycling.boolValue) {
-        string = [string stringByAppendingString:@"cycling,"];
-    }
-    if (self.unknown.boolValue) {
-        string = [string stringByAppendingString:@"unknown"];
-    }
-    if ([string isEqualToString:@""]) {
-        string = @"*not determined*";
-    } else {
-        if ([[string substringFromIndex:[string length]-1] isEqualToString:@","]) {
-            string = [string substringToIndex:[string length]-1];
-        }
-    }
-    return string;
-}
-
-- (NSString *)confidenceString
-{
-    NSString *string = @"";
-    if (self.confidence.integerValue == CMMotionActivityConfidenceLow) {
-        string = @"ConfidenceLow";
-    } else if (self.confidence.integerValue == CMMotionActivityConfidenceMedium) {
-        string = @"ConfidenceMedium";
-    } else if (self.confidence.integerValue == CMMotionActivityConfidenceHigh) {
-        string = @"ConfidenceHigh";
-    }
-    return string;
-}
-
 @end

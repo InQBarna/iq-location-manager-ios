@@ -25,9 +25,6 @@ NS_ASSUME_NONNULL_BEGIN
                         andTrackID:(NSManagedObjectID *)trackID
                          inContext:(NSManagedObjectContext *)ctxt;
 
-- (NSString *)activityTypeString;
-- (NSString *)confidenceString;
-
 @end
 
 NS_ASSUME_NONNULL_END
