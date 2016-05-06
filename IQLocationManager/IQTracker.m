@@ -31,7 +31,7 @@
 
 @implementation IQTracker
 
-static IQTracker *_iqTracker;
+static IQTracker *__iqTracker;
 
 #pragma mark Initialization and destroy calls
 
@@ -39,9 +39,9 @@ static IQTracker *_iqTracker;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _iqTracker = [[self alloc] init];
+        __iqTracker = [[self alloc] init];
     });
-    return _iqTracker;
+    return __iqTracker;
 }
 
 - (id)init {
@@ -502,6 +502,9 @@ static IQTracker *_iqTracker;
         }
     }];
     
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:YES];
+    temp = [temp sortedArrayUsingDescriptors:@[sort]].copy;
+    
     return temp.copy;
 }
 
@@ -538,6 +541,9 @@ static IQTracker *_iqTracker;
         }
     }];
     
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"start_date" ascending:YES];
+    temp = [temp sortedArrayUsingDescriptors:@[sort]].copy;
+    
     return temp.copy;
 }
 
@@ -548,6 +554,17 @@ static IQTracker *_iqTracker;
     NSArray *temp = [array sortedArrayUsingDescriptors:@[sort]].copy;    
     if (temp.count > 0) {
         return temp.lastObject;
+    }
+    return nil;
+}
+
+- (IQTrack *)getTracksWithObjectId:(NSString *)objectId
+{
+    NSArray *array = [self getCompletedTracks].copy;
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"objectId == %@", objectId];
+    NSArray *filteredArr = [array filteredArrayUsingPredicate:pred];
+    if (filteredArr.count > 0) {
+        return filteredArr.firstObject;
     }
     return nil;
 }

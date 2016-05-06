@@ -74,9 +74,15 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
  */
 - (void)stopTracker;
 
+- (nullable IQTrack *)getTracksWithObjectId:(NSString *)objectId;
 - (nullable IQTrack *)getLastCompletedTrack;
-- (NSArray <IQTrack *> *)getCompletedTracks;
+
 - (NSInteger)getCountCompletedTracks;
+
+/**
+ NSArray sorted by "start_date", ascending = YES.
+ */
+- (NSArray <IQTrack *> *)getCompletedTracks;
 - (NSArray <IQTrack *> *)getTracksBetweenDate:(NSDate *)start_date
                                       andDate:(NSDate *)end_date;
 
