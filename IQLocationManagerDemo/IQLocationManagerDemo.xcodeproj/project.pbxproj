@@ -60,6 +60,8 @@
 		C497A5581CC52D0D00CB08B9 /* IQSignificantLocationChanges.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */; };
 		C497A55B1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */; };
 		C497A55C1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */ = {isa = PBXBuildFile; fileRef = C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */; };
+		C4E47C681CDCF26000B41FE6 /* IQGeocodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E47C671CDCF26000B41FE6 /* IQGeocodingManager.m */; };
+		C4E47C691CDCF26000B41FE6 /* IQGeocodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E47C671CDCF26000B41FE6 /* IQGeocodingManager.m */; };
 		C4F7594C1CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F759491CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.m */; };
 		C4F7594D1CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F759491CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.m */; };
 		C4F7594E1CDA07A80090A7ED /* IQAddressManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F7594B1CDA07A80090A7ED /* IQAddressManaged.m */; };
@@ -155,6 +157,8 @@
 		C497A5561CC52D0D00CB08B9 /* IQSignificantLocationChanges.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQSignificantLocationChanges.m; path = ../IQLocationManager/IQSignificantLocationChanges.m; sourceTree = "<group>"; };
 		C497A5591CC52D6E00CB08B9 /* IQLocationPermissions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQLocationPermissions.h; path = ../IQLocationManager/IQLocationPermissions.h; sourceTree = "<group>"; };
 		C497A55A1CC52D6E00CB08B9 /* IQLocationPermissions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQLocationPermissions.m; path = ../IQLocationManager/IQLocationPermissions.m; sourceTree = "<group>"; };
+		C4E47C661CDCF26000B41FE6 /* IQGeocodingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQGeocodingManager.h; path = ../IQLocationManager/IQGeocodingManager.h; sourceTree = "<group>"; };
+		C4E47C671CDCF26000B41FE6 /* IQGeocodingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IQGeocodingManager.m; path = ../IQLocationManager/IQGeocodingManager.m; sourceTree = "<group>"; };
 		C4F759481CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "IQAddressManaged+CoreDataProperties.h"; path = "../IQLocationManager/Model/IQAddressManaged+CoreDataProperties.h"; sourceTree = "<group>"; };
 		C4F759491CDA07A80090A7ED /* IQAddressManaged+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "IQAddressManaged+CoreDataProperties.m"; path = "../IQLocationManager/Model/IQAddressManaged+CoreDataProperties.m"; sourceTree = "<group>"; };
 		C4F7594A1CDA07A80090A7ED /* IQAddressManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IQAddressManaged.h; path = ../IQLocationManager/Model/IQAddressManaged.h; sourceTree = "<group>"; };
@@ -309,6 +313,8 @@
 				66AB9C8C19B4825F002826AD /* IQLocationManager.strings */,
 				C413616F1CBFEE3800836E58 /* IQMotionActivityManager.h */,
 				C41361701CBFEE3800836E58 /* IQMotionActivityManager.m */,
+				C4E47C661CDCF26000B41FE6 /* IQGeocodingManager.h */,
+				C4E47C671CDCF26000B41FE6 /* IQGeocodingManager.m */,
 				C4FFF0CF1CC66C6F004E2A8A /* IQTracker.h */,
 				C4FFF0D01CC66C6F004E2A8A /* IQTracker.m */,
 				C46B87C61CC8E0CC00D43262 /* DataSource */,
@@ -530,6 +536,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C46B87C21CC8D21B00D43262 /* IQTrackerVC.m in Sources */,
+				C4E47C681CDCF26000B41FE6 /* IQGeocodingManager.m in Sources */,
 				C4260B9A1CCA64FE00BE509A /* IQTrackManaged.m in Sources */,
 				669F6BE3199D1E6700B88AAE /* IQLocationManager.m in Sources */,
 				C497A5501CC505CC00CB08B9 /* IQSignificantLocationVC.m in Sources */,
@@ -571,6 +578,7 @@
 				C46ED78D1CD232410016B870 /* IQTrackPoint.m in Sources */,
 				C4260B991CCA64FE00BE509A /* IQTrackManaged+CoreDataProperties.m in Sources */,
 				C497A55C1CC52D6E00CB08B9 /* IQLocationPermissions.m in Sources */,
+				C4E47C691CDCF26000B41FE6 /* IQGeocodingManager.m in Sources */,
 				C4FFF0D21CC66C6F004E2A8A /* IQTracker.m in Sources */,
 				C4260BAB1CCA655700BE509A /* IQTrackPointManaged+CoreDataProperties.m in Sources */,
 				C4F7594F1CDA07A80090A7ED /* IQAddressManaged.m in Sources */,

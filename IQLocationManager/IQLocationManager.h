@@ -57,9 +57,10 @@
                      softAccessRequest:(BOOL)softAccessRequest
                               progress:(void(^)(CLLocation *locationOrNil, IQLocationResult result))progress
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion;
-- (void)getAddressFromLocation:(CLLocation*)location
-                withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion;
 
+#pragma mark - DEPRECATED methods
+- (void)getAddressFromLocation:(CLLocation*)location
+                withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion DEPRECATED_MSG_ATTRIBUTE("Use IQGeocodingManager :: getAddressFromLocation instead.");
 - (IQLocationResult)getLocationStatus DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: getLocationStatus instead.");
 - (BOOL)getSoftDeniedFromDefaults DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: getSoftDeniedFromDefaults instead.");
 - (BOOL)setSoftDenied:(BOOL)softDenied DEPRECATED_MSG_ATTRIBUTE("Use IQLocationPermissions :: setSoftDeniedinstead.");

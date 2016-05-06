@@ -10,12 +10,7 @@
 
 #import "IQLocationDataSource.h"
 #import "IQLocationPermissions.h"
-
-#import "IQAddress.h"
-#import "IQAddress.i.h"
-#import "IQAddressManaged.h"
-
-#import <CoreData/CoreData.h>
+#import "IQGeocodingManager.h"
 
 @interface IQLocationManager() /*<UIAlertViewDelegate>*/
 
@@ -196,51 +191,57 @@ static IQLocationManager *__iqLocationManager;
 - (void)getAddressFromLocation:(CLLocation*)location
                 withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion
 {
-    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
-        
-        NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
-        value_lat = [value_lat substringToIndex:value_lat.length-2];
-        NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
-        value_long = [value_long substringToIndex:value_long.length-2];
-        
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddressManaged"];
-        request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
-                             value_lat,
-                             value_long];
-        
-        NSError *error = nil;
-        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
-        if (tracks.count > 0) {
-            IQAddress *a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
-            if (completion != nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(a.placemark, a.address, a.locality, nil);
-                });
-            }
-        } else {
-            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-            [geocoder reverseGeocodeLocation:location
-                           completionHandler:^(NSArray *cl_placemarks, NSError *cl_error) {
-                               
-                               CLPlacemark* placemark = [cl_placemarks lastObject];
-                               
-                               [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
-                                   [IQAddressManaged createWithLocation:location
-                                                           andPlacemark:placemark
-                                                              inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                               }];
-                               
-                               if (completion != nil) {
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       completion(placemark,
-                                                  [placemark.addressDictionary objectForKey:@"Name"],
-                                                  [placemark.addressDictionary objectForKey:@"City"],
-                                                  cl_error);
-                                   });
-                               }
-                           }];
-        }
-    }];
+    [[IQGeocodingManager sharedManager] getAddressFromLocation:location
+                                                distanceFilter:kIQGeocodingDistanceFilterMeter 
+                                                withCompletion:^(CLPlacemark * _Nullable placemark, NSString * _Nullable address, NSString * _Nullable locality, NSError * _Nullable error) {
+                                                    completion(placemark, address, locality, error);
+                                                }];
+    
+//    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
+//        
+//        NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
+//        value_lat = [value_lat substringToIndex:value_lat.length-2];
+//        NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
+//        value_long = [value_long substringToIndex:value_long.length-2];
+//        
+//        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddressManaged"];
+//        request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
+//                             value_lat,
+//                             value_long];
+//        
+//        NSError *error = nil;
+//        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+//        if (tracks.count > 0) {
+//            IQAddress *a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
+//            if (completion != nil) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    completion(a.placemark, a.address, a.locality, nil);
+//                });
+//            }
+//        } else {
+//            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+//            [geocoder reverseGeocodeLocation:location
+//                           completionHandler:^(NSArray *cl_placemarks, NSError *cl_error) {
+//                               
+//                               CLPlacemark* placemark = [cl_placemarks lastObject];
+//                               
+//                               [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
+//                                   [IQAddressManaged createWithLocation:location
+//                                                           andPlacemark:placemark
+//                                                              inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+//                               }];
+//                               
+//                               if (completion != nil) {
+//                                   dispatch_async(dispatch_get_main_queue(), ^{
+//                                       completion(placemark,
+//                                                  [placemark.addressDictionary objectForKey:@"Name"],
+//                                                  [placemark.addressDictionary objectForKey:@"City"],
+//                                                  cl_error);
+//                                   });
+//                               }
+//                           }];
+//        }
+//    }];
 }
 
 - (IQLocationResult)getLocationStatus
