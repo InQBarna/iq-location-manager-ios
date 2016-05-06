@@ -110,6 +110,8 @@
         self.unknown = [decoder decodeObjectForKey:@"unknown"];
         self.walking = [decoder decodeObjectForKey:@"walking"];
         self.order = [decoder decodeObjectForKey:@"order"];
+        self.titleAnnotation = [decoder decodeObjectForKey:@"titleAnnotation"];
+        self.subtitleAnnotation = [decoder decodeObjectForKey:@"subtitleAnnotation"];
     }
     return self;
 }
@@ -128,6 +130,8 @@
     [encoder encodeObject:self.unknown forKey:@"unknown"];
     [encoder encodeObject:self.walking forKey:@"walking"];
     [encoder encodeObject:self.order forKey:@"order"];
+    [encoder encodeObject:self.titleAnnotation forKey:@"titleAnnotation"];
+    [encoder encodeObject:self.subtitleAnnotation forKey:@"subtitleAnnotation"];
 }
 
 #pragma mark - MKAnnotation protocol
