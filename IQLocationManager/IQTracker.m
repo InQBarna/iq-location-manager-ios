@@ -524,7 +524,7 @@ static IQTracker *__iqTracker;
 }
 
 - (NSArray <IQTrack *> *)getTracksBetweenDate:(NSDate *)start_date
-                                    andDate:(NSDate *)end_date
+                                      andDate:(NSDate *)end_date
 {
     [self checkCurrentTrack];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrackManaged"];
@@ -559,14 +559,22 @@ static IQTracker *__iqTracker;
 }
 
 - (IQTrack *)getTracksWithObjectId:(NSString *)objectId
-{
-    NSArray *array = [self getCompletedTracks].copy;
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"objectId == %@", objectId];
-    NSArray *filteredArr = [array filteredArrayUsingPredicate:pred];
-    if (filteredArr.count > 0) {
-        return filteredArr.firstObject;
-    }
-    return nil;
+{   
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQTrackManaged"];
+    request.predicate = [NSPredicate predicateWithFormat:@"end_date != nil AND objectId == %@", objectId];
+    request.fetchLimit = 1;
+    
+    __block IQTrack *t;
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+        NSError *error = nil;
+        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
+        
+        if (tracks.count > 0) {
+            t = [[IQTrack alloc] initWithIQTrack:tracks.firstObject];
+        }
+    }];
+    
+    return t;
 }
 
 #pragma mark - DELETE IQTracks method
