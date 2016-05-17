@@ -42,6 +42,9 @@ static IQPermanentLocation *__iqPermanentLocation;
 
 - (void)dealloc
 {
+    [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                properties:@{ @"line": @(__LINE__) }
+                     error:NO];
     self.locationManager = nil;
     self.updateBlock = nil;
 }
