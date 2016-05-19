@@ -24,7 +24,7 @@
 #import <CoreMotion/CoreMotion.h>
 
 @interface IQTracker()
-
+@property (nonatomic, strong) NSDate *previousLocationTimestamp;
 @property (nonatomic, strong) IQTrackManaged        *currentTrack;
 @property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQTrackerResult result);
 @property (nonatomic, assign) IQTrackerStatus       status;
@@ -289,6 +289,8 @@ static IQTracker *__iqTracker;
         
     }
     
+    self.previousLocationTimestamp = NSDate.date;
+    
     self.completionBlock = completionBlock;
     [[IQPermanentLocation sharedManager] startPermanentMonitoringLocationWithSoftAccessRequest:YES
                                                                                       accuracy:desiredAccuracy
@@ -299,6 +301,22 @@ static IQTracker *__iqTracker;
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                             
         if (locationOrNil && result == kIQLocationResultFound) {
+            
+            [[IQMotionActivityManager sharedManager] getMotionActivityWithConfidence:CMMotionActivityConfidenceLow
+                                                                            fromDate:self.previousLocationTimestamp
+                                                                              toDate:locationOrNil.timestamp?:NSDate.date
+                                                                    forActivityTypes:nil // TODO: FIXME: activities ¿?
+                                                                          completion:
+             ^(NSArray *activities, IQMotionActivityResult result) {
+                 [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                             properties:@{ @"line": @(__LINE__),
+                                           @"case": @"** ACTIVITY QUERY **",
+                                           @"activities": activities?:@"nil",
+                                           @"result": @(result) }
+                                  error:NO];
+            }];
+            self.previousLocationTimestamp = locationOrNil.timestamp ?: NSDate.date;
+            
             [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
             {
                 [[NSLogger shared] log:NSStringFromSelector(_cmd)
