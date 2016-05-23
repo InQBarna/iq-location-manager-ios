@@ -415,7 +415,7 @@ static IQTracker *__iqTracker;
         if (t_temp && t_temp.points.count > 0) {
             self.completionBlock(t_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
         } else {
-            self.completionBlock(t_temp, kIQLocationResultError, kIQMotionActivityResultError);
+            self.completionBlock(t_temp, kIQLocationResultNoResult, kIQMotionActivityResultNoResult);
         }
     }
     self.currentTrack = nil;
