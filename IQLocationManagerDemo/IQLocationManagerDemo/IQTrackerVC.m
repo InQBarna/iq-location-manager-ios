@@ -136,61 +136,64 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     if (self.trackerMode == kIQTrackerModeAutomatic) {
         activity = kIQMotionActivityTypeAutomotive;
     }
+    
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
                                                   userInfo:@{@"testing":@"holaaa"}
-                                              progress:^(IQTrackPoint *p, IQTrackerResult result) {
-                                                    if (result == kIQTrackerResultFound && p) {
-                                                        NSMutableArray *temp = welf.tracks.mutableCopy;
-                                                        if (!temp) {
-                                                            temp = [NSMutableArray array];
-                                                        }
-                                                        [temp addObject:p];
-                                                        dispatch_async(dispatch_get_main_queue(), ^{
-                                                            welf.tracks = temp.copy;
-                                                            [self.tableView reloadData];
-                                                        });
-                                                    }
-                                                } completion:^(IQTrack *t, IQTrackerResult result) {
-                                                    if (t) {
-                                                        NSString *title = [NSString stringWithFormat:@"Track Ended: %@", t.activityType];
-                                                        NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
-                                                                           [NSDateFormatter localizedStringFromDate:t.start_date
-                                                                                                          dateStyle:NSDateFormatterShortStyle
-                                                                                                          timeStyle:NSDateFormatterShortStyle],
-                                                                           [NSDateFormatter localizedStringFromDate:t.end_date
-                                                                                                          dateStyle:NSDateFormatterShortStyle
-                                                                                                          timeStyle:NSDateFormatterShortStyle]];
-                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                                                                                 message:dates
-                                                                                                                          preferredStyle:UIAlertControllerStyleAlert];
-                                                        UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
-                                                                                                          style:UIAlertActionStyleDefault
-                                                                                                        handler:^(UIAlertAction * action) {
-                                                                                                           [alertController dismissViewControllerAnimated:YES
-                                                                                                                                               completion:nil];
-                                                                                                        }];
-                                                        [alertController addAction:aceptar];
-                                                        [welf presentViewController:alertController animated:YES completion:nil];
-                                                        
-                                                    } else {
-                                                        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
-                                                                                                                                 message:@"NO TRACK REGISTERED"
-                                                                                                                          preferredStyle:UIAlertControllerStyleAlert];
-                                                        UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
-                                                                                                          style:UIAlertActionStyleDefault
-                                                                                                        handler:^(UIAlertAction * action) {
-                                                                                                           [alertController dismissViewControllerAnimated:YES
-                                                                                                                                               completion:nil];
-                                                                                                        }];
-                                                        [alertController addAction:aceptar];
-                                                        [welf presentViewController:alertController animated:YES completion:nil];
-                                                        
-                                                    }
-                                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                                        welf.tracks = [NSArray array];
-                                                        [self.tableView reloadData];
-                                                    });
-                                                }];
+                                                  progress:^(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult) {
+                                                      if (locationResult == kIQLocationResultFound && motionResult == kIQMotionActivityResultFound && p) {
+                                                          NSMutableArray *temp = welf.tracks.mutableCopy;
+                                                          if (!temp) {
+                                                              temp = [NSMutableArray array];
+                                                          }
+                                                          [temp addObject:p];
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              welf.tracks = temp.copy;
+                                                              [self.tableView reloadData];
+                                                          });
+                                                      } else {
+                                                          
+                                                      }
+                                                  } completion:^(IQTrack * _Nullable t, IQLocationResult locationResult, IQMotionActivityResult motionResult) {
+                                                      if (t) {
+                                                          NSString *title = [NSString stringWithFormat:@"Track Ended: %@", t.activityType];
+                                                          NSString *dates = [NSString stringWithFormat:@"from: %@\nto: %@",
+                                                                             [NSDateFormatter localizedStringFromDate:t.start_date
+                                                                                                            dateStyle:NSDateFormatterShortStyle
+                                                                                                            timeStyle:NSDateFormatterShortStyle],
+                                                                             [NSDateFormatter localizedStringFromDate:t.end_date
+                                                                                                            dateStyle:NSDateFormatterShortStyle
+                                                                                                            timeStyle:NSDateFormatterShortStyle]];
+                                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                                                                                   message:dates
+                                                                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                                                          UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
+                                                                                                            style:UIAlertActionStyleDefault
+                                                                                                          handler:^(UIAlertAction * action) {
+                                                                                                              [alertController dismissViewControllerAnimated:YES
+                                                                                                                                                  completion:nil];
+                                                                                                          }];
+                                                          [alertController addAction:aceptar];
+                                                          [welf presentViewController:alertController animated:YES completion:nil];
+                                                          
+                                                      } else {
+                                                          UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
+                                                                                                                                   message:@"NO TRACK REGISTERED"
+                                                                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                                                          UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
+                                                                                                            style:UIAlertActionStyleDefault
+                                                                                                          handler:^(UIAlertAction * action) {
+                                                                                                              [alertController dismissViewControllerAnimated:YES
+                                                                                                                                                  completion:nil];
+                                                                                                          }];
+                                                          [alertController addAction:aceptar];
+                                                          [welf presentViewController:alertController animated:YES completion:nil];
+                                                          
+                                                      }
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          welf.tracks = [NSArray array];
+                                                          [self.tableView reloadData];
+                                                      });
+                                                  }];
 }
 
 - (void)stopTracker
