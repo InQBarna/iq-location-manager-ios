@@ -44,6 +44,8 @@
 		C42C00EE1CC7927D003A162B /* IQPermanentMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00ED1CC7927D003A162B /* IQPermanentMapVC.m */; };
 		C42C00F11CC7929F003A162B /* IQSignificantMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */; };
 		C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C42C00F21CC796DC003A162B /* MapKit.framework */; };
+		C43EDC4D1CF344B700E71608 /* NSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = C43EDC4C1CF344B700E71608 /* NSLogger.m */; };
+		C43EDC4F1CF34C7200E71608 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43EDC4E1CF34C7200E71608 /* MessageUI.framework */; };
 		C44324521CCE1C13007A454A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324501CCE1C13007A454A /* Fabric.framework */; };
 		C44324531CCE1C13007A454A /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324501CCE1C13007A454A /* Fabric.framework */; };
 		C44324541CCE1C13007A454A /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C44324511CCE1C13007A454A /* Crashlytics.framework */; };
@@ -137,6 +139,9 @@
 		C42C00EF1CC7929F003A162B /* IQSignificantMapVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQSignificantMapVC.h; sourceTree = "<group>"; };
 		C42C00F01CC7929F003A162B /* IQSignificantMapVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQSignificantMapVC.m; sourceTree = "<group>"; };
 		C42C00F21CC796DC003A162B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C43EDC4B1CF344B700E71608 /* NSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSLogger.h; path = ../NSLogger/NSLogger.h; sourceTree = "<group>"; };
+		C43EDC4C1CF344B700E71608 /* NSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSLogger.m; path = ../NSLogger/NSLogger.m; sourceTree = "<group>"; };
+		C43EDC4E1CF34C7200E71608 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		C44324501CCE1C13007A454A /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		C44324511CCE1C13007A454A /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		C46B87BD1CC8D1FE00D43262 /* IQTrackerContainerVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTrackerContainerVC.h; sourceTree = "<group>"; };
@@ -185,6 +190,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C43EDC4F1CF34C7200E71608 /* MessageUI.framework in Frameworks */,
 				C4260B8D1CCA618300BE509A /* CoreData.framework in Frameworks */,
 				C44324541CCE1C13007A454A /* Crashlytics.framework in Frameworks */,
 				C42C00F31CC796DC003A162B /* MapKit.framework in Frameworks */,
@@ -236,6 +242,7 @@
 		669F6BAB199D1D1100B88AAE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C43EDC4E1CF34C7200E71608 /* MessageUI.framework */,
 				C44324501CCE1C13007A454A /* Fabric.framework */,
 				C44324511CCE1C13007A454A /* Crashlytics.framework */,
 				C4260B8C1CCA618300BE509A /* CoreData.framework */,
@@ -318,6 +325,7 @@
 				C4FFF0CF1CC66C6F004E2A8A /* IQTracker.h */,
 				C4FFF0D01CC66C6F004E2A8A /* IQTracker.m */,
 				C46B87C61CC8E0CC00D43262 /* DataSource */,
+				C43EDC4A1CF344A700E71608 /* NSLogger */,
 			);
 			name = IQLocationManager;
 			sourceTree = "<group>";
@@ -351,6 +359,15 @@
 				C4260BB81CCA830400BE509A /* IQTrackMapVC.m */,
 			);
 			name = TrackListVCs;
+			sourceTree = "<group>";
+		};
+		C43EDC4A1CF344A700E71608 /* NSLogger */ = {
+			isa = PBXGroup;
+			children = (
+				C43EDC4B1CF344B700E71608 /* NSLogger.h */,
+				C43EDC4C1CF344B700E71608 /* NSLogger.m */,
+			);
+			name = NSLogger;
 			sourceTree = "<group>";
 		};
 		C46B87BC1CC8D1D000D43262 /* TrackerVCs */ = {
@@ -565,6 +582,7 @@
 				C4FFF0D11CC66C6F004E2A8A /* IQTracker.m in Sources */,
 				C4260BB91CCA830400BE509A /* IQTrackMapVC.m in Sources */,
 				C4FFF0C71CC6370C004E2A8A /* IQPermanentLocation.m in Sources */,
+				C43EDC4D1CF344B700E71608 /* NSLogger.m in Sources */,
 				669F6BC3199D1D1100B88AAE /* IQViewController.m in Sources */,
 				C41361711CBFEE3800836E58 /* IQMotionActivityManager.m in Sources */,
 				C4FB0D801CC788FD002174AD /* IQSignificantContainerVC.m in Sources */,

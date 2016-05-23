@@ -206,10 +206,20 @@ static IQMotionActivityManager *__iqMotionActivityManager;
         if (!self.motionActivityManager) {
             self.motionActivityManager = [[CMMotionActivityManager alloc] init];
         }
+        [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                    properties:@{ @"line": @(__LINE__),
+                                  @"[CMMotionActivityManager isActivityAvailable]": @"YES" }
+                         error:NO];
         [self.motionActivityManager queryActivityStartingFromDate:[NSDate date]
                                                            toDate:[NSDate date]
                                                           toQueue:[NSOperationQueue mainQueue]
                                                       withHandler:^(NSArray *activities, NSError *error){
+                                                          
+                                                          [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                                                                      properties:@{ @"line": @(__LINE__),
+                                                                                    @"error": error?:@"nil" }
+                                                                           error:NO];
+                                                          
                                                           if (!error) {
                                                               completion(kIQMotionActivityResultAvailable);
                                                               
@@ -223,6 +233,10 @@ static IQMotionActivityManager *__iqMotionActivityManager;
                                                           }
                                                       }];
     } else {
+        [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                    properties:@{ @"line": @(__LINE__),
+                                  @"[CMMotionActivityManager isActivityAvailable]": @"NO" }
+                         error:NO];
         completion(kIQMotionActivityResultNotAvailable);
     }
 }

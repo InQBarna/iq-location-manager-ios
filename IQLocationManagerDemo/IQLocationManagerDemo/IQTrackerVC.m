@@ -10,6 +10,8 @@
 
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
+#import <MessageUI/MessageUI.h>
+#import "NSLogger.h"
 
 #import "IQTracker.h"
 #import "IQTrack.h"
@@ -20,7 +22,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     kIQTrackerModeManual,
 };
 
-@interface IQTrackerVC () <UIActionSheetDelegate>
+@interface IQTrackerVC () <UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView    *tableView;
 @property (weak, nonatomic) IBOutlet UILabel        *modeLabel;
@@ -64,6 +66,21 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
         [sender setTitle:@"start" forState:UIControlStateNormal];
         [self stopTracker];
         [self getBatteryLevelInitial:NO];
+    }
+}
+
+- (IBAction)triggerSendLogPressed:(UIButton *)sender
+{
+    NSData *data = [[NSLogger shared] logData];
+    if (data) {
+        MFMailComposeViewController *emailController = [[MFMailComposeViewController alloc] init];
+        [emailController setMailComposeDelegate:self];
+        [emailController setToRecipients:[[NSArray alloc] initWithObjects:@"raul.penya@teameeng.com", nil]];
+        [emailController setSubject:@"Log File"];
+        [emailController setMessageBody:@"" isHTML:false];
+        [emailController addAttachmentData:data mimeType:@"text/plain" fileName:@"log.txt"];
+        [emailController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+        [self presentViewController:emailController animated:true completion:nil];
     }
 }
 
@@ -132,7 +149,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
 - (void)startTracker
 {
     __weak __typeof(self) welf = self;
-    IQMotionActivityType activity = kIQMotionActivityTypeAll;
+    IQMotionActivityType activity = kIQMotionActivityTypeNone;
     if (self.trackerMode == kIQTrackerModeAutomatic) {
         activity = kIQMotionActivityTypeAutomotive;
     }
@@ -140,7 +157,7 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
     [[IQTracker sharedManager] startLIVETrackerForActivity:activity
                                                   userInfo:@{@"testing":@"holaaa"}
                                                   progress:^(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult) {
-                                                      if (locationResult == kIQLocationResultFound && motionResult == kIQMotionActivityResultFound && p) {
+                                                      if (p) {
                                                           NSMutableArray *temp = welf.tracks.mutableCopy;
                                                           if (!temp) {
                                                               temp = [NSMutableArray array];
@@ -176,8 +193,11 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                                           [welf presentViewController:alertController animated:YES completion:nil];
                                                           
                                                       } else {
+                                                          
+                                                          NSString *message = [NSString stringWithFormat:@"location result = %li\nmotion result = %li", (long)locationResult, (long)motionResult];
+                                                          
                                                           UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Track Ended"
-                                                                                                                                   message:@"NO TRACK REGISTERED"
+                                                                                                                                   message:message
                                                                                                                             preferredStyle:UIAlertControllerStyleAlert];
                                                           UIAlertAction* aceptar = [UIAlertAction actionWithTitle:@"Aceptar"
                                                                                                             style:UIAlertActionStyleDefault
@@ -241,6 +261,12 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
                                  t.longitude.doubleValue];
     
     return cell;
+}
+
+#pragma mark MFMailComposeViewControllerDelegate Methods
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(nullable NSError *)error
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
