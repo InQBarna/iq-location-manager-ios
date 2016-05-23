@@ -289,95 +289,120 @@ static IQTracker *__iqTracker;
                                                                                         update:^(CLLocation *locationOrNil, IQLocationResult result) {
                                                                                             
         if (locationOrNil && result == kIQLocationResultFound) {
-            [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
-            {
-                if (result == kIQMotionActivityResultFound && activity) {
-                    if (activityType != kIQMotionActivityTypeAll) { // CASE: AUTOMATIC
-                        
-                        // CASE: track finished, but it wasn't possible to determine because no location received after motion stop
-                        if (lastActivity) {
-                            NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                            if (seconds > 300) {
-                                // 5 minuts since last correct activity -> close current track
-                                deflectionCounter = 0;
-                                lastActivity = nil;
-                                [self closeCurrentTrack];
-                            }
-                        }
-                        
-                        if ([self activity:activity containsActivityType:activityType]) {
-                            deflectionCounter = 0;
-                            lastActivity = activity;
-                            
-                            __block IQTrackPoint *tp_temp;
-                            [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
-                                if (!self.currentTrack) {
-                                    self.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
-                                                                        activityType:activityType
-                                                                         andUserInfo:userInfo
-                                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                }
-                                IQTrackPointManaged *tp = [IQTrackPointManaged createWithActivity:lastActivity
-                                                                           location:locationOrNil
-                                                                         andTrackID:self.currentTrack.objectID
-                                                                          inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                
-                                tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
-                            }];
-                            
-                            progressBlock(tp_temp, kIQTrackerResultFound);
-                            
-                        } else if (lastActivity) {
-                            // filters
-                            if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
-                                deflectionCounter++;
-                                if (deflectionCounter == 3) {
-                                    // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
-                                    deflectionCounter = 0;
-                                    lastActivity = nil;
-                                    [self closeCurrentTrack];
-                                }
-                                
-                            } else {
-                                NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                                if (seconds > 120) {
-                                    // 2 minuts since last correct activity -> close current track
-                                    deflectionCounter = 0;
-                                    lastActivity = nil;
-                                    [self closeCurrentTrack];
-                                }
-                            }
-
-                        }
-                    } else { // CASE: MANUAL
-                        if (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) {
-                            lastActivity = activity;
-                            
-                            __block IQTrackPoint *tp_temp;
-                            [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
-                                if (!self.currentTrack) {
-                                    self.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
-                                                                        activityType:activityType
-                                                                         andUserInfo:userInfo
-                                                                           inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                }                                
-                                IQTrackPointManaged *tp = [IQTrackPointManaged createWithActivity:lastActivity
-                                                                           location:locationOrNil
-                                                                         andTrackID:self.currentTrack.objectID
-                                                                          inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                                
-                                tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
-                            }];
-                            progressBlock(tp_temp, kIQTrackerResultFound);
-                        }
+            
+            if (activityType != kIQMotionActivityTypeNone) {
+                
+                [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult result)
+                 {
+                     if (result == kIQMotionActivityResultFound && activity) {
+                         
+                         if (activityType != kIQMotionActivityTypeAll) { // CASE: AUTOMATIC
+                             
+                             // CASE: track finished, but it wasn't possible to determine because no location received after motion stop
+                             if (lastActivity) {
+                                 NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
+                                 if (seconds > 300) {
+                                     // 5 minuts since last correct activity -> close current track
+                                     deflectionCounter = 0;
+                                     lastActivity = nil;
+                                     [self closeCurrentTrack];
+                                 }
+                             }
+                             
+                             if ([self activity:activity containsActivityType:activityType]) {
+                                 deflectionCounter = 0;
+                                 lastActivity = activity;
+                                 
+                                 __block IQTrackPoint *tp_temp;
+                                 [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+                                     if (!self.currentTrack) {
+                                         self.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
+                                                                                    activityType:activityType
+                                                                                     andUserInfo:userInfo
+                                                                                       inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                     }
+                                     IQTrackPointManaged *tp = [IQTrackPointManaged createWithActivity:lastActivity
+                                                                                              location:locationOrNil
+                                                                                            andTrackID:self.currentTrack.objectID
+                                                                                             inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                     
+                                     tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
+                                 }];
+                                 
+                                 progressBlock(tp_temp, kIQTrackerResultFound);
+                                 
+                             } else if (lastActivity) {
+                                 // filters
+                                 if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
+                                     deflectionCounter++;
+                                     if (deflectionCounter == 3) {
+                                         // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
+                                         deflectionCounter = 0;
+                                         lastActivity = nil;
+                                         [self closeCurrentTrack];
+                                     }
+                                     
+                                 } else {
+                                     NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
+                                     if (seconds > 120) {
+                                         // 2 minuts since last correct activity -> close current track
+                                         deflectionCounter = 0;
+                                         lastActivity = nil;
+                                         [self closeCurrentTrack];
+                                     }
+                                 }
+                                 
+                             }
+                         } else { // CASE: MANUAL
+                             if (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) {
+                                 lastActivity = activity;
+                                 
+                                 __block IQTrackPoint *tp_temp;
+                                 [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+                                     if (!self.currentTrack) {
+                                         self.currentTrack = [IQTrackManaged createWithStartDate:activity.startDate
+                                                                                    activityType:activityType
+                                                                                     andUserInfo:userInfo
+                                                                                       inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                     }
+                                     IQTrackPointManaged *tp = [IQTrackPointManaged createWithActivity:lastActivity
+                                                                                              location:locationOrNil
+                                                                                            andTrackID:self.currentTrack.objectID
+                                                                                             inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
+                                     
+                                     tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
+                                 }];
+                                 progressBlock(tp_temp, kIQTrackerResultFound);
+                             }
+                         }
+                     } else {
+                         
+                         
+                         
+                         progressBlock(nil, kIQTrackerResultMotionError);
+                         
+                     }
+                     [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+                 }];
+                
+            } else {
+                __block IQTrackPoint *tp_temp;
+                [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
+                    if (!self.currentTrack) {
+                        self.currentTrack = [IQTrackManaged createWithStartDate:locationOrNil.timestamp
+                                                                   activityType:activityType
+                                                                    andUserInfo:userInfo
+                                                                      inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                     }
-                } else {
-                    progressBlock(nil, kIQTrackerResultMotionError);
+                    IQTrackPointManaged *tp = [IQTrackPointManaged createWithLocation:locationOrNil
+                                                                           andTrackID:self.currentTrack.objectID
+                                                                            inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
                     
-                }
-                [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
-            }];
-                                                                                                
+                    tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
+                }];
+                progressBlock(tp_temp, kIQTrackerResultFound);
+            }
+            
         } else {
             if (result == kIQLocationResultSoftDenied || result == kIQLocationResultSystemDenied) {
                 self.currentTrack = nil;
@@ -455,7 +480,9 @@ static IQTracker *__iqTracker;
 
 - (void)checkCurrentTrack
 {
-    if (self.currentTrack && self.currentTrack.activityType != kIQMotionActivityTypeAll) {
+    if (self.currentTrack &&
+        (self.currentTrack.activityType.integerValue != kIQMotionActivityTypeNone ||
+         self.currentTrack.activityType.integerValue != kIQMotionActivityTypeAll)) {
         NSArray *points = [self.currentTrack sortedPoints];
         IQTrackPointManaged *lastP = [points lastObject];
         NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:lastP.date];

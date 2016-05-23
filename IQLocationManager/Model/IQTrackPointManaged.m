@@ -44,4 +44,26 @@
     return p;
 }
 
++ (instancetype)createWithLocation:(CLLocation *)location
+                        andTrackID:(NSManagedObjectID *)trackID
+                         inContext:(NSManagedObjectContext *)ctxt
+{
+    IQTrackPointManaged *p = [NSEntityDescription insertNewObjectForEntityForName:NSStringFromClass(self)
+                                                           inManagedObjectContext:ctxt];
+    
+    p.objectId = [[NSProcessInfo processInfo] globallyUniqueString];
+    p.date = [NSDate date];
+    
+    p.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
+    p.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
+    
+    NSError *error;
+    IQTrackManaged *t = [ctxt existingObjectWithID:trackID error:&error];
+    p.order = [NSNumber numberWithInteger:t.points.allObjects.count];
+    p.track = t;
+    [ctxt save:&error];
+    
+    return p;
+}
+
 @end

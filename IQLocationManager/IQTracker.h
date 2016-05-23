@@ -28,7 +28,8 @@ typedef NS_ENUM(NSInteger, IQTrackerResult) {
 };
 
 typedef NS_ENUM(NSInteger, IQMotionActivityType) {
-    kIQMotionActivityTypeAll,
+    kIQMotionActivityTypeNone,
+    kIQMotionActivityTypeAll,    
     kIQMotionActivityTypeWalking,
     kIQMotionActivityTypeRunning,
     kIQMotionActivityTypeAutomotive,

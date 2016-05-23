@@ -25,6 +25,10 @@ NS_ASSUME_NONNULL_BEGIN
                         andTrackID:(NSManagedObjectID *)trackID
                          inContext:(NSManagedObjectContext *)ctxt;
 
++ (instancetype)createWithLocation:(CLLocation *)location
+                        andTrackID:(NSManagedObjectID *)trackID
+                         inContext:(NSManagedObjectContext *)ctxt;
+
 @end
 
 NS_ASSUME_NONNULL_END
