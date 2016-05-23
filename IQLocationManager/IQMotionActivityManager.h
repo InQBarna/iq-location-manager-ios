@@ -13,7 +13,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
+    kIQMotionActivityResultAvailable,
     kIQMotionActivityResultNotAvailable,
+    kIQMotionActivityResultNotAuthorized,
     kIQMotionActivityResultError,
     kIQMotionActivityResultNoResult,
     kIQMotionActivityResultFound,
@@ -36,6 +38,8 @@ typedef NS_ENUM(NSInteger, IQMotionActivityResult) {
                                  toDate:(NSDate *)end_date
                        forActivityTypes:(nullable NSArray *)activityTypes
                              completion:(void(^)(NSArray *activities, IQMotionActivityResult result))completion;
+
+- (void)getMotionActivityStatus:(void(^)(IQMotionActivityResult result))completion;
 
 @end
 

@@ -123,4 +123,31 @@ static IQMotionActivityManager *__iqMotionActivityManager;
     }
 }
 
+- (void)getMotionActivityStatus:(void(^)(IQMotionActivityResult result))completion
+{
+    if([CMMotionActivityManager isActivityAvailable]) {
+        if (!self.motionActivityManager) {
+            self.motionActivityManager = [[CMMotionActivityManager alloc] init];
+        }
+        [self.motionActivityManager queryActivityStartingFromDate:[NSDate date]
+                                                           toDate:[NSDate date]
+                                                          toQueue:[NSOperationQueue mainQueue]
+                                                      withHandler:^(NSArray *activities, NSError *error){
+                                                          if (!error) {
+                                                              completion(kIQMotionActivityResultAvailable);
+                                                              
+                                                          } else {
+                                                              if (error.code == CMErrorMotionActivityNotAuthorized) {
+                                                                  completion(kIQMotionActivityResultNotAuthorized);
+                                                              } else {
+                                                                  completion(kIQMotionActivityResultError);
+                                                              }
+                                                              
+                                                          }
+                                                      }];
+    } else {
+        completion(kIQMotionActivityResultNotAvailable);
+    }
+}
+
 @end

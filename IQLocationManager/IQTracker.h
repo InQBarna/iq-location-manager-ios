@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "IQLocationPermissions.h"
+#import "IQMotionActivityManager.h"
+
 @class IQTrackManaged, IQTrackPointManaged, IQTrack, IQTrackPoint;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -67,8 +70,8 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
 
 - (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
                            userInfo:(nullable NSDictionary *)userInfo
-                           progress:(void (^)(IQTrackPoint * _Nullable p, IQTrackerResult result))progressBlock
-                         completion:(void (^)(IQTrack * _Nullable t, IQTrackerResult result))completionBlock;
+                           progress:(void (^)(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult))progressBlock
+                         completion:(void (^)(IQTrack * _Nullable t, IQLocationResult locationResult, IQMotionActivityResult motionResult))completionBlock;
 
 /**
  The tracker calls IQPermanentLocation :: stopPermanentMonitoring and IQMotionActivityManager :: stopActivityMonitoring. If there's an active currentTrack, it closes it as well.
