@@ -94,7 +94,13 @@ static IQTracker *__iqTracker;
         return;
     }
     
-    if (activityType != kIQMotionActivityTypeNone || !self.motionAuthorized) {
+    if (activityType == kIQMotionActivityTypeNone || activityType == kIQMotionActivityTypeAll) {
+        self.status = kIQTrackerStatusWorkingManual;
+    } else {
+        self.status = kIQTrackerStatusWorkingAutotracking;
+    }
+    
+    if (activityType != kIQMotionActivityTypeNone && !self.motionAuthorized) {
         [[IQMotionActivityManager sharedManager] getMotionActivityStatus:^(IQMotionActivityResult motionResult)
         {
             if (motionResult == kIQMotionActivityResultAvailable) {
@@ -106,6 +112,7 @@ static IQTracker *__iqTracker;
                 
             } else if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
                 completionBlock(nil, -1, motionResult);
+                self.status = kIQTrackerStatusStopped;
                 
             } else {
                 NSAssert(NO, @"No contemplated error");
@@ -132,8 +139,6 @@ static IQTracker *__iqTracker;
     CLLocationDistance distanceFilter;
     CLActivityType clActivityType;
     BOOL pausesLocationUpdatesAutomatically;
-    
-    self.status = kIQTrackerStatusWorkingAutotracking;
     
     // configure location settings for activity
     if (activityType == kIQMotionActivityTypeAutomotive) {
@@ -166,8 +171,6 @@ static IQTracker *__iqTracker;
         distanceFilter = 100.f;
         clActivityType = CLActivityTypeAutomotiveNavigation;
         pausesLocationUpdatesAutomatically = NO;
-        
-        self.status = kIQTrackerStatusWorkingManual;
         
     }
     
@@ -260,7 +263,7 @@ static IQTracker *__iqTracker;
                              }
                                                                                                                      
                          }
-                     } else { // CASE: MANUAL
+                     } else { // CASE: MANUAL WITH ACTIVITY
                          if (activity.running || activity.walking || activity.automotive ||
                              (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) {
                              lastActivity = activity;
@@ -296,7 +299,8 @@ static IQTracker *__iqTracker;
                                                @"error :: motionResult": @(motionResult) }
                                       error:NO];
                      
-                     if (motionResult == kIQMotionActivityResultNotAvailable) {
+                     if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
+                         self.currentTrack = nil;
                          [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
                          [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
                          self.status = kIQTrackerStatusStopped;
@@ -311,7 +315,7 @@ static IQTracker *__iqTracker;
                  [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
              }];
                                                                                                     
-        } else {
+        } else { // CASE: MANUAL WITHOUT ACTIVITY
             __block IQTrackPoint *tp_temp;
             [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
                 if (!self.currentTrack) {
@@ -342,10 +346,15 @@ static IQTracker *__iqTracker;
                                   @"error :: locationResult": @(locationResult) }
                          error:NO];
         
-        if (locationResult == kIQLocationResultSoftDenied || locationResult == kIQLocationResultSystemDenied) {
+        if (locationResult == kIQLocationResultSoftDenied ||
+            locationResult == kIQLocationResultSystemDenied ||
+            locationResult == kIQLocationResultNotEnabled) {
             self.currentTrack = nil;
-            [self stopTracker];
-                                                                                                    
+            [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+            [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
+            self.status = kIQTrackerStatusStopped;
+            completionBlock(nil, locationResult, -1);
+            
         } else {
             progressBlock(nil, locationResult, -1);
         }
@@ -405,11 +414,11 @@ static IQTracker *__iqTracker;
         }];
     }
     
-    // RAUL: uncomment for release
-//    if (t_temp.points.count < 3) {
-//        [self deleteTrackWithObjectId:t_temp.objectId];
-//        t_temp = nil;
-//    }
+    // Delete track if points < 3
+    if (t_temp.points.count < 3) {
+        [self deleteTrackWithObjectId:t_temp.objectId];
+        t_temp = nil;
+    }
     
     if (self.completionBlock) {
         if (t_temp && t_temp.points.count > 0) {
