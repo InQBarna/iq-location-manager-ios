@@ -59,8 +59,11 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
  @fact: The tracker's result depends on location.
  
  @param activityType is an IQMotionActivityType.
- If activityType != kIQMotionActivityTypeAll, autotracking mode starts: the IQTracker will IQTrack this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
- If activityType == kIQMotionActivityTypeAll, manual mode starts: the tracker will IQTrack every valuable activity (running && walking && automotive && cycling), considering all in the same IQTrack and the IQTrack will stop when stopTracker method is called.
+ If activityType != kIQMotionActivityTypeAll && activityType != kIQMotionActivityTypeNone, autotracking mode starts: the IQTracker will IQTrack this activityType starting and stopping by itself, creating Tracks when that kind of activity starts or stops.
+ 
+ If activityType == kIQMotionActivityTypeAll, manual mode starts with activity: the tracker will track every valuable activity (running && walking && automotive && cycling), considering all in the same IQTrack and the IQTrack will stop when stopTracker method is called.
+ 
+ If activityType == kIQMotionActivityTypeNone, manual mode starts without activity: the tracker will track only location, considering all in the same IQTrack and the IQTrack will stop when stopTracker method is called.
  @param userInfo is a dictionary for passing custom information to the starting IQTrack.
  @param progressBlock will be called with the current IQTrackPoint of the current IQTrack.
  @param completionBlock will be called with the finished IQTrack.
@@ -84,7 +87,7 @@ typedef NS_ENUM(NSInteger, IQMotionActivityType) {
 - (NSInteger)getCountCompletedTracks;
 
 /**
- NSArray sorted by "start_date", ascending = YES.
+ IQTrack NSArray sorted by "start_date", ascending = YES.
  */
 - (NSArray <IQTrack *> *)getCompletedTracks;
 - (NSArray <IQTrack *> *)getTracksBetweenDate:(NSDate *)start_date
