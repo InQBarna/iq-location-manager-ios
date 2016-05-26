@@ -57,7 +57,7 @@
     NSAssert(title != nil, @"Event title cannot be nill");
     NSAssert(title.length > 2, @"Event title needs to be longer that 2 characters");
 
-    [appendContents appendString:[NSString stringWithFormat:@"\nEVENT: \"%@\"\nERROR: %@\nPROPERTIES ¬ \n" ,error?@"TRUE":@"FALSE", title]];
+    [appendContents appendString:[NSString stringWithFormat:@"\nEVENT: \"%@\"\nERROR: %@\nPROPERTIES ¬ \n", title, error?@"TRUE":@"FALSE"]];
     
     for (int i = 0; i < [[properties allKeys] count]; i++) {
         NSAssert([properties objectForKey:[[properties allKeys] objectAtIndex:i]] != [NSNull null], @"Event property cannot be null");
