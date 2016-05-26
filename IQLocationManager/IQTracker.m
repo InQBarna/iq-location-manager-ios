@@ -154,10 +154,10 @@ static IQTracker *__iqTracker;
         pausesLocationUpdatesAutomatically = NO;
         
         // TEST
-//        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-//        distanceFilter = 5.f;
-//        clActivityType = CLActivityTypeAutomotiveNavigation;
-//        pausesLocationUpdatesAutomatically = NO;
+        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        distanceFilter = 5.f;
+        clActivityType = CLActivityTypeAutomotiveNavigation;
+        pausesLocationUpdatesAutomatically = NO;
         
     } else if (activityType == kIQMotionActivityTypeCycling) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
@@ -187,7 +187,7 @@ static IQTracker *__iqTracker;
         
         [[NSLogger shared] log:NSStringFromSelector(_cmd)
                     properties:@{ @"line": @(__LINE__),
-                                  @"kIQLocationResultFound": locationOrNil }
+                                  @"kIQLocationResultFound": locationOrNil?:@"nil" }
                          error:NO];
         
         if (activityType != kIQMotionActivityTypeNone) {
@@ -236,7 +236,7 @@ static IQTracker *__iqTracker;
                              
                              [[NSLogger shared] log:NSStringFromSelector(_cmd)
                                          properties:@{ @"line": @(__LINE__),
-                                                       @"kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp }
+                                                       @"kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
                                               error:NO];
                              
                              progressBlock(tp_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
@@ -286,7 +286,7 @@ static IQTracker *__iqTracker;
                              
                              [[NSLogger shared] log:NSStringFromSelector(_cmd)
                                          properties:@{ @"line": @(__LINE__),
-                                                       @"MANUAL WITH ACTIVITY: progressBlock :: kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp }
+                                                       @"MANUAL WITH ACTIVITY: progressBlock :: kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
                                               error:NO];
                              
                              progressBlock(tp_temp, locationResult, motionResult);
@@ -300,7 +300,7 @@ static IQTracker *__iqTracker;
                                       error:NO];
                      
                      if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
-                         self.currentTrack = nil;
+                         NSAssert(!self.currentTrack, @"currentTrack must be nil");
                          [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
                          [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
                          self.status = kIQTrackerStatusStopped;
@@ -333,7 +333,7 @@ static IQTracker *__iqTracker;
             
             [[NSLogger shared] log:NSStringFromSelector(_cmd)
                         properties:@{ @"line": @(__LINE__),
-                                      @"MANUAL WITHOUT ACTIVITY: progressBlock :: kIQLocationResultFound": tp_temp }
+                                      @"MANUAL WITHOUT ACTIVITY: progressBlock :: kIQLocationResultFound": tp_temp?:@"nil" }
                              error:NO];
             
             progressBlock(tp_temp, locationResult, -1);
@@ -349,7 +349,7 @@ static IQTracker *__iqTracker;
         if (locationResult == kIQLocationResultSoftDenied ||
             locationResult == kIQLocationResultSystemDenied ||
             locationResult == kIQLocationResultNotEnabled) {
-            self.currentTrack = nil;
+            NSAssert(!self.currentTrack, @"currentTrack must be nil");
             [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
             self.status = kIQTrackerStatusStopped;
@@ -405,6 +405,12 @@ static IQTracker *__iqTracker;
 
 - (void)closeCurrentTrack
 {
+    [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                properties:@{ @"line": @(__LINE__),
+                              @"currentTrack": self.currentTrack?:@"nil",
+                              @"stack trace": [NSThread callStackSymbols]?:@"nil"}
+                     error:NO];
+    
     __block IQTrack *t_temp;
     if (self.currentTrack) {
         [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
@@ -412,19 +418,36 @@ static IQTracker *__iqTracker;
             NSAssert(result, @"error closing track");
             t_temp = [[IQTrack alloc] initWithIQTrack:self.currentTrack];
         }];
+        [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                    properties:@{ @"line": @(__LINE__),
+                                  @"currentTrack :: CLOSED": t_temp?:@"nil"}
+                         error:NO];
     }
     
     // Delete track if points < 3
     if (t_temp.points.count < 3) {
         [self deleteTrackWithObjectId:t_temp.objectId];
         t_temp = nil;
+        
+        [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                    properties:@{ @"line": @(__LINE__),
+                                  @"currentTrack": @"DELETED"}
+                         error:NO];
     }
     
     if (self.completionBlock) {
         if (t_temp && t_temp.points.count > 0) {
             self.completionBlock(t_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
+            [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                        properties:@{ @"line": @(__LINE__),
+                                      @"currentTrack": @"FOUND"}
+                             error:NO];
         } else {
             self.completionBlock(t_temp, kIQLocationResultNoResult, kIQMotionActivityResultNoResult);
+            [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                        properties:@{ @"line": @(__LINE__),
+                                      @"currentTrack": @"NoResult"}
+                             error:NO];
         }
     }
     self.currentTrack = nil;
