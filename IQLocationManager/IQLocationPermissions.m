@@ -102,7 +102,7 @@ static IQLocationPermissions *__iqLocationPermissions;
     // As of iOS 8, apps must explicitly request location services permissions. IQLocationManager supports both levels, "Always" and "When In Use".
     // IQLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
     // If you provide values for both description keys, the more permissive "Always" level is requested.
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
         BOOL hasAlwaysKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
         BOOL hasWhenInUseKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
         if (hasAlwaysKey) {

@@ -94,8 +94,7 @@ static IQPermanentLocation *__iqPermanentLocation;
     
     __weak __typeof(self) welf = self;
     if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined ||
-        [[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultSoftDenied ||
-        CLLocationManager.authorizationStatus != kCLAuthorizationStatusAuthorizedAlways) {
+        [[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultSoftDenied) {
         [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
                                                               withSoftAccessRequest:softAccessRequest
                                                                       andCompletion:^(IQLocationResult result) {

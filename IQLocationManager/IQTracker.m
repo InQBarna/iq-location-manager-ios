@@ -111,7 +111,9 @@ static IQTracker *__iqTracker;
                                    completion:completionBlock];
                 
             } else if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
-                completionBlock(nil, -1, motionResult);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    completionBlock(nil, -1, motionResult);
+                });
                 self.status = kIQTrackerStatusStopped;
                 
             } else {
@@ -132,6 +134,9 @@ static IQTracker *__iqTracker;
                        progress:(void (^)(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult))progressBlock
                      completion:(void (^)(IQTrack * _Nullable t, IQLocationResult locationResult, IQMotionActivityResult motionResult))completionBlock
 {
+    NSParameterAssert(progressBlock);
+    NSParameterAssert(completionBlock);
+    __block CLLocation *lastLocation;
     __block CMMotionActivity *lastActivity;
     static int deflectionCounter = 0;
     
@@ -190,6 +195,16 @@ static IQTracker *__iqTracker;
                                   @"kIQLocationResultFound": locationOrNil?:@"nil" }
                          error:NO];
         
+        if (lastLocation && [lastLocation distanceFromLocation:locationOrNil] < 3.0) { // discard location if it has not changed significantly
+        
+            [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                        properties:@{ @"line": @(__LINE__),
+                                      @"location": @"discarded (not changed)" }
+                             error:NO];
+    
+            return;
+        }
+        lastLocation = locationOrNil;
         if (activityType != kIQMotionActivityTypeNone) {
             
             [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult motionResult)
@@ -239,7 +254,9 @@ static IQTracker *__iqTracker;
                                                        @"kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
                                               error:NO];
                              
-                             progressBlock(tp_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 progressBlock(tp_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
+                             });
                                                                                                                      
                          } else if (lastActivity) {
                              // filters
@@ -289,7 +306,9 @@ static IQTracker *__iqTracker;
                                                        @"MANUAL WITH ACTIVITY: progressBlock :: kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
                                               error:NO];
                              
-                             progressBlock(tp_temp, locationResult, motionResult);
+                             dispatch_async(dispatch_get_main_queue(), ^{
+                                 progressBlock(tp_temp, locationResult, motionResult);
+                             });
                          }
                      }
                  } else {
@@ -304,10 +323,14 @@ static IQTracker *__iqTracker;
                          [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
                          [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
                          self.status = kIQTrackerStatusStopped;
-                         completionBlock(nil, locationResult, motionResult);
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                             completionBlock(nil, locationResult, motionResult);
+                         });
                          
                      } else {
-                         progressBlock(nil, locationResult, motionResult);
+                         dispatch_async(dispatch_get_main_queue(), ^{
+                             progressBlock(nil, locationResult, motionResult);
+                         });
                          
                      }
                      
@@ -335,8 +358,9 @@ static IQTracker *__iqTracker;
                         properties:@{ @"line": @(__LINE__),
                                       @"MANUAL WITHOUT ACTIVITY: progressBlock :: kIQLocationResultFound": tp_temp?:@"nil" }
                              error:NO];
-            
-            progressBlock(tp_temp, locationResult, -1);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressBlock(tp_temp, locationResult, -1);
+            });
         }
                                                                                                 
     } else {
@@ -353,10 +377,14 @@ static IQTracker *__iqTracker;
             [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
             [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
             self.status = kIQTrackerStatusStopped;
-            completionBlock(nil, locationResult, -1);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionBlock(nil, locationResult, -1);
+            });
             
         } else {
-            progressBlock(nil, locationResult, -1);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                progressBlock(nil, locationResult, -1);
+            });
         }
     }
     }];
@@ -437,13 +465,17 @@ static IQTracker *__iqTracker;
     
     if (self.completionBlock) {
         if (t_temp && t_temp.points.count > 0) {
-            self.completionBlock(t_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.completionBlock(t_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
+            });
             [[NSLogger shared] log:NSStringFromSelector(_cmd)
                         properties:@{ @"line": @(__LINE__),
                                       @"currentTrack": @"FOUND"}
                              error:NO];
         } else {
-            self.completionBlock(t_temp, kIQLocationResultNoResult, kIQMotionActivityResultNoResult);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.completionBlock(t_temp, kIQLocationResultNoResult, kIQMotionActivityResultNoResult);
+            });
             [[NSLogger shared] log:NSStringFromSelector(_cmd)
                         properties:@{ @"line": @(__LINE__),
                                       @"currentTrack": @"NoResult"}
