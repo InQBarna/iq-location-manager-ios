@@ -110,6 +110,10 @@ static IQPermanentLocation *__iqPermanentLocation;
         [self startMonitoringUpdates];
         
     } else {
+        [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                    properties:@{ @"line": @(__LINE__),
+                                  @"case": @"[[IQLocationPermissions sharedManager] getLocationStatus] != kIQlocationResultAuthorized" }
+                         error:NO];
         updateBlock(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);
     }
 }
@@ -117,7 +121,8 @@ static IQPermanentLocation *__iqPermanentLocation;
 - (void)startMonitoringUpdates
 {
     [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__) }
+                properties:@{ @"line": @(__LINE__),
+                              @"case": @"[[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized" }
                      error:NO];
 
     // Create the location manager if this object does not
@@ -171,6 +176,16 @@ static IQPermanentLocation *__iqPermanentLocation;
                               @"error": error?:@"nil" }
                      error:YES];
     NSLog(@"IQPermanentLocation :: didFailWithError :: %@", error);
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                properties:@{ @"line": @(__LINE__),
+                              @"manager": manager?: @"nil",
+                              @"status": @(status),
+                              @"info": @"VERY BAD THING"}
+                     error:YES];
 }
 
 @end

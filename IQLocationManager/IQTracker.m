@@ -222,6 +222,11 @@ static IQTracker *__iqTracker;
                          if (lastActivity) {
                              NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                              if (seconds > 300) {
+                                 [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                                             properties:@{ @"line": @(__LINE__),
+                                                           @"case": @"seconds > 300",
+                                                           @"info": @"5 minuts since last correct activity -> close current track"}
+                                                  error:NO];
                                  // 5 minuts since last correct activity -> close current track
                                  deflectionCounter = 0;
                                  lastActivity = nil;
@@ -263,6 +268,11 @@ static IQTracker *__iqTracker;
                              if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
                                  deflectionCounter++;
                                  if (deflectionCounter == 3) {
+                                     [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                                                 properties:@{ @"line": @(__LINE__),
+                                                               @"case": @"deflectionCounter == 3",
+                                                               @"info": @"3 times with another valuable activity with at least ConfidenceMedium -> close current track"}
+                                                      error:NO];
                                      // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
                                      deflectionCounter = 0;
                                      lastActivity = nil;
@@ -272,6 +282,11 @@ static IQTracker *__iqTracker;
                              } else {
                                  NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                                  if (seconds > 120) {
+                                     [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                                                 properties:@{ @"line": @(__LINE__),
+                                                               @"case": @"seconds > 120",
+                                                               @"info": @"2 minuts since last correct activity -> close current track"}
+                                                      error:NO];
                                      // 2 minuts since last correct activity -> close current track
                                      deflectionCounter = 0;
                                      lastActivity = nil;
@@ -494,6 +509,12 @@ static IQTracker *__iqTracker;
         IQTrackPointManaged *lastP = [points lastObject];
         NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:lastP.date];
         if (seconds > 300) {
+            [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                        properties:@{ @"line": @(__LINE__),
+                                      @"case": @"seconds > 300",
+                                      @"stack_trace": [NSThread callStackSymbols]}
+                             error:NO];
+
             // 5 minuts since last correct activity -> close current track
             [self closeCurrentTrack];
         }
