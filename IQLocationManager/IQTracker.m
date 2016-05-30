@@ -28,6 +28,8 @@
 @property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQLocationResult locationResult, IQMotionActivityResult motionResult);
 @property (nonatomic, assign) IQTrackerStatus       status;
 @property (nonatomic, assign) BOOL                  motionAuthorized;
+@property (nonatomic, assign) BOOL                  motionRequested;
+
 
 @end
 
@@ -77,6 +79,16 @@ static IQTracker *__iqTracker;
     return self.currentTrack;
 }
 
+- (void)startForRealWithActivity:(IQMotionActivityType)activityType
+                        userInfo:(nullable NSDictionary *)userInfo
+                        progress:(void (^)(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult))progressBlock
+                      completion:(void (^)(IQTrack * _Nullable t, IQLocationResult locationResult, IQMotionActivityResult motionResult))completionBlock {
+    [self startMonitoringActivity:activityType
+                         userInfo:userInfo
+                         progress:progressBlock
+                       completion:completionBlock];
+}
+
 - (void)startLIVETrackerForActivity:(IQMotionActivityType)activityType
                            userInfo:(nullable NSDictionary *)userInfo
                            progress:(void (^)(IQTrackPoint * _Nullable p, IQLocationResult locationResult, IQMotionActivityResult motionResult))progressBlock
@@ -100,15 +112,27 @@ static IQTracker *__iqTracker;
         self.status = kIQTrackerStatusWorkingAutotracking;
     }
     
-    if (activityType != kIQMotionActivityTypeNone && !self.motionAuthorized) {
+    if (activityType != kIQMotionActivityTypeNone && !(self.motionAuthorized && self.motionRequested)) {
+        [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity * _Nullable activity, IQMotionActivityResult result) {
+            [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
+            self.motionRequested = YES;
+            if (self.motionAuthorized && self.motionRequested) {
+                [self startForRealWithActivity:activityType
+                                      userInfo:userInfo
+                                      progress:progressBlock
+                                    completion:completionBlock];
+            }
+        }];
         [[IQMotionActivityManager sharedManager] getMotionActivityStatus:^(IQMotionActivityResult motionResult)
         {
             if (motionResult == kIQMotionActivityResultAvailable) {
                 self.motionAuthorized = YES;
-                [self startMonitoringActivity:activityType
-                                     userInfo:userInfo
-                                     progress:progressBlock
-                                   completion:completionBlock];
+                if (self.motionAuthorized && self.motionRequested) {
+                    [self startForRealWithActivity:activityType
+                                          userInfo:userInfo
+                                          progress:progressBlock
+                                        completion:completionBlock];
+                }
                 
             } else if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -444,6 +468,7 @@ static IQTracker *__iqTracker;
     [[IQPermanentLocation sharedManager] stopPermanentMonitoring];
     self.status = kIQTrackerStatusStopped;
     [self closeCurrentTrack];
+    NSAssert(self.currentTrack == nil, @"track should be nil");
 }
 
 - (void)closeCurrentTrack
