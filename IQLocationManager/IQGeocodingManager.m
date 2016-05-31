@@ -34,6 +34,17 @@ static IQGeocodingManager *__iqGeocodingManager;
                 distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
                 withCompletion:(void(^)(BOOL isCachedAndThereforeSynchronous, CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion
 {
+    NSParameterAssert(location);
+    NSParameterAssert(completion);
+    
+    if (location == nil) {
+        NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
+                                             code:__LINE__
+                                         userInfo:nil];
+        completion(YES, nil, nil, nil, error);
+        return;
+    }
+    
     NSInteger tail = 1;
     switch (distanceFilter) {
         case kIQGeocodingDistanceFilterHundredKilometers:
