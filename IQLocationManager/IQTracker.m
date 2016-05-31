@@ -27,9 +27,11 @@
 @property (nonatomic, strong) IQTrackManaged        *currentTrack;
 @property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQLocationResult locationResult, IQMotionActivityResult motionResult);
 @property (nonatomic, assign) IQTrackerStatus       status;
+
+// These properties are used in conjunction for authorize CMMotionActivity tracking
 @property (nonatomic, assign) BOOL                  motionAuthorized;
 @property (nonatomic, assign) BOOL                  motionRequested;
-
+//
 
 @end
 
@@ -117,10 +119,10 @@ static IQTracker *__iqTracker;
             [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
             self.motionRequested = YES;
             if (self.motionAuthorized && self.motionRequested) {
-                [self startForRealWithActivity:activityType
-                                      userInfo:userInfo
-                                      progress:progressBlock
-                                    completion:completionBlock];
+                [self startMonitoringActivity:activityType
+                                     userInfo:userInfo
+                                     progress:progressBlock
+                                   completion:completionBlock];
             }
         }];
         [[IQMotionActivityManager sharedManager] getMotionActivityStatus:^(IQMotionActivityResult motionResult)
@@ -128,10 +130,10 @@ static IQTracker *__iqTracker;
             if (motionResult == kIQMotionActivityResultAvailable) {
                 self.motionAuthorized = YES;
                 if (self.motionAuthorized && self.motionRequested) {
-                    [self startForRealWithActivity:activityType
-                                          userInfo:userInfo
-                                          progress:progressBlock
-                                        completion:completionBlock];
+                    [self startMonitoringActivity:activityType
+                                         userInfo:userInfo
+                                         progress:progressBlock
+                                       completion:completionBlock];
                 }
                 
             } else if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
