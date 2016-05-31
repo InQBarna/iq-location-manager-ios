@@ -71,7 +71,7 @@ static IQLocationDataSource *__iqLocationDataSource;
         return _persistentStoreCoordinator;
     }
     
-    NSURL *storeURL = [[self applicationCacheDirectory] URLByAppendingPathComponent:@"IQLocationModel.sqlite"];
+    NSURL *storeURL = [[self applicationDocumentDirectory] URLByAppendingPathComponent:@"IQLocationModel.sqlite"];
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
@@ -97,9 +97,9 @@ static IQLocationDataSource *__iqLocationDataSource;
 #pragma mark - Application's Documents directory
 
 // Returns the URL to the application's Documents directory.
-- (NSURL *)applicationCacheDirectory
+- (NSURL *)applicationDocumentDirectory
 {
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
 @end
