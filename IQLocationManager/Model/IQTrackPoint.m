@@ -90,6 +90,15 @@
     return string;
 }
 
+- (CLLocation *)location {
+    CLLocation *location;
+    if (self.latitude && self.longitude) {
+        location = [[CLLocation alloc] initWithLatitude:self.latitude.doubleValue
+                                              longitude:self.longitude.doubleValue];
+    }
+    return location;
+}
+
 #pragma mark - NSCoding protocol
 - (id)initWithCoder:(NSCoder *)decoder
 {

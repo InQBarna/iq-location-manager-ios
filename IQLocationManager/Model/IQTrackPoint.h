@@ -33,4 +33,6 @@
 - (nonnull NSString *)activityTypeString;
 - (nonnull NSString *)confidenceString;
 
+- (nullable CLLocation *)location;
+
 @end
