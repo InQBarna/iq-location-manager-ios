@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, IQGeocodingDistanceFilter) {
 + (IQGeocodingManager *)sharedManager;
 
 /**
- 
+
  Sometimes asyncrhonous and other times synchronous method that returns a CLPlacemark, an address and a locality of the @param location.
  
  @param location where to apply the reverse geocode.
@@ -44,9 +44,8 @@ typedef NS_ENUM(NSInteger, IQGeocodingDistanceFilter) {
  4        0.0001           11.1 m
  5        0.00001          1.11 m
  6        0.000001         11.1 cm
- 
- */
 
+ */
 - (void)getAddressFromLocation:(CLLocation*)location
                 distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
                 withCompletion:(void(^_Nullable)(BOOL isCachedAndThereforeSynchronous,

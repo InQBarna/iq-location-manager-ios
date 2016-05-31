@@ -34,6 +34,8 @@
     
     NSError *error;
     [ctxt save:&error];
+    NSAssert(error == nil, @"unhandled error: %@", error);
+    
     return a;
 }
 

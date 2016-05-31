@@ -17,16 +17,16 @@
 
 @implementation IQGeocodingManager
 
-static IQGeocodingManager *__iqGeocodingManager;
-
-#pragma mark Initialization and destroy calls
+#pragma mark Public
 
 + (IQGeocodingManager *)sharedManager
 {
+    static IQGeocodingManager *__iqGeocodingManager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         __iqGeocodingManager = [[self alloc] init];
     });
+    
     return __iqGeocodingManager;
 }
 
@@ -38,13 +38,59 @@ static IQGeocodingManager *__iqGeocodingManager;
     
     if (location == nil) {
         if (completion) {
-            NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
-                                                 code:__LINE__
-                                             userInfo:nil];
+            NSError *error = [self buildParameterError];
             completion(YES, nil, nil, nil, error);
         }
+        
         return;
     }
+    
+    NSManagedObjectContext *moc = [IQLocationDataSource sharedDataSource].managedObjectContext;
+    __block IQAddress *a = nil;
+    [moc performBlockAndWait:^{
+        
+        NSFetchRequest *request = [self fetchRequestWithLocation:location
+                                                  distanceFilter:distanceFilter];
+        NSError *error = nil;
+        NSArray *tracks = [moc executeFetchRequest:request error:&error];
+        NSAssert(error == nil, @"unhandled error: %@", error);
+        if (tracks.count > 0) {
+            a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
+        } else {
+            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+            [geocoder reverseGeocodeLocation:location
+                           completionHandler:
+             ^(NSArray *cl_placemarks, NSError *cl_error) {
+                 
+                 CLPlacemark* placemark = [cl_placemarks lastObject];
+                 [moc performBlock:^{
+                     [IQAddressManaged createWithLocation:location
+                                             andPlacemark:placemark
+                                                inContext:moc];
+                 }];
+                 
+                 if (completion != nil) {
+                     NSString *name = [placemark.addressDictionary objectForKey:@"Name"];
+                     NSString *city = [placemark.addressDictionary objectForKey:@"City"];
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         completion(NO, placemark, name, city, cl_error);
+                     });
+                 }
+             }];
+        }
+    }];
+    
+    if (a && completion) {
+        completion(YES, a.placemark, a.address, a.locality, nil);
+    }
+}
+
+#pragma mark Private
+
+- (NSFetchRequest *)fetchRequestWithLocation:(CLLocation*)location
+                              distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
+{
+    NSParameterAssert(location);
     
     NSInteger tail = 1;
     switch (distanceFilter) {
@@ -70,53 +116,27 @@ static IQGeocodingManager *__iqGeocodingManager;
             break;
     }
     
-    __block IQAddress *a;
-    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
-        
-        NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
-        value_lat = [value_lat substringToIndex:value_lat.length-tail];
-        NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
-        value_long = [value_long substringToIndex:value_long.length-tail];
-        
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"IQAddressManaged"];
-        request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
-                             value_lat,
-                             value_long];
-        request.fetchLimit = 1;
-        
-        NSError *error = nil;
-        NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
-        if (tracks.count > 0) {
-            a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
-        } else {
-            CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-            [geocoder reverseGeocodeLocation:location
-                           completionHandler:^(NSArray *cl_placemarks, NSError *cl_error) {
-                               
-                               CLPlacemark* placemark = [cl_placemarks lastObject];
-                               
-                               [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
-                                   [IQAddressManaged createWithLocation:location
-                                                           andPlacemark:placemark
-                                                              inContext:[IQLocationDataSource sharedDataSource].managedObjectContext];
-                               }];
-                               
-                               if (completion != nil) {
-                                   dispatch_async(dispatch_get_main_queue(), ^{
-                                       completion(NO,
-                                                  placemark,
-                                                  [placemark.addressDictionary objectForKey:@"Name"],
-                                                  [placemark.addressDictionary objectForKey:@"City"],
-                                                  cl_error);
-                                   });
-                               }
-                           }];
-        }
-    }];
-    if (a && completion) {
-        completion(YES, a.placemark, a.address, a.locality, nil);
-    }
+    NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
+    value_lat = [value_lat substringToIndex:value_lat.length-tail];
+    NSString *value_long = [NSString stringWithFormat:@"%.7f", location.coordinate.longitude];
+    value_long = [value_long substringToIndex:value_long.length-tail];
+    
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:NSStringFromClass([IQAddressManaged class])];
+    request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
+                         value_lat,
+                         value_long];
+    request.fetchLimit = 1;
+    
+    return request;
 }
 
+- (NSError *)buildParameterError
+{
+    NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
+                                         code:__LINE__
+                                     userInfo:nil];
+    
+    return error;
+}
 
 @end
