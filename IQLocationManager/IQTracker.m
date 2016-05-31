@@ -27,9 +27,11 @@
 @property (nonatomic, strong) IQTrackManaged        *currentTrack;
 @property (nonatomic, copy) void (^completionBlock)(IQTrack *t, IQLocationResult locationResult, IQMotionActivityResult motionResult);
 @property (nonatomic, assign) IQTrackerStatus       status;
+
+// These properties are used in conjunction for authorize CMMotionActivity tracking
 @property (nonatomic, assign) BOOL                  motionAuthorized;
 @property (nonatomic, assign) BOOL                  motionRequested;
-
+//
 
 @end
 
@@ -117,10 +119,10 @@ static IQTracker *__iqTracker;
             [[IQMotionActivityManager sharedManager] stopActivityMonitoring];
             self.motionRequested = YES;
             if (self.motionAuthorized && self.motionRequested) {
-                [self startForRealWithActivity:activityType
-                                      userInfo:userInfo
-                                      progress:progressBlock
-                                    completion:completionBlock];
+                [self startMonitoringActivity:activityType
+                                     userInfo:userInfo
+                                     progress:progressBlock
+                                   completion:completionBlock];
             }
         }];
         [[IQMotionActivityManager sharedManager] getMotionActivityStatus:^(IQMotionActivityResult motionResult)
@@ -128,10 +130,10 @@ static IQTracker *__iqTracker;
             if (motionResult == kIQMotionActivityResultAvailable) {
                 self.motionAuthorized = YES;
                 if (self.motionAuthorized && self.motionRequested) {
-                    [self startForRealWithActivity:activityType
-                                          userInfo:userInfo
-                                          progress:progressBlock
-                                        completion:completionBlock];
+                    [self startMonitoringActivity:activityType
+                                         userInfo:userInfo
+                                         progress:progressBlock
+                                       completion:completionBlock];
                 }
                 
             } else if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
@@ -305,13 +307,13 @@ static IQTracker *__iqTracker;
                                                                                                                          
                              } else {
                                  NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                                 if (seconds > 120) {
+                                 if (seconds > 300) {
+                                     // 5 minuts since last correct activity -> close current track
                                      [[NSLogger shared] log:NSStringFromSelector(_cmd)
                                                  properties:@{ @"line": @(__LINE__),
                                                                @"case": @"seconds > 120",
                                                                @"info": @"2 minuts since last correct activity -> close current track"}
                                                       error:NO];
-                                     // 2 minuts since last correct activity -> close current track
                                      deflectionCounter = 0;
                                      lastActivity = nil;
                                      [self closeCurrentTrack];
