@@ -27,28 +27,30 @@ typedef NS_ENUM(NSInteger, IQGeocodingDistanceFilter) {
 + (IQGeocodingManager *)sharedManager;
 
 /**
-
- Asyncrhonous method that returns a CLPlacemark, an address and a locality of the @param location.
+ 
+ Sometimes asyncrhonous and other times synchronous method that returns a CLPlacemark, an address and a locality of the @param location.
  
  @param location where to apply the reverse geocode.
  @param distanceFilter is a IQGeocodingDistanceFilter. Use it to specify the accuracy of the result.
+ @param completion block that returns the address. The `isCachedAndThereforeSynchronous` parameter determines whether the block is invoked synchronously or asynchronously.
  
-decimal
-places   degrees          distance
--------  -------          --------
-0        1                111  km
-1        0.1              11.1 km
-2        0.01             1.11 km
-3        0.001            111  m
-4        0.0001           11.1 m
-5        0.00001          1.11 m
-6        0.000001         11.1 cm
-
+ decimal
+ places   degrees          distance
+ -------  -------          --------
+ 0        1                111  km
+ 1        0.1              11.1 km
+ 2        0.01             1.11 km
+ 3        0.001            111  m
+ 4        0.0001           11.1 m
+ 5        0.00001          1.11 m
+ 6        0.000001         11.1 cm
+ 
  */
- 
+
 - (void)getAddressFromLocation:(CLLocation*)location
                 distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
-                withCompletion:(void(^)(CLPlacemark * _Nullable placemark,
+                withCompletion:(void(^)(BOOL isCachedAndThereforeSynchronous,
+                                        CLPlacemark * _Nullable placemark,
                                         NSString * _Nullable address,
                                         NSString * _Nullable locality,
                                         NSError * _Nullable error))completion;

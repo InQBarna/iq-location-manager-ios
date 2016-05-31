@@ -32,7 +32,7 @@ static IQGeocodingManager *__iqGeocodingManager;
 
 - (void)getAddressFromLocation:(CLLocation*)location
                 distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
-                withCompletion:(void(^)(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion
+                withCompletion:(void(^)(BOOL isCachedAndThereforeSynchronous, CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion
 {
     NSInteger tail = 1;
     switch (distanceFilter) {
@@ -58,7 +58,8 @@ static IQGeocodingManager *__iqGeocodingManager;
             break;
     }
     
-    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlock:^{
+    __block IQAddress *a;
+    [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
         
         NSString *value_lat = [NSString stringWithFormat:@"%.7f", location.coordinate.latitude];
         value_lat = [value_lat substringToIndex:value_lat.length-tail];
@@ -73,12 +74,7 @@ static IQGeocodingManager *__iqGeocodingManager;
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
         if (tracks.count > 0) {
-            IQAddress *a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
-            if (completion != nil) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completion(a.placemark, a.address, a.locality, nil);
-                });
-            }
+            a = [[IQAddress alloc] initWithIQAddress:tracks.lastObject];
         } else {
             CLGeocoder *geocoder = [[CLGeocoder alloc] init];
             [geocoder reverseGeocodeLocation:location
@@ -94,7 +90,8 @@ static IQGeocodingManager *__iqGeocodingManager;
                                
                                if (completion != nil) {
                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                       completion(placemark,
+                                       completion(NO,
+                                                  placemark,
                                                   [placemark.addressDictionary objectForKey:@"Name"],
                                                   [placemark.addressDictionary objectForKey:@"City"],
                                                   cl_error);
@@ -103,6 +100,9 @@ static IQGeocodingManager *__iqGeocodingManager;
                            }];
         }
     }];
+    if (a) {
+        completion(YES, a.placemark, a.address, a.locality, nil);
+    }
 }
 
 

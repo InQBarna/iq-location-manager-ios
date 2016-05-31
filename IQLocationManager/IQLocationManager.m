@@ -193,7 +193,7 @@ static IQLocationManager *__iqLocationManager;
 {
     [[IQGeocodingManager sharedManager] getAddressFromLocation:location
                                                 distanceFilter:kIQGeocodingDistanceFilterMeter 
-                                                withCompletion:^(CLPlacemark * _Nullable placemark, NSString * _Nullable address, NSString * _Nullable locality, NSError * _Nullable error) {
+                                                withCompletion:^(BOOL isCachedAndThereforeSynchronous, CLPlacemark * _Nullable placemark, NSString * _Nullable address, NSString * _Nullable locality, NSError * _Nullable error) {
                                                     completion(placemark, address, locality, error);
                                                 }];
     
