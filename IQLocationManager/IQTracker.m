@@ -254,8 +254,8 @@ static IQTracker *__iqTracker;
                                                                                                                          
                              } else {
                                  NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
-                                 if (seconds > 120) {
-                                     // 2 minuts since last correct activity -> close current track
+                                 if (seconds > 300) {
+                                     // 5 minuts since last correct activity -> close current track
                                      deflectionCounter = 0;
                                      lastActivity = nil;
                                      [self closeCurrentTrack];
