@@ -105,6 +105,9 @@ static IQTracker *__iqTracker;
     
     if (self.currentTrack) {
         NSAssert(NO, @"startTrackerForActivity called twice without call stopTracker before");
+        if (self.status == kIQTrackerStatusStopped) {
+            [self closeCurrentTrack];
+        }
         return;
     }
     
