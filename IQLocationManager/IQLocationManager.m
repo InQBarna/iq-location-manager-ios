@@ -166,8 +166,8 @@ static IQLocationManager *__iqLocationManager;
 //    }
     
     __weak __typeof(self) welf = self;
-    if ([[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultNotDetermined ||
-        [[IQLocationPermissions sharedManager] getLocationStatus] == kIQLocationResultSoftDenied) {
+    IQLocationResult status = [[IQLocationPermissions sharedManager] getLocationStatus];
+    if (status == kIQLocationResultNotDetermined || status == kIQLocationResultSoftDenied) {
         [[IQLocationPermissions sharedManager] requestLocationPermissionsForManager:self.locationManager
                                                               withSoftAccessRequest:softAccessRequest
                                                                       andCompletion:^(IQLocationResult result) {

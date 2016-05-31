@@ -7,6 +7,7 @@
 //
 
 #import "IQLocationPermissions.h"
+#import "NSLogger.h"
 
 #define kIQLocationSoftDenied @"kIQLocationSoftDenied"
 
@@ -102,7 +103,7 @@ static IQLocationPermissions *__iqLocationPermissions;
     // As of iOS 8, apps must explicitly request location services permissions. IQLocationManager supports both levels, "Always" and "When In Use".
     // IQLocationManager determines which level of permissions to request based on which description key is present in your app's Info.plist
     // If you provide values for both description keys, the more permissive "Always" level is requested.
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
+    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
         BOOL hasAlwaysKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationAlwaysUsageDescription"] != nil;
         BOOL hasWhenInUseKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSLocationWhenInUseUsageDescription"] != nil;
         if (hasAlwaysKey) {
@@ -192,6 +193,28 @@ static IQLocationPermissions *__iqLocationPermissions;
             }
         }
     }
+}
+
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                properties:@{ @"line": @(__LINE__),
+                              @"manager": manager?: @"nil",
+                              @"locations": locations?:@"nil",
+                              @"info": @"VERY BAD THING"}
+                     error:NO];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    [[NSLogger shared] log:NSStringFromSelector(_cmd)
+                properties:@{ @"line": @(__LINE__),
+                              @"manager": manager?: @"nil",
+                              @"error": error?:@"nil",
+                              @"info": @"VERY BAD THING" }
+                     error:YES];
+    NSLog(@"IQPermanentLocation :: didFailWithError :: %@", error);
 }
 
 @end
