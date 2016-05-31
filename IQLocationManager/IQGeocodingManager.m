@@ -82,6 +82,7 @@ static IQGeocodingManager *__iqGeocodingManager;
         request.predicate = [NSPredicate predicateWithFormat:@"latitude BEGINSWITH %@ AND longitude BEGINSWITH %@",
                              value_lat,
                              value_long];
+        request.fetchLimit = 1;
         
         NSError *error = nil;
         NSArray *tracks = [[IQLocationDataSource sharedDataSource].managedObjectContext executeFetchRequest:request error:&error].copy;
