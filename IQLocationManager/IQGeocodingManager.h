@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, IQGeocodingDistanceFilter) {
 
 - (void)getAddressFromLocation:(CLLocation*)location
                 distanceFilter:(IQGeocodingDistanceFilter)distanceFilter
-                withCompletion:(void(^)(BOOL isCachedAndThereforeSynchronous,
+                withCompletion:(void(^_Nullable)(BOOL isCachedAndThereforeSynchronous,
                                         CLPlacemark * _Nullable placemark,
                                         NSString * _Nullable address,
                                         NSString * _Nullable locality,

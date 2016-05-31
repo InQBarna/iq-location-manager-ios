@@ -35,13 +35,14 @@ static IQGeocodingManager *__iqGeocodingManager;
                 withCompletion:(void(^)(BOOL isCachedAndThereforeSynchronous, CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error))completion
 {
     NSParameterAssert(location);
-    NSParameterAssert(completion);
     
     if (location == nil) {
-        NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
-                                             code:__LINE__
-                                         userInfo:nil];
-        completion(YES, nil, nil, nil, error);
+        if (completion) {
+            NSError *error = [NSError errorWithDomain:NSStringFromClass([self class])
+                                                 code:__LINE__
+                                             userInfo:nil];
+            completion(YES, nil, nil, nil, error);
+        }
         return;
     }
     
@@ -111,7 +112,7 @@ static IQGeocodingManager *__iqGeocodingManager;
                            }];
         }
     }];
-    if (a) {
+    if (a && completion) {
         completion(YES, a.placemark, a.address, a.locality, nil);
     }
 }
