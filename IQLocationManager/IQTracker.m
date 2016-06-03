@@ -20,7 +20,6 @@
 #import "IQTrackPoint.i.h"
 
 #import <CoreMotion/CoreMotion.h>
-#import "NSLogger.h"
 
 @interface IQTracker()
 
@@ -97,11 +96,6 @@ static IQTracker *__iqTracker;
                          completion:(void (^)(IQTrack * _Nullable t, IQLocationResult locationResult, IQMotionActivityResult motionResult))completionBlock
 {
     [self checkCurrentTrack];
-    
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"self.currentTrack": self.currentTrack?:@"nil" }
-                     error:NO];
     
     if (self.currentTrack) {
         NSAssert(NO, @"startTrackerForActivity called twice without call stopTracker before");
@@ -219,18 +213,8 @@ static IQTracker *__iqTracker;
                                                                                             
     if (locationOrNil && locationResult == kIQLocationResultFound) {
         
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"kIQLocationResultFound": locationOrNil?:@"nil" }
-                         error:NO];
-        
         if (lastLocation && [lastLocation distanceFromLocation:locationOrNil] < 3.0) { // discard location if it has not changed significantly
         
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"location": @"discarded (not changed)" }
-                             error:NO];
-    
             return;
         }
         lastLocation = locationOrNil;
@@ -238,11 +222,6 @@ static IQTracker *__iqTracker;
             
             [[IQMotionActivityManager sharedManager] startActivityMonitoringWithUpdateBlock:^(CMMotionActivity *activity, IQMotionActivityResult motionResult)
              {
-                 [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                             properties:@{ @"line": @(__LINE__),
-                                           @"activity": activity?:@"nil" }
-                                  error:NO];
-                 
                  if (motionResult == kIQMotionActivityResultFound && activity) {
                                                                                                              
                      if (activityType != kIQMotionActivityTypeAll) { // CASE: AUTOMATIC
@@ -251,11 +230,6 @@ static IQTracker *__iqTracker;
                          if (lastActivity) {
                              NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                              if (seconds > 300) {
-                                 [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                             properties:@{ @"line": @(__LINE__),
-                                                           @"case": @"seconds > 300",
-                                                           @"info": @"5 minuts since last correct activity -> close current track"}
-                                                  error:NO];
                                  // 5 minuts since last correct activity -> close current track
                                  deflectionCounter = 0;
                                  lastActivity = nil;
@@ -283,11 +257,6 @@ static IQTracker *__iqTracker;
                                  tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
                              }];
                              
-                             [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                         properties:@{ @"line": @(__LINE__),
-                                                       @"kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
-                                              error:NO];
-                             
                              dispatch_async(dispatch_get_main_queue(), ^{
                                  progressBlock(tp_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
                              });
@@ -297,11 +266,6 @@ static IQTracker *__iqTracker;
                              if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
                                  deflectionCounter++;
                                  if (deflectionCounter == 3) {
-                                     [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                                 properties:@{ @"line": @(__LINE__),
-                                                               @"case": @"deflectionCounter == 3",
-                                                               @"info": @"3 times with another valuable activity with at least ConfidenceMedium -> close current track"}
-                                                      error:NO];
                                      // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
                                      deflectionCounter = 0;
                                      lastActivity = nil;
@@ -312,11 +276,6 @@ static IQTracker *__iqTracker;
                                  NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                                  if (seconds > 300) {
                                      // 5 minuts since last correct activity -> close current track
-                                     [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                                 properties:@{ @"line": @(__LINE__),
-                                                               @"case": @"seconds > 120",
-                                                               @"info": @"2 minuts since last correct activity -> close current track"}
-                                                      error:NO];
                                      deflectionCounter = 0;
                                      lastActivity = nil;
                                      [self closeCurrentTrack];
@@ -345,22 +304,12 @@ static IQTracker *__iqTracker;
                                  tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
                              }];
                              
-                             [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                         properties:@{ @"line": @(__LINE__),
-                                                       @"MANUAL WITH ACTIVITY: progressBlock :: kIQLocationResultFound || kIQMotionActivityResultFound": tp_temp?:@"nil" }
-                                              error:NO];
-                             
                              dispatch_async(dispatch_get_main_queue(), ^{
                                  progressBlock(tp_temp, locationResult, motionResult);
                              });
                          }
                      }
                  } else {
-                     
-                     [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                                 properties:@{ @"line": @(__LINE__),
-                                               @"error :: motionResult": @(motionResult) }
-                                      error:NO];
                      
                      if (motionResult == kIQMotionActivityResultNotAvailable || motionResult == kIQMotionActivityResultNotAuthorized) {
                          NSAssert(!self.currentTrack, @"currentTrack must be nil");
@@ -398,21 +347,12 @@ static IQTracker *__iqTracker;
                 tp_temp = [[IQTrackPoint alloc] initWithIQTrackPoint:tp];
             }];
             
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"MANUAL WITHOUT ACTIVITY: progressBlock :: kIQLocationResultFound": tp_temp?:@"nil" }
-                             error:NO];
             dispatch_async(dispatch_get_main_queue(), ^{
                 progressBlock(tp_temp, locationResult, -1);
             });
         }
                                                                                                 
     } else {
-        
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"error :: locationResult": @(locationResult) }
-                         error:NO];
         
         if (locationResult == kIQLocationResultSoftDenied ||
             locationResult == kIQLocationResultSystemDenied ||
@@ -478,12 +418,6 @@ static IQTracker *__iqTracker;
 
 - (void)closeCurrentTrack
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"currentTrack": self.currentTrack?:@"nil",
-                              @"stack trace": [NSThread callStackSymbols]?:@"nil"}
-                     error:NO];
-    
     __block IQTrack *t_temp;
     if (self.currentTrack) {
         [[IQLocationDataSource sharedDataSource].managedObjectContext performBlockAndWait:^{
@@ -491,21 +425,12 @@ static IQTracker *__iqTracker;
             NSAssert(result, @"error closing track");
             t_temp = [[IQTrack alloc] initWithIQTrack:self.currentTrack];
         }];
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"currentTrack :: CLOSED": t_temp?:@"nil"}
-                         error:NO];
     }
     
     // Delete track if points < 3
     if (t_temp.points.count < 3) {
         [self deleteTrackWithObjectId:t_temp.objectId];
         t_temp = nil;
-        
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"currentTrack": @"DELETED"}
-                         error:NO];
     }
     
     if (self.completionBlock) {
@@ -513,18 +438,10 @@ static IQTracker *__iqTracker;
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.completionBlock(t_temp, kIQLocationResultFound, kIQMotionActivityResultFound);
             });
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"currentTrack": @"FOUND"}
-                             error:NO];
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.completionBlock(t_temp, kIQLocationResultNoResult, kIQMotionActivityResultNoResult);
             });
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"currentTrack": @"NoResult"}
-                             error:NO];
         }
     }
     self.currentTrack = nil;
@@ -539,12 +456,6 @@ static IQTracker *__iqTracker;
         IQTrackPointManaged *lastP = [points lastObject];
         NSTimeInterval seconds = [[NSDate date] timeIntervalSinceDate:lastP.date];
         if (seconds > 300) {
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"case": @"seconds > 300",
-                                      @"stack_trace": [NSThread callStackSymbols]}
-                             error:NO];
-
             // 5 minuts since last correct activity -> close current track
             [self closeCurrentTrack];
         }

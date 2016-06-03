@@ -7,7 +7,6 @@
 //
 
 #import "IQLocationPermissions.h"
-#import "NSLogger.h"
 
 #define kIQLocationSoftDenied @"kIQLocationSoftDenied"
 
@@ -198,22 +197,11 @@ static IQLocationPermissions *__iqLocationPermissions;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"manager": manager?: @"nil",
-                              @"locations": locations?:@"nil",
-                              @"info": @"VERY BAD THING"}
-                     error:NO];
+    NSLog(@"IQPermanentLocation :: didUpdateLocations :: %@", locations);
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"manager": manager?: @"nil",
-                              @"error": error?:@"nil",
-                              @"info": @"VERY BAD THING" }
-                     error:YES];
     NSLog(@"IQPermanentLocation :: didFailWithError :: %@", error);
 }
 

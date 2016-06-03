@@ -8,8 +8,6 @@
 
 #import "IQPermanentLocation.h"
 
-#import "NSLogger.h"
-
 @interface IQPermanentLocation() <CLLocationManagerDelegate>
 
 @property (nonatomic, strong) CLLocationManager     *locationManager;
@@ -42,9 +40,6 @@ static IQPermanentLocation *__iqPermanentLocation;
 
 - (void)dealloc
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__) }
-                     error:NO];
     self.locationManager = nil;
     self.updateBlock = nil;
 }
@@ -57,16 +52,6 @@ static IQPermanentLocation *__iqPermanentLocation;
                            pausesLocationUpdatesAutomatically:(BOOL)pausesLocationUpdatesAutomatically
                                                        update:(void (^)(CLLocation *locationOrNil, IQLocationResult result))updateBlock
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"softAccessRequest": @(softAccessRequest),
-                              @"accuracy": @(desiredAccuracy),
-                              @"distanceFilter": @(distanceFilter),
-                              @"activityType": @(activityType),
-                              @"allowsBackgroundLocationUpdates": @(allowsBackgroundLocationUpdates),
-                              @"pausesLocationUpdatesAutomatically": @(pausesLocationUpdatesAutomatically),
-                              @"update": (updateBlock == nil ? @"nil" : @"block") }
-                     error:NO];
     self.locationManager.desiredAccuracy = desiredAccuracy;
     self.locationManager.distanceFilter = distanceFilter;
     self.locationManager.activityType = activityType;
@@ -76,17 +61,7 @@ static IQPermanentLocation *__iqPermanentLocation;
             BOOL plistCheck = [[[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIBackgroundModes"] containsObject:@"location"];
             NSAssert(plistCheck, @"Apps that want to receive location updates when suspended must include:\n\"UIBackgroundModes\" key with \"location\" value\nin their app’s Info.plist file");
             self.locationManager.allowsBackgroundLocationUpdates = allowsBackgroundLocationUpdates;
-        } else {
-            [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                        properties:@{ @"line": @(__LINE__),
-                                      @"case": @"!allowsBackgroundLocationUpdates" }
-                             error:NO];
         }
-    } else {
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"case": @"floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_8_4" }
-                         error:NO];
     }
     
     self.locationManager.pausesLocationUpdatesAutomatically = pausesLocationUpdatesAutomatically;
@@ -110,21 +85,12 @@ static IQPermanentLocation *__iqPermanentLocation;
         [self startMonitoringUpdates];
         
     } else {
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"case": @"[[IQLocationPermissions sharedManager] getLocationStatus] != kIQlocationResultAuthorized" }
-                         error:NO];
         updateBlock(nil, [[IQLocationPermissions sharedManager] getLocationStatus]);
     }
 }
 
 - (void)startMonitoringUpdates
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"case": @"[[IQLocationPermissions sharedManager] getLocationStatus] == kIQlocationResultAuthorized" }
-                     error:NO];
-
     // Create the location manager if this object does not
     // already have one.
     if (nil == _locationManager) {
@@ -136,9 +102,6 @@ static IQPermanentLocation *__iqPermanentLocation;
 
 - (void)stopPermanentMonitoring
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__) }
-                     error:NO];
     [self.locationManager stopUpdatingLocation];
 }
 
@@ -147,11 +110,6 @@ static IQPermanentLocation *__iqPermanentLocation;
 // Delegate method from the CLLocationManagerDelegate protocol.
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"manager": manager?: @"nil",
-                              @"locations": locations?:@"nil" }
-                     error:NO];
     // If it's a relatively recent event, turn off updates to save power.
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
@@ -160,32 +118,16 @@ static IQPermanentLocation *__iqPermanentLocation;
         // If the event is recent, do something with it.
 
         self.updateBlock(location, kIQLocationResultFound);
-    } else {
-        [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                    properties:@{ @"line": @(__LINE__),
-                                  @"case": @"fabs(howRecent) >= 60.0" }
-                         error:NO];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"manager": manager?: @"nil",
-                              @"error": error?:@"nil" }
-                     error:YES];
     NSLog(@"IQPermanentLocation :: didFailWithError :: %@", error);
 }
 
-
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    [[NSLogger shared] log:NSStringFromSelector(_cmd)
-                properties:@{ @"line": @(__LINE__),
-                              @"manager": manager?: @"nil",
-                              @"status": @(status),
-                              @"info": @"VERY BAD THING"}
-                     error:YES];
+    NSLog(@"IQPermanentLocation :: didChangeAuthorizationStatus :: %ld", (long)status);
 }
 
 @end
