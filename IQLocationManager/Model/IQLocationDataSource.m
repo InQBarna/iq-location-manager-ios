@@ -75,7 +75,11 @@ static IQLocationDataSource *__iqLocationDataSource;
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                   configuration:nil
+                                                             URL:storeURL
+                                                         options:@{ NSPersistentStoreFileProtectionKey : NSFileProtectionComplete }
+                                                           error:&error]) {
         
         if(![[NSFileManager defaultManager] removeItemAtURL:storeURL error:&error]) {
             NSLog(@"Could not remove persistent store: %@", error);
@@ -84,7 +88,7 @@ static IQLocationDataSource *__iqLocationDataSource;
             if([_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
                                                          configuration:nil
                                                                    URL:storeURL
-                                                               options:nil
+                                                               options:@{ NSPersistentStoreFileProtectionKey : NSFileProtectionComplete }
                                                                  error:&error] == nil) {
                 
                 NSLog(@"Could not create a brand new persistent store: %@", error);
