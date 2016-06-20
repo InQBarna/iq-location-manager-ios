@@ -263,13 +263,25 @@ static IQTracker *__iqTracker;
                                                                                                                      
                          } else if (lastActivity) {
                              // filters
-                             if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
+                             if ( (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence == CMMotionActivityConfidenceHigh ) {
+                                 
+                                 deflectionCounter = 0;
+                                 lastActivity = nil;
+                                 [self closeCurrentTrack];
+                                 
+                             } else if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
+                                 
                                  deflectionCounter++;
-                                 if (deflectionCounter == 3) {
-                                     // 3 times with another valuable activity with at least ConfidenceMedium -> close current track
-                                     deflectionCounter = 0;
-                                     lastActivity = nil;
-                                     [self closeCurrentTrack];
+                                 if (deflectionCounter >= 2) {
+                                     // at lease 3 times with another valuable activity with
+                                     // at least ConfidenceMedium in a
+                                     // at least 3 min time interval -> close current track
+                                     NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
+                                     if (seconds > 180) {
+                                         deflectionCounter = 0;
+                                         lastActivity = nil;
+                                         [self closeCurrentTrack];
+                                     }
                                  }
                                                                                                                          
                              } else {

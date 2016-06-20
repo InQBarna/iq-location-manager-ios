@@ -105,6 +105,7 @@
             break;
         case kIQGeocodingDistanceFilterHundredMeters:
             tail = 4;
+            break;
         case kIQGeocodingDistanceFilterTenMeters:
             tail = 3;
             break;
