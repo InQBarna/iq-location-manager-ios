@@ -375,8 +375,10 @@ static IQLocationManager *_iqLocationManager;
             if (_progressBlock) {
                 _progressBlock(nil, kIQlocationResultAuthorized);
             }
-        } else {
+        } else if (status != kCLAuthorizationStatusNotDetermined){
             [self stopUpdatingLocationWithResult:self.getLocationStatus];
+        } else {
+            return;
         }
     } else {
         if (status == kCLAuthorizationStatusAuthorized) {
