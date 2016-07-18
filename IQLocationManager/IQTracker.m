@@ -162,6 +162,7 @@ static IQTracker *__iqTracker;
     __block CLLocation *lastLocation;
     __block CMMotionActivity *lastActivity;
     static int deflectionCounter = 0;
+    static int highConfidenceDeflectionCounter = 0;
     
     CLLocationAccuracy desiredAccuracy;
     CLLocationDistance distanceFilter;
@@ -182,15 +183,15 @@ static IQTracker *__iqTracker;
         pausesLocationUpdatesAutomatically = NO;
         
         // TEST
-        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        distanceFilter = 5.f;
-        clActivityType = CLActivityTypeAutomotiveNavigation;
-        pausesLocationUpdatesAutomatically = NO;
+//        desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+//        distanceFilter = 5.f;
+//        clActivityType = CLActivityTypeAutomotiveNavigation;
+//        pausesLocationUpdatesAutomatically = NO;
         
     } else if (activityType == kIQMotionActivityTypeCycling) {
         desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         distanceFilter = 30.f;
-        clActivityType = CLActivityTypeOtherNavigation;
+        clActivityType = CLActivityTypeFitness;
         pausesLocationUpdatesAutomatically = NO;
         
     } else {
@@ -232,6 +233,7 @@ static IQTracker *__iqTracker;
                              if (seconds > 300) {
                                  // 5 minuts since last correct activity -> close current track
                                  deflectionCounter = 0;
+                                 highConfidenceDeflectionCounter = 0;
                                  lastActivity = nil;
                                  [self closeCurrentTrack];
                              }
@@ -239,6 +241,7 @@ static IQTracker *__iqTracker;
                                                                                                                  
                          if ([self activity:activity containsActivityType:activityType]) {
                              deflectionCounter = 0;
+                             highConfidenceDeflectionCounter = 0;
                              lastActivity = activity;
                                                                                                                      
                              __block IQTrackPoint *tp_temp;
@@ -265,20 +268,32 @@ static IQTracker *__iqTracker;
                              // filters
                              if ( (activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence == CMMotionActivityConfidenceHigh ) {
                                  
-                                 deflectionCounter = 0;
-                                 lastActivity = nil;
-                                 [self closeCurrentTrack];
+                                 highConfidenceDeflectionCounter++;
+                                 if (highConfidenceDeflectionCounter >= 2) {
+                                     // at least 2 times with another valuable activity with
+                                     // at least ConfidenceHigh in a
+                                     // at least 2 min time interval -> close current track
+                                     NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
+                                     if (seconds > 120) {
+                                         deflectionCounter = 0;
+                                         highConfidenceDeflectionCounter = 0;
+                                         lastActivity = nil;
+                                         [self closeCurrentTrack];
+                                     }
+                                 }
+                                 deflectionCounter++;
                                  
                              } else if ((activity.running || activity.walking || activity.automotive || (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1 && activity.cycling)) && activity.confidence > CMMotionActivityConfidenceLow) {
                                  
                                  deflectionCounter++;
-                                 if (deflectionCounter >= 2) {
-                                     // at lease 3 times with another valuable activity with
+                                 if (deflectionCounter > 2) {
+                                     // at least 3 times with another valuable activity with
                                      // at least ConfidenceMedium in a
                                      // at least 3 min time interval -> close current track
                                      NSTimeInterval seconds = [activity.startDate timeIntervalSinceDate:lastActivity.startDate];
                                      if (seconds > 180) {
                                          deflectionCounter = 0;
+                                         highConfidenceDeflectionCounter = 0;
                                          lastActivity = nil;
                                          [self closeCurrentTrack];
                                      }
@@ -289,6 +304,7 @@ static IQTracker *__iqTracker;
                                  if (seconds > 300) {
                                      // 5 minuts since last correct activity -> close current track
                                      deflectionCounter = 0;
+                                     highConfidenceDeflectionCounter = 0;
                                      lastActivity = nil;
                                      [self closeCurrentTrack];
                                  }
@@ -441,6 +457,12 @@ static IQTracker *__iqTracker;
     
     // Delete track if points < 3
     if (t_temp.points.count < 3) {
+        [self deleteTrackWithObjectId:t_temp.objectId];
+        t_temp = nil;
+    }
+    
+    // Delete track if distance < 500m
+    if (t_temp.distance.integerValue < 500) {
         [self deleteTrackWithObjectId:t_temp.objectId];
         t_temp = nil;
     }

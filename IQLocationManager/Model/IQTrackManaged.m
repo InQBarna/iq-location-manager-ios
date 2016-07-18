@@ -34,7 +34,8 @@
 
 - (BOOL)closeTrackInContext:(NSManagedObjectContext *)ctxt
 {
-    if ([self sortedPoints] > 0) {
+    NSArray<IQTrackPointManaged *> *sortedPointsArray = [self sortedPoints].copy;
+    if ( sortedPointsArray ) {
         
         float distance = 0.0;
         
@@ -43,15 +44,15 @@
         CLLocation *l1;
         CLLocation *l2;
         
-        for (int i = 0; i < [self sortedPoints].count; i++) {
-            current = [self sortedPoints][i];
+        for (int i = 0; i < sortedPointsArray.count; i++) {
+            current = sortedPointsArray[i];
             if (i > 0) {
                 l1 = [[CLLocation alloc] initWithLatitude:previous.latitude.doubleValue longitude:previous.longitude.doubleValue];
                 l2 = [[CLLocation alloc] initWithLatitude:current.latitude.doubleValue longitude:current.longitude.doubleValue];
                 distance = distance+[l1 distanceFromLocation:l2];
             }
             previous = current;
-            if ([current isEqual:[self sortedPoints].lastObject]) {
+            if ([current isEqual:sortedPointsArray.lastObject]) {
                 self.end_date = current.date;
             }
         }
