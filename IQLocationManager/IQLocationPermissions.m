@@ -76,12 +76,7 @@ static IQLocationPermissions *__iqLocationPermissions;
                           otherButtonTitles:([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
                                               [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
     } else {
-        if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-            [self requestSystemPermissionForLocation];
-        } else {
-            // for iOS 7, startUpdating forces the request to the user
-            [_locationManager startUpdatingLocation];
-        }
+        [self requestSystemPermissionForLocation];
     }
 }
 
@@ -132,14 +127,8 @@ static IQLocationPermissions *__iqLocationPermissions;
         } else {
             if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted) {
                 return kIQLocationResultSystemDenied;
-            } else if (status == kCLAuthorizationStatusAuthorized) {
+            } else if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
                 return kIQlocationResultAuthorized;
-            }
-            
-            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-                if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-                    return kIQlocationResultAuthorized;
-                }
             }
             
             if (self.getSoftDeniedFromDefaults){
@@ -160,36 +149,19 @@ static IQLocationPermissions *__iqLocationPermissions;
         }
     } else {
         [self setSoftDenied:NO];
-        if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-            [self requestSystemPermissionForLocation];
-        } else {
-            // for iOS 7, startUpdating forces the request to the user
-            [_locationManager startUpdatingLocation];
-        }
+        [self requestSystemPermissionForLocation];
     }
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
 {
-    if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-        if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-            if (_completionBlock) {
-                _completionBlock(kIQlocationResultAuthorized);
-            }
-        } else if (status == kCLAuthorizationStatusDenied) {
-            if (_completionBlock) {
-                _completionBlock(kIQLocationResultSystemDenied);
-            }
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        if (_completionBlock) {
+            _completionBlock(kIQlocationResultAuthorized);
         }
-    } else {
-        if (status == kCLAuthorizationStatusAuthorized) {
-            if (_completionBlock) {
-                _completionBlock(kIQlocationResultAuthorized);
-            }
-        } else if (status == kCLAuthorizationStatusDenied) {
-            if (_completionBlock) {
-                _completionBlock(kIQLocationResultSystemDenied);
-            }
+    } else if (status == kCLAuthorizationStatusDenied) {
+        if (_completionBlock) {
+            _completionBlock(kIQLocationResultSystemDenied);
         }
     }
 }
