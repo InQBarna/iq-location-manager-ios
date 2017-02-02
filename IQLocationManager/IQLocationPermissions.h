@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, IQLocationResult) {
 
 + (IQLocationPermissions *)sharedManager;
 
-- (void)requestLocationPermissionsForManager:(CLLocationManager *)locationManager
+- (void)requestLocationPermissionsForManager:(CLLocationManager * _Nullable)locationManager
                        withSoftAccessRequest:(BOOL)softAccessRequest
                                andCompletion:(void(^)(IQLocationResult result))completion;
 

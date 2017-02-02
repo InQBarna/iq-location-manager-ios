@@ -50,7 +50,7 @@ static IQLocationPermissions *__iqLocationPermissions;
                                andCompletion:(void(^)(IQLocationResult result))completion
 {
     self.completionBlock = completion;
-    self.locationManager = locationManager;
+    self.locationManager = locationManager ?: [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     
     if (softAccessRequest) {        
