@@ -8,6 +8,7 @@
 
 #import "IQViewController.h"
 #import "IQLocationManager.h"
+#import "IQGeocodingManager.h"
 
 @interface IQViewController ()
 
@@ -35,16 +36,17 @@
                                                                  if ( result == kIQLocationResultFound ) {
                                                                      [self.tableView reloadData];
                                                                      
-                                                                     [[IQLocationManager sharedManager]getAddressFromLocation:locationOrNil
-                                                                                                               withCompletion:^(CLPlacemark *placemark, NSString *address, NSString *locality, NSError *error) {
-                                                                                                                   if (!error) {
-                                                                                                                       self.address = [NSString stringWithFormat:@"%@, %@",address,locality];
-                                                                                                                   } else {
-                                                                                                                       self.address = @"Geocoding error";
-                                                                                                                   }
-                                                                                                                   
-                                                                                                                   [self.tableView reloadData];
-                                                                                                               }];
+                                                                     
+                                                                     [[IQGeocodingManager sharedManager] getAddressFromLocation:locationOrNil
+                                                                                                                 distanceFilter:kIQGeocodingDistanceFilterHundredMeters
+                                                                                                                 withCompletion:^(BOOL isCachedAndThereforeSynchronous, CLPlacemark * _Nullable placemark, NSString * _Nullable address, NSString * _Nullable locality, NSError * _Nullable error) {
+                                                                                                                     if (!error) {
+                                                                                                                         self.address = [NSString stringWithFormat:@"%@, %@",address,locality];
+                                                                                                                     } else {
+                                                                                                                         self.address = @"Geocoding error";
+                                                                                                                     }
+                                                                                                                 }];
+                                                                     
                                                                  } else if( result == kIQLocationResultTimeout) {
                                                                      self.address = @"Timeout";
                                                                      [self.tableView reloadData];
