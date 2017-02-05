@@ -85,13 +85,21 @@ static IQLocationManager *__iqLocationManager;
                               progress:(void (^)(CLLocation *locationOrNil, IQLocationResult result))progress
                             completion:(void(^)(CLLocation *locationOrNil, IQLocationResult result))completion
 {
+    
+    if (_isGettingLocation) {
+        if (completion) {
+            completion(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
+        }
+        return;
+    }
+    
     _locationManager.desiredAccuracy = [self checkAccuracy:desiredAccuracy];
     
     self.maximumTimeout = maxTimeout;
     self.maximumMeasurementAge = maxMeasurementAge;
     self.completionBlock = completion;
     self.progressBlock = progress;
-    
+   
     if (_bestEffortAtLocation) {
         if (_bestEffortAtLocation.timestamp.timeIntervalSinceReferenceDate > ([NSDate timeIntervalSinceReferenceDate] - self.maximumMeasurementAge) ) {
             [self saveLocationToDefaults:_bestEffortAtLocation];
@@ -102,68 +110,10 @@ static IQLocationManager *__iqLocationManager;
         }
     }
     
-    if (_isGettingLocation) {
-        if (_completionBlock) {
-            _completionBlock(_bestEffortAtLocation,kIQLocationResultAlreadyGettingLocation);
-        }
-        return;
-    }
-    
     if ( ![CLLocationManager locationServicesEnabled] ) {
         [self stopUpdatingLocationWithResult:kIQLocationResultNotEnabled];
         return;
     }
-    
-//    CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-//    
-//    if ( status ==  kCLAuthorizationStatusNotDetermined ) {
-//        if (softAccessRequest) {
-//            
-//            NSString *localizedTitle = NSLocalizedString(@"location_request_alert_title", @"");
-//            if ([localizedTitle isEqualToString:@"location_request_alert_title"]) {
-//                localizedTitle = NSLocalizedStringFromTable(@"location_request_alert_title",@"IQLocationManager",nil);
-//            }
-//            
-//            NSString *localizedDescription = NSLocalizedString(@"location_request_alert_description", @"");
-//            if ([localizedDescription isEqualToString:@"location_request_alert_description"]) {
-//                localizedDescription = NSLocalizedStringFromTable(@"NSLocationUsageDescription", @"InfoPlist", nil);
-//                if ([localizedDescription isEqualToString:@"NSLocationUsageDescription"]) {
-//                    localizedDescription = NSLocalizedStringFromTable(@"location_request_alert_description",@"IQLocationManager",nil);
-//                }
-//            }
-//            NSString *localizedCancel = NSLocalizedString(@"location_request_alert_cancel",nil);
-//            NSString *localizedAccept = NSLocalizedString(@"location_request_alert_accept",nil);
-//            
-//            
-//            [[[UIAlertView alloc] initWithTitle: localizedTitle
-//                                        message: localizedDescription
-//                                       delegate: self
-//                              cancelButtonTitle: ([localizedCancel isEqualToString:@"location_request_alert_cancel"] ?
-//                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"Cancel" value:nil table:nil] : localizedCancel)
-//                              otherButtonTitles: ([localizedAccept isEqualToString:@"location_request_alert_accept"] ?
-//                                                  [[NSBundle bundleWithIdentifier:@"com.apple.UIKit"] localizedStringForKey:@"OK" value:nil table:nil] : localizedAccept) , nil] show];
-//            
-//            return;
-//        } else {
-//            _isGettingPermissions = YES;
-//            if ([UIDevice currentDevice].systemVersion.floatValue > 7.1) {
-//                [self requestSystemPermissionForLocation];
-//            } else {
-//                // for iOS 7, startUpdating forces the request to the user
-//                [_locationManager startUpdatingLocation];
-//            }
-//            return;
-//        }
-//    } else if ( status == kCLAuthorizationStatusDenied ) {
-//        [self stopUpdatingLocationWithResult:kIQLocationResultSystemDenied];
-//        return;
-//    }
-//    
-//    [_locationManager startUpdatingLocation];
-//    
-//    if ( self.getLocationStatus == kIQlocationResultAuthorized ) {
-//        [self startUpdatingLocation];
-//    }
     
     __weak __typeof(self) welf = self;
     IQLocationResult status = [[IQLocationPermissions sharedManager] getLocationStatus];
