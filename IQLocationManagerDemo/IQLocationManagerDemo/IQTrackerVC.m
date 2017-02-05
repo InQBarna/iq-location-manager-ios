@@ -11,7 +11,7 @@
 #import <CoreMotion/CoreMotion.h>
 #import <CoreLocation/CoreLocation.h>
 #import <MessageUI/MessageUI.h>
-#import "NSLogger.h"
+//#import "NSLogger.h"
 
 #import "IQTracker.h"
 #import "IQTrack.h"
@@ -71,17 +71,17 @@ typedef NS_ENUM(NSInteger, IQTrackerMode) {
 
 - (IBAction)triggerSendLogPressed:(UIButton *)sender
 {
-    NSData *data = [[NSLogger shared] logData];
-    if (data) {
-        MFMailComposeViewController *emailController = [[MFMailComposeViewController alloc] init];
-        [emailController setMailComposeDelegate:self];
-        [emailController setToRecipients:[[NSArray alloc] initWithObjects:@"raul.penya@teameeng.com", nil]];
-        [emailController setSubject:@"Log File"];
-        [emailController setMessageBody:@"" isHTML:false];
-        [emailController addAttachmentData:data mimeType:@"text/plain" fileName:@"log.txt"];
-        [emailController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
-        [self presentViewController:emailController animated:true completion:nil];
-    }
+//    NSData *data = [[NSLogger shared] logData];
+//    if (data) {
+//        MFMailComposeViewController *emailController = [[MFMailComposeViewController alloc] init];
+//        [emailController setMailComposeDelegate:self];
+//        [emailController setToRecipients:[[NSArray alloc] initWithObjects:@"raul.penya@teameeng.com", nil]];
+//        [emailController setSubject:@"Log File"];
+//        [emailController setMessageBody:@"" isHTML:false];
+//        [emailController addAttachmentData:data mimeType:@"text/plain" fileName:@"log.txt"];
+//        [emailController setModalTransitionStyle:UIModalTransitionStyleCoverVertical];
+//        [self presentViewController:emailController animated:true completion:nil];
+//    }
 }
 
 - (void)getBatteryLevelInitial:(BOOL)initial
